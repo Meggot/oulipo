@@ -1,9 +1,0 @@
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/configs/KafkaConfig.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/dao/repository/AuditRepository.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/dao/EntityObject.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/controllers/AuditController.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/dao/Audit.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/configs/EmbeddedDatabaseConfiguration.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/controllers/assemblers/AuditAssembler.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/AuditApplication.java
-/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/audit/src/main/java/com/audit/streaming/UserLifecycleListener.java

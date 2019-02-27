@@ -1,8 +1,0 @@
-[2019-02-16 18:02:28,256] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
-[2019-02-16 18:12:28,284] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
-[2019-02-16 18:22:28,300] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
-[2019-02-16 18:32:28,326] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
-[2019-02-16 18:39:16,912] INFO [GroupCoordinator 0]: Preparing to rebalance group project in state PreparingRebalance with old generation 113 (__consumer_offsets-45) (reason: removing member consumer-2-17951590-2178-4799-bdd4-cb68777616c9 on LeaveGroup) (kafka.coordinator.group.GroupCoordinator)
-[2019-02-16 18:39:16,915] INFO [GroupCoordinator 0]: Group project with generation 114 is now empty (__consumer_offsets-45) (kafka.coordinator.group.GroupCoordinator)
-[2019-02-16 18:42:28,345] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 1 milliseconds. (kafka.coordinator.group.GroupMetadataManager)
-[2019-02-16 18:52:28,363] INFO [GroupMetadataManager brokerId=0] Removed 0 expired offsets in 0 milliseconds. (kafka.coordinator.group.GroupMetadataManager)

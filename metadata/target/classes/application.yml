@@ -1,4 +1,0 @@
-spring.application.name: metadata
-
-server:
-  port: 13003
