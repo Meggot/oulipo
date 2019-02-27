@@ -1,0 +1,12 @@
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/configuration/UserExceptionHandler.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/dao/entites/Account.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/services/AccountManagementService.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/dao/entites/Password.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/dao/repository/AccountRepository.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/UserApplication.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/dao/entites/EntityObject.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/controllers/LoginController.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/configuration/EmbeddedDatabaseConfiguration.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/util/AccountTranslator.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/controllers/AccountController.java
+/Users/bradleywilliams/Documents/Projects/oulipo/VersionThree/user/src/main/java/com/user/services/validators/AccountEntityValidator.java

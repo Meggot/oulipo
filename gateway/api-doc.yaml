@@ -1,0 +1,390 @@
+openapi: "3.0.0"
+info:
+  title: Oulipo API overview
+  version: 0.1.0
+security:
+  - BasicAuth:
+      - user
+paths:
+  #Projects
+  /api/projects:
+    get:
+      summary: List all the projects that the user can view.
+      operationId: listProjects
+      tags:
+        - projects
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        '200':
+          description: A paged list of projects.
+          headers:
+            x-next:
+              description: a link to the next page of projects.
+              schema:
+                type: string
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Projects"
+    post:
+      summary: Post a project with some basic values
+      operationId: postProject
+      tags:
+        - projects
+      requestBody:
+        description: The project to post to the account
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        '201':
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /api/projects/{projectId}:
+    get:
+      summary: Get project by the project ID
+      operationId: getProject
+      tags:
+        - projects
+      parameters:
+        - in: path
+          name: projectId
+          description: The ID of the project
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Success, found a project by that id.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        '404':
+          description: a project by that id does not exist. This is also the response if the user
+            does not have permission to view that project.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+    patch:
+      summary: Update a project with that id.
+      operationId: updateProject
+      tags:
+        - projects
+      parameters:
+        - in: path
+          name: projectId
+          description: The ID of the project
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: The project to update
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Project"
+      responses:
+        '201':
+          description: Created project
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Project"
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  #ProjectPart
+  /api/projects/{projectId}/parts:
+    get:
+      summary: get all parts of a project, this is the display of all the story. This api is
+        intended to be the "story" view of a project.
+      operationId: getProjectParts
+      tags:
+        - projects
+      parameters:
+        - in: path
+          name: projectId
+          description: The id of the project that you are viewing
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        '200':
+          description: a response containing all the parts of a project.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectParts"
+  /api/projects/{projectId}/parts/{partId}:
+    get:
+      summary: Get the part from a project, this is intended as a closer inspection of the part, such as history
+      operationId: getProjectPart
+      tags:
+        - projects
+      parameters:
+        - in: path
+          name: projectId
+          description: the id of project that you are viewing
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: partId
+          description: the id of the part you want to view
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: a response of the part defined.
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectParts"
+    patch:
+      summary: You can only patch parts, not post, as they are generated by the server when the previous part is patched
+      operationId: patchProjectPart
+      tags:
+        - projects
+      parameters:
+        - in: path
+          name: projectId
+          description: the id of the project you are patching to.
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - in: path
+          name: partId
+          description: the id of the part you want to view
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        description: The part of the project to post to.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ProjectPart"
+      responses:
+        '200':
+          description: a response with the patched part
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProjectPart"
+  #Accounts
+
+  /api/accounts:
+    get:
+      summary: Get all accounts
+      operationId: getAllAccounts
+      tags:
+        - accounts
+      parameters:
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        '200':
+          description: Get all accounts success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Accounts"
+  /api/accounts/{accountId}:
+    get:
+      summary: Get an account
+      operationId: getAccount
+      tags:
+        - accounts
+      parameters:
+        - in: path
+          name: accountId
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Get account success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Account"
+        '404':
+          description:  Account not found by that id
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+  parameters:
+    offset:
+      name: offset
+      in: query
+      description: How many ordered resources to skip before
+      required: false
+      schema:
+        type: integer
+        format: int32
+    limit:
+      name: limit
+      in: query
+      description: How many ordered resources to return in one request
+      required: false
+      schema:
+        type: integer
+        format: int32
+  schemas:
+    ApiValidationError:
+      required:
+        - field;
+        - rejectedValue;
+        - message;
+      properties:
+        id:
+          type: integer
+          format: int64
+        rejectedValue:
+          type: string
+        message:
+          type: string
+    Project:
+      required:
+        - id
+        - title
+        - synopsis
+      properties:
+        id:
+          type: integer
+          format: int64
+        title:
+          type: string
+        synopsis:
+          type: string
+    ProjectParts:
+      required:
+        - parts
+      properties:
+        parts:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectPart"
+    ProjectPart:
+      required:
+        - id
+        - projectid
+        - partStatus
+        - activeValue
+        - previousRevisions
+      properties:
+        id:
+          type: integer
+          format: int64
+        projectId:
+          type: integer
+          format: int64
+        partStatus:
+          type: string
+          enum: [OPEN, RESERVED, UNDER_REVIEW, LOCKED]
+        activeValue:
+          $ref: "#/components/schemas/ProjectValue"
+        previousRevision:
+          type: array
+          items:
+            $ref: "#/components/schemas/ProjectValue"
+    ProjectValue:
+      required:
+        - id
+        - timeCreated
+        - userid
+        - value
+      properties:
+        id:
+          type: integer
+          format: int64
+        timeCreated:
+          type: string
+        userid:
+          type: integer
+          format: int64
+        value:
+          type: string
+    Projects:
+      type: array
+      items:
+        $ref: "#/components/schemas/Project"
+    Account:
+      required:
+        - username
+        - email
+        - hashedPassword
+      properties:
+        id:
+          type: integer
+          format: int64
+        username:
+          type: string
+        hashedPassword:
+          type: string
+    Accounts:
+      type: array
+      items:
+        $ref: "#/components/schemas/Account"
+    Error:
+      required:
+        - status
+        - timestamp
+        - message
+        - debugMessage
+        - subErrors
+      properties:
+        status:
+          type: string
+        timestamps:
+          type: string
+        message:
+          type: string
+        debugMessage:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApiValidationError"
+
+
+  #GET /api/users/?filterId=1234-abcd
+  #It seems that resource filtering/searching can be implemented in a RESTful way. The idea is to introduce a new endpoint called /filters/ or /api/filters/.
+  #
+  #Using this endpoint filter can be considered as a resource and hence created via POST method. This way - of course - body can be used to carry all the parameters as well as complex search/filter structures can be created.

@@ -1,0 +1,4 @@
+com/audit/dao/entites/QAudit.class
+com/audit/dao/entites/Audit.class
+com/audit/dao/entites/EntityObject.class
+com/audit/dao/entites/QEntityObject.class
