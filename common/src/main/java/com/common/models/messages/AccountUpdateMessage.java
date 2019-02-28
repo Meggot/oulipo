@@ -11,7 +11,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class AccountUpdateMessage  implements Serializable {
 
-    String accountId;
+    Integer accountId;
 
     String newUsername;
 

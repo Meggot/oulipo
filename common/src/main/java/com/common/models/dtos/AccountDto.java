@@ -24,6 +24,8 @@ public class AccountDto extends ResourceSupport implements Identifiable<Link> {
 
     private String username;
 
+    private String hashedPassword;
+
     private String email;
 
     private AccountStatus status;

@@ -15,8 +15,8 @@ public class AuditFactory {
 
     public Audit toAudit(AccountUpdateMessage accountUpdateMessage) {
         Audit audit = new Audit();
-        audit.setEntityId(Integer.parseInt(accountUpdateMessage.getAccountId()));
-        audit.setOriginUserId(Integer.parseInt(accountUpdateMessage.getAccountId()));
+        audit.setEntityId(accountUpdateMessage.getAccountId());
+        audit.setOriginUserId(accountUpdateMessage.getAccountId());
         audit.setEventType(MessageType.ACCOUNT_UPDATE);
         StringBuilder auditValueBuilder = new StringBuilder();
         auditValueBuilder.append("Username oval: ").append(accountUpdateMessage.getOldUsername());
@@ -29,8 +29,8 @@ public class AuditFactory {
 
     public static Audit toAudit(AccountCreationMessage message) {
         Audit audit = new Audit();
-        audit.setEntityId(Integer.parseInt(message.getAccountId()));
-        audit.setOriginUserId(Integer.parseInt(message.getAccountId()));
+        audit.setEntityId(message.getAccountId());
+        audit.setOriginUserId(message.getAccountId());
         audit.setEventType(MessageType.ACCOUNT_CREATION);
         StringBuilder auditValueBuilder = new StringBuilder();
         auditValueBuilder.append("Username nval: ").append(message.getUsername());

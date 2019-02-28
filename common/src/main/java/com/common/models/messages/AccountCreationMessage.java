@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class AccountCreationMessage {
 
-    String accountId;
+    Integer accountId;
 
     String username;
 

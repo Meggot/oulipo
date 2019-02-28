@@ -59,7 +59,7 @@ public class AccountManagementService {
             previousAccount.setEmail(updateAccountRequest.getEmail());
         }
         Account newAccount = accountRepository.save(previousAccount);
-        accountUpdateMessage.setAccountId(String.valueOf(newAccount.getId()));
+        accountUpdateMessage.setAccountId(newAccount.getId());
         log.info(">[UPDATE] Account {} updated SUCCESSFULLY", newAccount.getId());
         userLifecycleStreamer.sendAccountUpdateMessage(accountUpdateMessage);
         return newAccount;
@@ -85,7 +85,7 @@ public class AccountManagementService {
         AccountCreationMessage accountCreationMessage = new AccountCreationMessage();
         accountCreationMessage.setUsername(createAccountRequest.getUsername());
         accountCreationMessage.setEmail(createAccountRequest.getEmail());
-        accountCreationMessage.setAccountId(String.valueOf(newAccount.getId()));
+        accountCreationMessage.setAccountId(newAccount.getId());
         log.info(">[CREATION] Account {} created successfully", newAccount);
         userLifecycleStreamer.sendAccountCreationMessage(accountCreationMessage);
         return newAccount;

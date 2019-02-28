@@ -1,0 +1,17 @@
+spring.application.name: project
+
+server:
+  port: 13002
+
+spring:
+  kafka:
+    bootstrap-servers: localhost:9092
+
+jms:
+  topic:
+    project-lifecycle:
+      creation: topic-project-lifecycle-creation
+      update: topic-project-lifecycle-update
+    user-lifecycle:
+      creation: topic-user-lifecycle-creation
+      update: topic-user-lifecycle-update
