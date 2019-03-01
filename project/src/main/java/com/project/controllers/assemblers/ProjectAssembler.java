@@ -18,6 +18,7 @@ public class ProjectAssembler extends ResourceAssemblerSupport<Project, ProjectD
     @Override
     public ProjectDto toResource(Project project) {
         ProjectDto dto = createResourceWithId(project.getId(), project);
+        dto.setProjectId(project.getId());
         dto.setSynopsis(project.getSynopsis());
         dto.setTitle(project.getTitle());
         return dto;

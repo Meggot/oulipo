@@ -20,6 +20,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -55,7 +56,7 @@ public class ProjectController {
 
     @ResponseBody
     @RequestMapping(value = "/{projectId}", method = RequestMethod.GET)
-    public Resource<ProjectDto> findById(@PathVariable Project project, Model model) {
+    public Resource<ProjectDto> findById(@PathVariable("projectId") Project project, Model model) {
         ProjectDto dto = projectAssembler.toResource(project);
         model.addAttribute("project", dto);
         return new Resource<>(dto);
@@ -63,8 +64,10 @@ public class ProjectController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public Resource<ProjectDto> createProject(@Valid @ModelAttribute("CreateProject") CreateProject createProject, Model model) {
-        Project project = projectManagementService.createProject(createProject);
+    public Resource<ProjectDto> createProject(@RequestHeader("User") String userId,
+                                              @Valid @ModelAttribute("CreateProject") CreateProject createProject,
+                                              Model model) {
+        Project project = projectManagementService.createProject(userId, createProject);
         ProjectDto dto = projectAssembler.toResource(project);
         model.addAttribute("project", dto);
         return new Resource<>(dto);

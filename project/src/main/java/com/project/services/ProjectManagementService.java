@@ -19,14 +19,14 @@ public class ProjectManagementService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public Project createProject(CreateProject createProject) {
+    public Project createProject(String userId, CreateProject createProject) {
         Project project = new Project();
         project.setTitle(createProject.getTitle());
         project.setSynopsis(createProject.getSynopsis());
         project.setType(createProject.getProjectType());
-        project.setVisiblityType(createProject.getVisibilityType());
+        project.setVisibilityType(createProject.getVisibilityType());
         project.setSourcingType(createProject.getSourcingType());
-        Author author = authorRepository.findAuthorByUserIdEquals(1).get();
+        Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get();
         project.setOriginalAuthor(author);
         project = projectRepository.save(project);
         return project;

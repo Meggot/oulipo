@@ -44,9 +44,10 @@ public class LoginController {
         LoginUser loginUser = new LoginUser();
         accountRepository.getAccountByUsername(username).map(account -> {
             loginUser.setActivated(true);
+            loginUser.setUserId(account.getId());
             loginUser.setLogin(account.getUsername());
             loginUser.setPassword(account.getPassword().getHashValue());
-            loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_USER")));
+            loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_USER"), new Authority("ROLE_ADMIN")));
             return loginUser;
         });
         return loginUser;
@@ -57,14 +58,6 @@ public class LoginController {
     public Resource<AccountDto> registerAccount(@RequestBody CreateAccount registerAccount) {
         Account account = accountManagementService.createAccount(registerAccount);
         return new Resource<>(accountResourceAssembler.toResource(account));
-    }
-
-    @ResponseBody
-    @RequestMapping("/{sessionToken}")
-    public AuthenticateResponse authenticateResponse(@PathVariable(name = "sessionToken") String sessionToken) {
-        AuthenticateResponse authenticateResponse = new AuthenticateResponse();
-        authenticateResponse.setAuthenticated(true);
-        return authenticateResponse;
     }
 
 }

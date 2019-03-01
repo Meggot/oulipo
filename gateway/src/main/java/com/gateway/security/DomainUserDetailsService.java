@@ -2,6 +2,7 @@ package com.gateway.security;
 
 import com.common.models.dtos.LoginUser;
 import com.gateway.security.client.UserClient;
+import com.netflix.zuul.context.RequestContext;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,14 +36,14 @@ public class DomainUserDetailsService implements UserDetailsService {
 
         if (new EmailValidator().isValid(login, null)) {
             return userClient.findOneWithAuthoritiesByEmail(login)
-                .map(user -> createSpringSecurityUser(login, user))
-                .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
+                             .map(user -> createSpringSecurityUser(login, user))
+                             .orElseThrow(() -> new UsernameNotFoundException("User with email " + login + " was not found in the database"));
         }
 
         //String lowercaseLogin = login.toLowerCase(Locale.ENGLISH);
         return userClient.findOneWithAuthoritiesByLogin(login)
-            .map(user -> createSpringSecurityUser(login, user))
-            .orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
+                         .map(user -> createSpringSecurityUser(login, user))
+                         .orElseThrow(() -> new UsernameNotFoundException("User " + login + " was not found in the database"));
 
     }
 
@@ -50,11 +51,8 @@ public class DomainUserDetailsService implements UserDetailsService {
         if (!user.isActivated()) {
             throw new UserNotActivatedException("User " + lowercaseLogin + " was not activated");
         }
-        List<GrantedAuthority> grantedAuthorities = user.getAuthorities().stream()
-            .map(authority -> new SimpleGrantedAuthority(authority.getName()))
-            .collect(Collectors.toList());
-        return new org.springframework.security.core.userdetails.User(user.getLogin(),
-            user.getPassword(),
-            grantedAuthorities);
+        List<GrantedAuthority> grantedAuthorities =
+                user.getAuthorities().stream().map(authority -> new SimpleGrantedAuthority(authority.getName())).collect(Collectors.toList());
+        return new org.springframework.security.core.userdetails.User(String.valueOf(user.getUserId()), user.getPassword(), grantedAuthorities);
     }
 }

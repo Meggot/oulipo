@@ -25,7 +25,7 @@ CREATE TABLE Project (
     title VARCHAR(255) NOT NULL,
     synopsis VARCHAR(255) NOT NULL,
     project_type VARCHAR(255) NOT NULL,
-    visiblity_type VARCHAR(255) NOT NULL,
+    visibility_type VARCHAR(255) NOT NULL,
     sourcing_type VARCHAR(255) NOT NULL,
     fk_author_id INTEGER NOT NULL,
     creation_date DATE NOT NULL,

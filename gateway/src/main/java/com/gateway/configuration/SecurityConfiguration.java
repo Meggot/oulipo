@@ -1,6 +1,9 @@
 package com.gateway.configuration;
 
 
+import static com.gateway.security.AuthoritiesConstants.ADMIN;
+import static com.gateway.security.AuthoritiesConstants.USER;
+
 import com.gateway.security.AuthoritiesConstants;
 import com.gateway.security.jwt.JWTConfigurer;
 import com.gateway.security.jwt.TokenProvider;
@@ -113,10 +116,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
         .and()
             .authorizeRequests()
-            .antMatchers("/projects/**").fullyAuthenticated()
-            .antMatchers("/users/**").fullyAuthenticated()
-            .antMatchers("/metadata/**").fullyAuthenticated()
-            .antMatchers("/audit/**").fullyAuthenticated()
+            .antMatchers("/api/admin").hasRole(ADMIN)
+            .antMatchers("/api/user").hasRole(USER)
+            .antMatchers("/api/projects/**").fullyAuthenticated()
+            .antMatchers("/api/users/**").fullyAuthenticated()
+            .antMatchers("/api/metadata/**").fullyAuthenticated()
+            .antMatchers("/api/audit/**").fullyAuthenticated()
             .antMatchers("/api/register").permitAll()
             .antMatchers("/api/activate").permitAll()
             .antMatchers("/api/authenticate").permitAll()
@@ -124,7 +129,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
             .antMatchers("/api/account/reset-password/finish").permitAll()
             .antMatchers("/management/health").permitAll()
             .antMatchers("/management/info").permitAll()
-            .antMatchers("/management/**").hasAuthority(AuthoritiesConstants.ADMIN)
+            .antMatchers("/management/**").hasAuthority(ADMIN)
             .and()
              .apply(securityConfigurerAdapter());
 

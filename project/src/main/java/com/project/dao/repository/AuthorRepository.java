@@ -11,7 +11,8 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface AuthorRepository extends JpaRepository<Author, UUID>, QuerydslPredicateExecutor<Author> {
+public interface AuthorRepository extends JpaRepository<Author, Integer>, QuerydslPredicateExecutor<Author> {
     boolean existsByUserIdEquals(Integer userId);
     Optional<Author> findAuthorByUserIdEquals(Integer userId);
+    Optional<Author> findAuthorByUsernameEquals(String username);
 }

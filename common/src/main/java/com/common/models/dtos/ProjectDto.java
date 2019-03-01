@@ -3,6 +3,7 @@
 package com.common.models.dtos;
 
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
@@ -16,7 +17,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 public class ProjectDto extends ResourceSupport implements Identifiable<Link> {
 
-    private Integer idField;
+    private int projectId;
 
     private String title;
 

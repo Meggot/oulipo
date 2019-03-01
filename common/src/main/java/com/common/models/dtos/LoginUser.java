@@ -18,5 +18,7 @@ public class LoginUser {
     String login;
 
     String password;
-        //"$2a$04$kWQDeLECZyuVas7.QQWi4.QqKKAmggbtmJctovWa74iou2/kJT1Ti";
+
+    Integer userId;
+
 }

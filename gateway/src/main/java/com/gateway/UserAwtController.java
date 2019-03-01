@@ -16,12 +16,14 @@ import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -29,7 +31,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.annotation.SessionScope;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RequestMapping
@@ -49,7 +53,7 @@ public class UserAwtController {
     @ResponseBody
     @PostMapping("/authenticate")
     public ResponseEntity<AuthenticationResponse> authorize(@Valid @ModelAttribute LoginVM loginVM) {
-        log.info("> [AUTHENTICATE] Authenticating login request: {}",loginVM);
+        log.info("> [AUTHENTICATE] Authenticating login request: {}", loginVM);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
         Authentication authentication;
@@ -64,6 +68,17 @@ public class UserAwtController {
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
         return new ResponseEntity<>(new AuthenticationResponse(jwt, "Authentication Successful."), httpHeaders, HttpStatus.OK);
+    }
+
+    @Secured({"ROLE_ADMIN", "ROLE_USER"})
+    @GetMapping("/role")
+    public ResponseEntity<String> areYouAdmin(HttpServletRequest servletRequest) {
+        if (servletRequest.isUserInRole("ROLE_ADMIN")) {
+            return new ResponseEntity<>("ADMIN YES", HttpStatus.OK);
+        } else if (servletRequest.isUserInRole("ROLE_USER")) {
+            return new ResponseEntity<>("USER YES", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("YOU DONT AVE ANY ROLEE", HttpStatus.FORBIDDEN);
     }
 
     @Data

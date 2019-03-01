@@ -1,5 +1,8 @@
 package com.gateway.security.jwt;
 
+import com.common.models.UserRequestWrapper;
+import com.netflix.zuul.context.RequestContext;
+import org.apache.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -20,6 +23,8 @@ public class JWTFilter extends GenericFilterBean {
 
     public static final String AUTHORIZATION_HEADER = "Authorization";
 
+    public static final String USER_ID = "User";
+
     private TokenProvider tokenProvider;
 
     public JWTFilter(TokenProvider tokenProvider) {
@@ -28,17 +33,20 @@ public class JWTFilter extends GenericFilterBean {
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-        throws IOException, ServletException {
+            throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) servletRequest;
         String jwt = resolveToken(httpServletRequest);
         if (StringUtils.hasText(jwt) && this.tokenProvider.validateToken(jwt)) {
             Authentication authentication = this.tokenProvider.getAuthentication(jwt);
             SecurityContextHolder.getContext().setAuthentication(authentication);
+            RequestContext ctx = RequestContext.getCurrentContext();
+            ctx.addZuulRequestHeader(USER_ID, authentication.getName());
         }
         filterChain.doFilter(servletRequest, servletResponse);
+
     }
 
-    private String resolveToken(HttpServletRequest request){
+    private String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader(AUTHORIZATION_HEADER);
         if (StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);

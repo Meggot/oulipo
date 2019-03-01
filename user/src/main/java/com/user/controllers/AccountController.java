@@ -14,6 +14,7 @@ import com.user.dao.repository.AccountRepository;
 import com.user.services.AccountManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -29,11 +30,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.ValidationException;
 
@@ -70,6 +73,13 @@ public class AccountController {
     public HttpEntity<Identifiable> findById(@PathVariable("accountId") Account account, Model model) {
         model.addAttribute("account", account);
         return new ResponseEntity<>(accountResourceAssembler.toResource(account), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/thisAccount", method = RequestMethod.GET)
+    public Resource<AccountDto> getAccount(@RequestHeader("User") Account account, Model model) {
+        model.addAttribute("account", account);
+        return new Resource<>(accountResourceAssembler.toResource(account));
     }
 
     @ResponseBody
