@@ -2,6 +2,10 @@
 
 package com.common.models.dtos;
 
+import static com.fasterxml.jackson.annotation.JsonInclude.Include.NON_NULL;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +19,7 @@ import javax.validation.constraints.Size;
 
 @Data
 @NoArgsConstructor
+@JsonInclude(NON_NULL)
 public class ProjectDto extends ResourceSupport implements Identifiable<Link> {
 
     private int projectId;
@@ -22,5 +27,19 @@ public class ProjectDto extends ResourceSupport implements Identifiable<Link> {
     private String title;
 
     private String synopsis;
+
+    private String type;
+
+    private String visibilityType;
+
+    private String sourcingType;
+
+    private String originalAuthor;
+
+    private String creationDate;
+
+    private String modifiedDate;
+
+    private int version;
 
 }
