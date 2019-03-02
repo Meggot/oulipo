@@ -23,9 +23,8 @@ public class ProjectPartDto extends ResourceSupport implements Identifiable<Link
     private Integer idField;
     private Integer projectId;
     private PartStatus status;
-    private PartValueDto activeValue;
+    private String activeValue;
     private Integer sequence;
-    private List<PartValueDto> previousValues;
 
 
 }

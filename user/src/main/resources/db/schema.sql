@@ -20,3 +20,6 @@ CREATE TABLE Accounts(
    deleted INTEGER DEFAULT 0,
    oca INTEGER DEFAULT 1
 );
+
+-- INSERT INTO Passwords(pk_pwd_id, hash_value) VALUES (1, 'TestPassword')
+-- INSERT INTO Accounts(pk_user_id, fk_pwd_id, account_type, username, email, status) VALUES (1, 1, 1, 'Meggot', 'bradleywilliamsgb@gmail.com', 'ACTIVE');

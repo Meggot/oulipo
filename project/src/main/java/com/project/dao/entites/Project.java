@@ -8,14 +8,10 @@ import com.common.models.dtos.VisibilityType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
 
 @Entity(name = "Project")
 @Data
@@ -25,7 +21,7 @@ public class Project extends EntityObject {
     @Id
     @SequenceGenerator(name = "project_seq", sequenceName = "project_seq")
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "project_seq")
-    @Column(name = "project_seq")
+    @Column(name = "pk_project_id")
     private Integer id;
 
     @Column(name = "title")
@@ -47,4 +43,16 @@ public class Project extends EntityObject {
     @ManyToOne
     private Author originalAuthor;
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<ProjectPart> partList;
+
+    public void addPart(ProjectPart part) {
+        this.partList.add(part);
+        part.setProject(this);
+    }
+
+    public Optional<ProjectPart> getLastAddedPart() {
+        return partList.stream()
+                .max(Comparator.comparing(ProjectPart::getSequence));
+    }
 }

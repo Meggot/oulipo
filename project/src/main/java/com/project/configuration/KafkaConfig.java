@@ -28,7 +28,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
-@Profile("Dev")
 public class KafkaConfig {
 
     @Value(value = "${spring.kafka.bootstrap-servers}")

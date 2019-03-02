@@ -17,7 +17,6 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 @Component
 @Slf4j
-@Profile("Dev")
 public class JmsUserLifecycleStreamer implements UserLifecycleStreamer{
 
     @Autowired

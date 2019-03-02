@@ -4,13 +4,10 @@ package com.project.dao.entites;
 
 import lombok.Data;
 
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Entity(name = "Author")
 @Data
@@ -28,4 +25,20 @@ public class Author extends EntityObject{
     @Column(name = "username")
     private String username;
 
+    @OneToMany(mappedBy = "originalAuthor", cascade = CascadeType.ALL)
+    private List<Project> createdProjects;
+
+    @OneToMany(mappedBy = "currentlyHoldingAuthor", cascade = CascadeType.ALL)
+    private List<ProjectPart> createdParts;
+
+
+    public void addCreatedProject(Project project) {
+        this.createdProjects.add(project);
+        project.setOriginalAuthor(this);
+    }
+
+    public void addCreatedPart(ProjectPart part) {
+        this.createdParts.add(part);
+        part.setCurrentlyHoldingAuthor(this);
+    }
 }

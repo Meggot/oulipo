@@ -4,6 +4,7 @@ package com.project.controllers;
 
 import com.common.models.dtos.ProjectDto;
 import com.common.models.requests.CreateProject;
+import com.common.models.requests.UpdateProject;
 import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.dao.entites.Project;
 import com.project.dao.repository.ProjectRepository;
@@ -72,5 +73,17 @@ public class ProjectController {
         ProjectDto dto = projectAssembler.toResource(project);
         model.addAttribute("project", dto);
         return new Resource<>(dto);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{projectId}", method = RequestMethod.PATCH)
+    public Resource<ProjectDto> updateAProject(@PathVariable("projectId") Project project,
+                                               @RequestHeader("User") String userId,
+                                               @Valid @ModelAttribute("UpdateProject") UpdateProject updateProject,
+                                               Model model){
+        Project updatedProject = projectManagementService.updateProject(project, userId, updateProject);
+        ProjectDto updateProjectDto = projectAssembler.toResource(updatedProject);
+        model.addAttribute("project", updateProjectDto);
+        return new Resource<>(updateProjectDto);
     }
 }

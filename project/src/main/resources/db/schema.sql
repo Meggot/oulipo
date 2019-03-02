@@ -20,6 +20,19 @@ CREATE TABLE Copy (
     oca INTEGER DEFAULT 1
 )
 
+CREATE TABLE ProjectPart (
+  pk_project_part_id INTEGER PRIMARY KEY IDENTITY,
+  sequence INTEGER NOT NULL,
+  fk_holding_author_id INTEGER NOT NULL,
+  status VARCHAR(255) NOT NULL,
+  value VARCHAR(255) NOT NULL,
+  fk_project_id INTEGER NOT NULL,
+  creation_date DATE NOT NULL,
+  modified_date DATE NOT NULL,
+  deleted INTEGER DEFAULT 0,
+  oca INTEGER DEFAULT 1
+)
+
 CREATE TABLE Project (
     pk_project_id INTEGER PRIMARY KEY IDENTITY,
     title VARCHAR(255) NOT NULL,
@@ -33,3 +46,6 @@ CREATE TABLE Project (
     deleted INTEGER DEFAULT 0,
     oca INTEGER DEFAULT 1
 );
+
+INSERT INTO Author(pk_author_id, fk_user_id, username, creation_date, modified_date, deleted, oca)
+VALUES (1, 1, 'TestUser', '2019-01-01', '2019-01-01', 0, 1);

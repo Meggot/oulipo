@@ -2,13 +2,19 @@
 
 package com.project.services;
 
+import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.CreateProject;
+import com.common.models.requests.UpdateProject;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.Project;
 import com.project.dao.repository.AuthorRepository;
+import com.project.dao.repository.PartRepository;
 import com.project.dao.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
+
+import java.util.Objects;
 
 @Component
 public class ProjectManagementService {
@@ -19,6 +25,9 @@ public class ProjectManagementService {
     @Autowired
     AuthorRepository authorRepository;
 
+    @Autowired
+    PartRepository partRepository;
+
     public Project createProject(String userId, CreateProject createProject) {
         Project project = new Project();
         project.setTitle(createProject.getTitle());
@@ -27,9 +36,21 @@ public class ProjectManagementService {
         project.setVisibilityType(createProject.getVisibilityType());
         project.setSourcingType(createProject.getSourcingType());
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get();
-        project.setOriginalAuthor(author);
+        author.addCreatedProject(project);
         project = projectRepository.save(project);
         return project;
     }
 
+    public Project updateProject(Project projectToUpdate, String userId, UpdateProject updateRequest) {
+        if (!Objects.equals(projectToUpdate.getOriginalAuthor().getUserId(), Integer.valueOf(userId))) {
+            throw new UnauthorizedException("You do not have permission to update that Project");
+        }
+        if (!Objects.equals(updateRequest.getTitle(), projectToUpdate.getTitle())){
+            projectToUpdate.setTitle(updateRequest.getTitle());
+        }
+        if (!Objects.equals(updateRequest.getSynopsis(), projectToUpdate.getSynopsis())) {
+            projectToUpdate.setSynopsis(updateRequest.getSynopsis());
+        }
+        return projectRepository.save(projectToUpdate);
+    }
 }

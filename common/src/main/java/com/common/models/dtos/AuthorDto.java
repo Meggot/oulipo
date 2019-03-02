@@ -9,6 +9,8 @@ import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.util.List;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,5 +19,6 @@ public class AuthorDto extends ResourceSupport implements Identifiable<Link> {
     Integer idField;
     Integer userId;
     String username;
+    List<ProjectDto> createdProjects;
 
 }

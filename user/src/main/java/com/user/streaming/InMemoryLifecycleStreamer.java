@@ -4,10 +4,12 @@ package com.user.streaming;
 
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
+import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Profile("Test")
+@Primary
 @Component
 public class InMemoryLifecycleStreamer implements UserLifecycleStreamer{
 

@@ -1,8 +1,6 @@
 package com.gateway.security.jwt;
 
-import com.common.models.UserRequestWrapper;
 import com.netflix.zuul.context.RequestContext;
-import org.apache.http.HttpHeaders;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
