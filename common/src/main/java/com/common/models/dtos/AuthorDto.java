@@ -20,5 +20,6 @@ public class AuthorDto extends ResourceSupport implements Identifiable<Link> {
     Integer userId;
     String username;
     List<ProjectDto> createdProjects;
+    List<ProjectPartDto> createdParts;
 
 }

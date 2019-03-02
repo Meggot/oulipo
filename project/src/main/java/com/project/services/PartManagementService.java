@@ -2,6 +2,7 @@ package com.project.services;
 
 import com.common.models.dtos.PartStatus;
 import com.common.models.exceptions.UnauthorizedException;
+import com.common.models.requests.PostPartValueRequest;
 import com.github.tomakehurst.wiremock.security.NotAuthorisedException;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.Project;
@@ -26,12 +27,15 @@ public class PartManagementService {
     @Autowired
     ProjectRepository projectRepository;
 
-    public ProjectPart requestPartOnProject(Project project, String userId){
+    @Autowired
+    CopyManagementService copyManagementService;
+
+    public ProjectPart requestPartOnProject(Project project, String userId) {
         ProjectPart newPart = new ProjectPart();
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get();
         Optional<ProjectPart> lastCreatedPartOnProject = project.getLastAddedPart();
         if (lastCreatedPartOnProject.isPresent()) {
-            newPart.setSequence(new Integer(lastCreatedPartOnProject.get().getSequence()+1));
+            newPart.setSequence(new Integer(lastCreatedPartOnProject.get().getSequence() + 1));
         } else {
             newPart.setSequence(new Integer(1));
         }
@@ -44,12 +48,16 @@ public class PartManagementService {
         return newPart;
     }
 
-    public ProjectPart postValueOnPart(ProjectPart part, String userId, String partValue) {
+    public ProjectPart postValueOnPart(ProjectPart part, String userId, PostPartValueRequest partValue) {
         if (!part.getCurrentlyHoldingAuthor().getUserId().equals(Integer.parseInt(userId))) {
             throw new UnauthorizedException("You are not the current holder of that part");
         }
-        part.setValue(partValue);
-        part.setStatus(PartStatus.UNDER_REVIEW);
+        part.setValue(partValue.getValue());
+        part.setStatus(partValue.getReviewStatus());
+        if (partValue.getReviewStatus().equals(PartStatus.LOCKED)) {
+            copyManagementService.addValueToCopy(part.getProject().getCopy(), partValue.getValue());
+        }
+        part = partRepository.save(part);
         return part;
     }
 }

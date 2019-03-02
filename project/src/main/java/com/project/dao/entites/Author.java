@@ -4,6 +4,7 @@ package com.project.dao.entites;
 
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
@@ -26,10 +27,10 @@ public class Author extends EntityObject{
     private String username;
 
     @OneToMany(mappedBy = "originalAuthor", cascade = CascadeType.ALL)
-    private List<Project> createdProjects;
+    private List<Project> createdProjects = new ArrayList<>();
 
     @OneToMany(mappedBy = "currentlyHoldingAuthor", cascade = CascadeType.ALL)
-    private List<ProjectPart> createdParts;
+    private List<ProjectPart> createdParts = new ArrayList<>();
 
 
     public void addCreatedProject(Project project) {

@@ -15,6 +15,9 @@ public class AuthorAssembler extends ResourceAssemblerSupport<Author, AuthorDto>
     @Autowired
     ProjectAssembler projectAssembler;
 
+    @Autowired
+    PartAssembler partAssembler;
+
     public AuthorAssembler() {
         super(AuthorController.class, AuthorDto.class);
     }
@@ -27,6 +30,8 @@ public class AuthorAssembler extends ResourceAssemblerSupport<Author, AuthorDto>
         dto.setUsername(author.getUsername());
         dto.setCreatedProjects(author.getCreatedProjects().stream()
                 .map(projectAssembler::toResource).collect(Collectors.toList()));
+        dto.setCreatedParts(author.getCreatedParts().stream()
+                .map(partAssembler::toResource).collect(Collectors.toList()));
         return dto;
     }
 }

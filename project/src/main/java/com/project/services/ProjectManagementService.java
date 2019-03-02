@@ -6,8 +6,10 @@ import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.CreateProject;
 import com.common.models.requests.UpdateProject;
 import com.project.dao.entites.Author;
+import com.project.dao.entites.Copy;
 import com.project.dao.entites.Project;
 import com.project.dao.repository.AuthorRepository;
+import com.project.dao.repository.CopyRepository;
 import com.project.dao.repository.PartRepository;
 import com.project.dao.repository.ProjectRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,9 @@ public class ProjectManagementService {
     @Autowired
     PartRepository partRepository;
 
+    @Autowired
+    CopyRepository copyRepository;
+
     public Project createProject(String userId, CreateProject createProject) {
         Project project = new Project();
         project.setTitle(createProject.getTitle());
@@ -37,6 +42,10 @@ public class ProjectManagementService {
         project.setSourcingType(createProject.getSourcingType());
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get();
         author.addCreatedProject(project);
+        Copy newCopy = new Copy();
+        newCopy.setProject(project);
+        newCopy.setValue("");
+        project.setCopy(newCopy);
         project = projectRepository.save(project);
         return project;
     }

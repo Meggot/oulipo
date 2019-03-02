@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
@@ -44,7 +45,10 @@ public class Project extends EntityObject {
     private Author originalAuthor;
 
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
-    private List<ProjectPart> partList;
+    private List<ProjectPart> partList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
+    private Copy copy;
 
     public void addPart(ProjectPart part) {
         this.partList.add(part);

@@ -20,8 +20,6 @@ public class PostPartValueRequest {
     private String value;
 
     @NotNull
-    private Integer userId;
-
     private PartStatus reviewStatus;
 
 }

@@ -2,16 +2,13 @@
 
 package com.project.dao.entites;
 
+import lombok.Data;
+
 import java.util.UUID;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 @Entity(name = "Copy")
+@Data
 public class Copy extends EntityObject{
 
     @Id
@@ -21,7 +18,8 @@ public class Copy extends EntityObject{
     private Integer id;
 
     @JoinColumn(name = "project_id")
-    private Project projectId;
+    @OneToOne
+    private Project project;
 
     @Column(name = "value")
     private String value;

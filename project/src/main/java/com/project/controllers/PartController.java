@@ -1,6 +1,7 @@
 package com.project.controllers;
 
 import com.common.models.dtos.ProjectPartDto;
+import com.common.models.requests.PostPartValueRequest;
 import com.project.controllers.assemblers.PartAssembler;
 import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.dao.entites.Project;
@@ -9,6 +10,8 @@ import com.project.services.PartManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 
 @RestController
@@ -33,7 +36,7 @@ public class PartController {
     @RequestMapping(path = "/{partId}", method = RequestMethod.PATCH)
     public Resource<ProjectPartDto> addValueToPart(@PathVariable("partId") ProjectPart part,
                                                    @RequestHeader("User") String userId,
-                                                   @RequestBody String partValue) {
+                                                   @Valid @ModelAttribute("PostPartValueRequest") PostPartValueRequest partValue) {
         ProjectPart projectPart = partManagementService.postValueOnPart(part, userId, partValue);
         return new Resource<>(partAssembler.toResource(projectPart));
     }

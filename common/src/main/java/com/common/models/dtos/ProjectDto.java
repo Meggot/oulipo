@@ -16,6 +16,7 @@ import org.springframework.hateoas.ResourceSupport;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -39,6 +40,10 @@ public class ProjectDto extends ResourceSupport implements Identifiable<Link> {
     private String creationDate;
 
     private String modifiedDate;
+
+    private CopyDto copy;
+
+    private List<ProjectPartDto> parts;
 
     private int version;
 

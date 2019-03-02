@@ -10,7 +10,6 @@ CREATE TABLE Author(
 
 
 CREATE TABLE Copy (
-
     pk_copy_id INTEGER PRIMARY KEY IDENTITY,
     project_id INTEGER NOT NULL,
     value VARCHAR(255) NOT NULL,

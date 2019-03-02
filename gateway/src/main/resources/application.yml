@@ -1,8 +1,5 @@
 server:
   port: 13000
-  servlet:
-    path: /api
-
 spring:
   application:
     name: gateway
@@ -10,20 +7,20 @@ spring:
 zuul:
   routes:
     register:
-      path: /register/
+      path: /api/register/
       url: http://localhost:13001/login/
     user:
-      path: /users/**
+      path: /api/users/**
       url: http://localhost:13001/
     project:
-      path: /projects/**
+      path: /api/projects/**
       url: http://localhost:13002
       #serviceId: PROJECT-SERVICE
     metadata:
-      path: /metadata/**
+      path: /api/metadata/**
       url: http://localhost:13003/
     audit:
-      path: /audit/**
+      path: /api/audit/**
       url: http://localhost:13004/
   host:
     socket-timeout-millis: 241000
