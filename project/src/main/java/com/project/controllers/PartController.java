@@ -40,4 +40,11 @@ public class PartController {
         ProjectPart projectPart = partManagementService.postValueOnPart(part, userId, partValue);
         return new Resource<>(partAssembler.toResource(projectPart));
     }
+
+
+    @ResponseBody
+    @RequestMapping(path = "/{partId}", method = RequestMethod.GET)
+    public Resource<ProjectPartDto> getPartById(@PathVariable("partId") ProjectPart part) {
+        return new Resource<>(partAssembler.toResource(part));
+    }
 }

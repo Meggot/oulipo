@@ -4,10 +4,12 @@ package com.gateway.filters.pre;
 
 import com.netflix.zuul.ZuulFilter;
 import com.netflix.zuul.context.RequestContext;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class PreFilter extends ZuulFilter {
+@Slf4j
+public class RequestLoggingPreFilter extends ZuulFilter {
 
     @Override
     public String filterType() {
@@ -27,8 +29,10 @@ public class PreFilter extends ZuulFilter {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
 
-        System.out.println(String.format("%s request to %s", request.getMethod(), request.getRequestURL().toString()));
-
+        log.info("{} request to {}", request.getMethod(), request.getRequestURL().toString());
+        if (ctx.getRequestQueryParams() != null) {
+            log.info(" |__ with params {}", ctx.getRequestQueryParams());
+        }
         return null;
     }
 

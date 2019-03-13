@@ -21,6 +21,6 @@ public class Copy extends EntityObject{
     @OneToOne
     private Project project;
 
-    @Column(name = "value")
+    @Column(name = "value", length = 10000)
     private String value;
 }

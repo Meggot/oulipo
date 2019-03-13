@@ -4,6 +4,8 @@ package com.project.configuration;
 
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
+import com.common.models.messages.ProjectCreationMessage;
+import com.common.models.messages.ProjectUpdateMessage;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -46,14 +48,46 @@ public class KafkaConfig {
     @Value("${jms.topic.user-lifecycle.update}")
     private String userLifecycleUpdateTopic;
 
+    @Value("${jms.topic.project-lifecycle.creation")
+    private String projectLifecycleCreationTopic;
+
+    @Value("${jms.topic.project-lifecycle.update")
+    private String projectLifecycleUpdateTopic;
+
+    @Bean
+    public NewTopic projectLifecycleCreationTopic() {
+        return new NewTopic(projectLifecycleCreationTopic, 1, (short) 1);
+    }
+
+    @Bean
+    public NewTopic projectLifecycleUpdateTopic() {
+        return new NewTopic(projectLifecycleUpdateTopic, 1, (short) 1);
+    }
+
     @Bean
     public NewTopic userLifecycleCreationTopic() {
-        return new NewTopic(userLifecycleCreationTopic, 2, (short) 2);
+        return new NewTopic(userLifecycleCreationTopic, 1, (short) 1);
+    }
+
+    public ProducerFactory<String, ProjectCreationMessage> projectCreationProducerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(props);
+    }
+
+    public ProducerFactory<String, ProjectUpdateMessage> projectUpdateProducerFactory() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(props);
     }
 
     @Bean
     public NewTopic userLifecycleUpdateTopic() {
-        return new NewTopic(userLifecycleUpdateTopic, 2, (short) 2);
+        return new NewTopic(userLifecycleUpdateTopic, 1, (short) 1);
     }
 
     public ConsumerFactory<String, AccountCreationMessage> accountCreationConsumerFactory() {
@@ -86,6 +120,16 @@ public class KafkaConfig {
         ConcurrentKafkaListenerContainerFactory<String, AccountUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
         factory.setConsumerFactory(accountUpdateConsumerFactory());
         return factory;
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectUpdateMessage> projectUpdateTemplate() {
+        return new KafkaTemplate<>(projectUpdateProducerFactory());
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectCreationMessage> projectCreationTemplate() {
+        return new KafkaTemplate<>(projectCreationProducerFactory());
     }
 
 }

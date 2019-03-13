@@ -47,6 +47,7 @@ public class AuditFactory {
         StringBuilder auditValueBuilder = new StringBuilder();
         auditValueBuilder.append("Title nval: ").append(message.getTitle());
         auditValueBuilder.append("Synopsis nval: ").append(message.getSynopsis());
+        audit.setValue(auditValueBuilder.toString());
         return audit;
     }
 
@@ -61,6 +62,7 @@ public class AuditFactory {
         auditValueBuilder.append("Title nval: ").append(message.getNewTitle());
         auditValueBuilder.append("Synopsis oval: ").append(message.getOldSynopsis());
         auditValueBuilder.append("Synopsis nval: ").append(message.getNewSynopsis());
+        audit.setValue(auditValueBuilder.toString());
         return audit;
     }
 }

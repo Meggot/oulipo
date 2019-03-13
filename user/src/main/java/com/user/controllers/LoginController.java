@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Arrays;
 
 @RestController
-@RequestMapping(path = "/login", produces = "application/json")
+@RequestMapping(produces = "application/json")
 public class LoginController {
 
     @Autowired
@@ -39,7 +39,7 @@ public class LoginController {
     AccountManagementService accountManagementService;
 
     @ResponseBody
-    @PostMapping
+    @PostMapping("/login")
     public LoginUser login(@RequestBody String username) {
         LoginUser loginUser = new LoginUser();
         accountRepository.getAccountByUsername(username).map(account -> {
@@ -54,7 +54,7 @@ public class LoginController {
     }
 
     @ResponseBody
-    @PostMapping("/register")
+    @PostMapping("/api/register")
     public Resource<AccountDto> registerAccount(@RequestBody CreateAccount registerAccount) {
         Account account = accountManagementService.createAccount(registerAccount);
         return new Resource<>(accountResourceAssembler.toResource(account));

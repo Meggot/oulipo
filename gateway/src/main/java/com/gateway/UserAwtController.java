@@ -51,7 +51,7 @@ public class UserAwtController {
     }
 
     @ResponseBody
-    @PostMapping("/authenticate")
+    @PostMapping("/api/authenticate")
     public ResponseEntity<AuthenticationResponse> authorize(@Valid @ModelAttribute LoginVM loginVM) {
         log.info("> [AUTHENTICATE] Authenticating login request: {}", loginVM);
         UsernamePasswordAuthenticationToken authenticationToken =

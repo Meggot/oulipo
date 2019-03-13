@@ -15,6 +15,8 @@ import org.springframework.hateoas.Resource;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.NoSuchElementException;
+
 @RestController
 @RequestMapping(path = "/authors")
 public class AuthorController {
@@ -40,5 +42,11 @@ public class AuthorController {
     @RequestMapping(path = "/thisAuthor", method = RequestMethod.GET)
     Resource<AuthorDto> getThisAuthor(@RequestHeader("User") String userId) {
         return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get()));
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
+    Resource<AuthorDto> getAuthorById(@PathVariable("userId") Integer userId) {
+        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(userId).orElseThrow(NoSuchElementException::new)));
     }
 }

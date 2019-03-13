@@ -34,6 +34,6 @@ public class ProjectPart extends EntityObject {
     private String value;
 
     @JoinColumn(name = "fk_project_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Project project;
 }

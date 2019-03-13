@@ -21,6 +21,12 @@ public class ProjectAssembler extends ResourceAssemblerSupport<Project, ProjectD
     @Autowired
     PartAssembler partAssembler;
 
+    @Autowired
+    AuthorProjectRoleAssembler authorProjectRoleAssembler;
+
+    @Autowired
+    ProjectTagAssembler projectTagAssembler;
+
     public ProjectAssembler() {
         super(ProjectController.class, ProjectDto.class);
     }
@@ -41,6 +47,10 @@ public class ProjectAssembler extends ResourceAssemblerSupport<Project, ProjectD
         dto.setCopy(copyAssembler.toResource(project.getCopy()));
         dto.setParts(project.getPartList().stream()
                 .map(partAssembler::toResourceProjectDisplay).collect(Collectors.toList()));
+        dto.setRoles(project.getAuthorProjectRoles().stream()
+                .map(authorProjectRoleAssembler::toResource).collect(Collectors.toList()));
+        dto.setTags(project.getTags().stream()
+                .map(projectTagAssembler::toResource).collect(Collectors.toList()));
         return dto;
     }
 }

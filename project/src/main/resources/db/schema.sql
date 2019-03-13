@@ -12,7 +12,7 @@ CREATE TABLE Author(
 CREATE TABLE Copy (
     pk_copy_id INTEGER PRIMARY KEY IDENTITY,
     project_id INTEGER NOT NULL,
-    value VARCHAR(255) NOT NULL,
+    value CLOB NOT NULL,
     creation_date DATE NOT NULL,
     modified_date DATE NOT NULL,
     deleted INTEGER DEFAULT 0,
@@ -24,7 +24,7 @@ CREATE TABLE ProjectPart (
   sequence INTEGER NOT NULL,
   fk_holding_author_id INTEGER NOT NULL,
   status VARCHAR(255) NOT NULL,
-  value VARCHAR(255) NOT NULL,
+  value CLOB NOT NULL,
   fk_project_id INTEGER NOT NULL,
   creation_date DATE NOT NULL,
   modified_date DATE NOT NULL,
@@ -44,7 +44,30 @@ CREATE TABLE Project (
     modified_date DATE NOT NULL,
     deleted INTEGER DEFAULT 0,
     oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE AuthorProjectRole (
+  pk_author_project_role_id INTEGER PRIMARY KEY,
+  fk_author_id INTEGER NOT NULL,
+  fk_project_id INTEGER NOT NULL,
+  role varchar(255) NOT NULL,
+  creation_date DATE NOT NULL,
+  modified_date DATE NOT NULL,
+  deleted INTEGER DEFAULT 0,
+  oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE ProjectTag (
+  pk_tag_id INTEGER PRIMARY KEY,
+  fk_project_id INTEGER NOT NULL,
+  type VARCHAR(255) NOT NULL,
+  fk_author_id INTEGER NOT NULL,
+  value VARCHAR(255) NOT NULL,
+  creation_date DATE NOT NULL,
+  modified_date DATE NOT NULL,
+  deleted INTEGER DEFAULT 0,
+  oca INTEGER DEFAULT 1
 );
 
-INSERT INTO Author(pk_author_id, fk_user_id, username, creation_date, modified_date, deleted, oca)
-VALUES (1, 1, 'TestUser', '2019-01-01', '2019-01-01', 0, 1);
+-- INSERT INTO Author(pk_author_id, fk_user_id, username, creation_date, modified_date, deleted, oca)
+-- VALUES (1, 1, 'TestUser', '2019-01-01', '2019-01-01', 0, 1);

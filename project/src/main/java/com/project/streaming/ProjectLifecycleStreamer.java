@@ -2,6 +2,14 @@
 
 package com.project.streaming;
 
-public class ProjectLifecycleStreamer {
+import com.common.models.messages.AccountCreationMessage;
+import com.common.models.messages.AccountUpdateMessage;
+import com.common.models.messages.ProjectCreationMessage;
+import com.common.models.messages.ProjectUpdateMessage;
 
+public interface ProjectLifecycleStreamer {
+
+    void sendProjectCreationMessage(ProjectCreationMessage accountCreationMessage);
+
+    void sendProjectUpdateMessage(ProjectUpdateMessage accountUpdateMessage);
 }

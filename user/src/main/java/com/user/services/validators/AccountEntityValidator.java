@@ -47,12 +47,6 @@ public class AccountEntityValidator {
                                                    .build());
             }
         }
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<UpdateAccount>> violations = validator.validate(newUpdateDto);
-        if (!violations.isEmpty()) {
-            violations.forEach(c -> apiSubErrors.add(ValidationUtil.mapConstraintViolationToApiValidationError(c)));
-        }
         return apiSubErrors;
     }
 
@@ -71,12 +65,6 @@ public class AccountEntityValidator {
                                                .rejectedValue(createAccountRequest.getEmail())
                                                .message("That email is already in use.")
                                                .build());
-        }
-        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
-        Validator validator = factory.getValidator();
-        Set<ConstraintViolation<CreateAccount>> violations = validator.validate(createAccountRequest);
-        if (!violations.isEmpty()) {
-            violations.forEach(c -> apiSubErrors.add(ValidationUtil.mapConstraintViolationToApiValidationError(c)));
         }
         return apiSubErrors;
     }

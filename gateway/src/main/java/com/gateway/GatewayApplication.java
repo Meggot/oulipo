@@ -2,7 +2,7 @@
 
 package com.gateway;
 
-import com.gateway.filters.pre.PreFilter;
+import com.gateway.filters.pre.RequestLoggingPreFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -10,7 +10,6 @@ import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 
@@ -36,8 +35,8 @@ public class GatewayApplication {
     }
 
     @Bean
-    public PreFilter preFilter() {
-        return new PreFilter();
+    public RequestLoggingPreFilter preFilter() {
+        return new RequestLoggingPreFilter();
     }
 }
 

@@ -45,6 +45,10 @@ public class ProjectDto extends ResourceSupport implements Identifiable<Link> {
 
     private List<ProjectPartDto> parts;
 
+    private List<AuthorProjectRoleDto> roles;
+
+    private List<ProjectTagDto> tags;
+
     private int version;
 
 }

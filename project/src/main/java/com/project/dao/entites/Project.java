@@ -2,6 +2,7 @@
 
 package com.project.dao.entites;
 
+import com.common.models.dtos.PartStatus;
 import com.common.models.dtos.ProjectType;
 import com.common.models.dtos.SourcingType;
 import com.common.models.dtos.VisibilityType;
@@ -47,8 +48,25 @@ public class Project extends EntityObject {
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectPart> partList = new ArrayList<>();
 
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<AuthorProjectRole> authorProjectRoles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
+    private List<ProjectTag> tags = new ArrayList<>();
+
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
     private Copy copy;
+
+
+    public void addTag(ProjectTag projectTag) {
+        this.tags.add(projectTag);
+        projectTag.setProject(this);
+    }
+
+    public void addAuthorProjectRole(AuthorProjectRole authorProjectRole) {
+        this.authorProjectRoles.add(authorProjectRole);
+        authorProjectRole.setProject(this);
+    }
 
     public void addPart(ProjectPart part) {
         this.partList.add(part);
@@ -58,5 +76,11 @@ public class Project extends EntityObject {
     public Optional<ProjectPart> getLastAddedPart() {
         return partList.stream()
                 .max(Comparator.comparing(ProjectPart::getSequence));
+    }
+
+    public Integer getNextToBePostedPartSequence() {
+        return partList.stream()
+                .filter(part -> part.getStatus() == PartStatus.RESERVED || part.getStatus() == PartStatus.ACTIVE)
+                .max(Comparator.comparing(ProjectPart::getSequence)).get().getSequence();
     }
 }

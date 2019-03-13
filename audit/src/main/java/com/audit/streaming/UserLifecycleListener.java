@@ -33,12 +33,6 @@ public class UserLifecycleListener {
     @Value("${jms.topic.user-lifecycle.update}")
     private String userLifecycleUpdateTopic;
 
-    @Value("${jms.topic.user-lifecycle.creation}")
-    private String projectLifecycleCreationTopic;
-
-    @Value("${jms.topic.user-lifecycle.update}")
-    private String projectLifecycleUpdateTopic;
-
     @KafkaListener(topics = "${jms.topic.user-lifecycle.creation}", groupId = "audit",
             containerFactory = "accountCreationMessageConcurrentKafkaListenerContainerFactory")
     public void listen(@Payload AccountCreationMessage message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
@@ -48,19 +42,6 @@ public class UserLifecycleListener {
     @KafkaListener(topics = "${jms.topic.user-lifecycle.update}", groupId = "audit",
             containerFactory = "accountUpdateMessageConcurrentKafkaListenerContainerFactory")
     public void listen(@Payload AccountUpdateMessage message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
-        log.info(">[KAFKA] Received a message on 'topic-user-lifecycle-update' in the partition [{}] contents: [{}]", partition, message);
-        auditRepository.save(AuditFactory.toAudit(message));
-    }
-
-    @KafkaListener(topics = "${jms.topic.project-lifecycle.creation}", groupId = "audit",
-            containerFactory = "projectCreationMessageConcurrentKafkaListenerContainerFactory")
-    public void listen(@Payload ProjectCreationMessage message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
-        log.info(">[KAFKA] Received a message on 'topic-user-lifecycle-creation' in the partition [{}] contents: [{}]", partition, message);
-        auditRepository.save(AuditFactory.toAudit(message));
-    }
-    @KafkaListener(topics = "${jms.topic.project-lifecycle.update}", groupId = "audit",
-            containerFactory = "projectUpdateMessageConcurrentKafkaListenerContainerFactory")
-    public void listen(@Payload ProjectUpdateMessage message, @Header(KafkaHeaders.RECEIVED_PARTITION_ID) int partition) {
         log.info(">[KAFKA] Received a message on 'topic-user-lifecycle-update' in the partition [{}] contents: [{}]", partition, message);
         auditRepository.save(AuditFactory.toAudit(message));
     }

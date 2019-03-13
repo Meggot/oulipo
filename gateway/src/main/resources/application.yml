@@ -7,14 +7,14 @@ spring:
 zuul:
   routes:
     register:
-      path: /api/register/
-      url: http://localhost:13001/login/
+      path: /api/register
+      url: http://localhost:13001/
     user:
       path: /api/users/**
       url: http://localhost:13001/
     project:
       path: /api/projects/**
-      url: http://localhost:13002
+      url: http://localhost:13002/
       #serviceId: PROJECT-SERVICE
     metadata:
       path: /api/metadata/**
@@ -41,7 +41,7 @@ security:
   authentication:
     jwt:
       base64-secret: bXktc2VjcmV0LWtleS13aGljaC1zaG91bGQtYmUtY2hhbmdlZC1pbi1wcm9kdWN0aW9uLWFuZC1iZS1iYXNlNjQtZW5jb2RlZAo=
-      token-validity-in-seconds: 86400
+      token-validity-in-seconds: 864000000
       token-validity-in-seconds-for-remember-me: 2592000
 
 cors:

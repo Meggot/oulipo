@@ -32,6 +32,22 @@ public class Author extends EntityObject{
     @OneToMany(mappedBy = "currentlyHoldingAuthor", cascade = CascadeType.ALL)
     private List<ProjectPart> createdParts = new ArrayList<>();
 
+    @OneToMany(mappedBy = "origin", cascade = CascadeType.ALL)
+    private List<ProjectTag> createdTags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<AuthorProjectRole> authorProjectRoles = new ArrayList<>();
+
+
+    public void addAuthorCreatedTag(ProjectTag tag) {
+        this.createdTags.add(tag);
+        tag.setOrigin(this);
+    }
+
+    public void addAuthorProjectRole(AuthorProjectRole authorProjectRole) {
+        this.authorProjectRoles.add(authorProjectRole);
+        authorProjectRole.setAuthor(this);
+    }
 
     public void addCreatedProject(Project project) {
         this.createdProjects.add(project);

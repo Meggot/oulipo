@@ -2,9 +2,7 @@
 
 package com.project.configuration;
 
-import com.common.models.exceptions.ApiError;
-import com.common.models.exceptions.ApiValidationError;
-import com.common.models.exceptions.EntityValidationException;
+import com.common.models.exceptions.*;
 import com.common.models.utils.ValidationUtil;
 import org.springframework.boot.context.properties.bind.validation.BindValidationException;
 import org.springframework.http.HttpHeaders;
@@ -30,7 +28,37 @@ public class ProjectExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(NoSuchElementException.class)
     public ResponseEntity handleNoSuchElementException(NoSuchElementException ex) {
-        return new ResponseEntity(HttpStatus.NOT_FOUND);
+        ApiError apiError = new ApiError();
+        apiError.setStatus(HttpStatus.NOT_FOUND);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(NullPointerException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<Object> handleNullpointerException(NullPointerException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setStatus(HttpStatus.BAD_REQUEST);
+        apiError.setMessage("That requested resource does not exist");
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(UnauthorizedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    protected ResponseEntity<Object> handleUnauthorizedException(UnauthorizedException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setStatus(HttpStatus.UNAUTHORIZED);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
+    }
+
+    @ExceptionHandler(PartNotEditableException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    protected ResponseEntity<Object> handlePartNotEditableException(PartNotEditableException ex) {
+        ApiError apiError = new ApiError();
+        apiError.setStatus(HttpStatus.BAD_REQUEST);
+        apiError.setMessage(ex.getMessage());
+        return buildResponseEntity(apiError);
     }
 
     @ExceptionHandler(EntityValidationException.class)
