@@ -64,10 +64,7 @@ public class AuthorProjectRoleManagementService {
         return null;
     }
 
-    public AuthorProjectRole handleUpdateAuthorProjectRoleRequest(UpdateAuthorProjectRole request, String userId) {
-        AuthorProjectRole authorProjectRole = authorProjectRoleRepository.findById(request.getRoleId())
-                .orElseThrow(() -> new NoSuchElementException("A role by the id " + request.getRoleId() + " does not exist"));
-
+    public AuthorProjectRole handleUpdateAuthorProjectRoleRequest(AuthorProjectRole authorProjectRole, UpdateAuthorProjectRole request, String userId) {
         if (authorRolePermissionsEngine.canUserRolePatchRole(getAuthorRoleOfProjectById(authorProjectRole.getProject().getId(), userId).getRole(),
                 request.getNewRole(),
                 authorProjectRole.getRole())) {

@@ -15,8 +15,5 @@ import javax.validation.constraints.NotNull;
 public class UpdateAuthorProjectRole {
 
     @NotNull
-    Integer roleId;
-
-    @NotNull
     AuthorProjectRoleType newRole;
 }

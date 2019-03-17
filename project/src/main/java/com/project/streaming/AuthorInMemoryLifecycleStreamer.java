@@ -1,28 +1,25 @@
-// Copyright (c) 2019 Travelex Ltd
-
 package com.project.streaming;
 
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
 import com.project.services.AuthorManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AuthorLifecycleStreamer {
+@Profile("Test")
+public class AuthorInMemoryLifecycleStreamer implements AuthorLifecycleListener{
 
     @Autowired
-    AuthorManagementService authorManagementService;
+    private AuthorManagementService authorManagementService;
 
-    @KafkaListener(topics = "${jms.topic.user-lifecycle.creation}", groupId = "project",
-            containerFactory = "accountCreationMessageConcurrentKafkaListenerContainerFactory")
+    @Override
     public void handleUserCreationEvent(AccountCreationMessage accountCreationMessage) {
         authorManagementService.createAuthor(accountCreationMessage.getAccountId(), accountCreationMessage.getUsername());
     }
 
-    @KafkaListener(topics = "${jms.topic.user-lifecycle.update}", groupId = "project",
-    containerFactory = "accountUpdateMessageConcurrentKafkaListenerContainerFactory")
+    @Override
     public void handleUserUpdateEvent(AccountUpdateMessage accountUpdateMessage) {
         authorManagementService.updateAuthor(accountUpdateMessage.getAccountId(), accountUpdateMessage.getNewUsername());
     }

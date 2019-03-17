@@ -64,7 +64,7 @@ public class PartManagementService {
             newPart.setSequence(new Integer(1));
         }
         newPart.setStatus(PartStatus.RESERVED);
-        newPart.setValue("sda");
+        newPart.setValue("");
         author.addCreatedPart(newPart);
         project.addPart(newPart);
         newPart = partRepository.save(newPart);

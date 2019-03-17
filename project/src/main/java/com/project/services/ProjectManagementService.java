@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.PermissionDeniedDataAccessException;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
 import java.util.Objects;
 
 @Component
@@ -33,34 +34,42 @@ public class ProjectManagementService {
     PartRepository partRepository;
 
     @Autowired
-    CopyRepository copyRepository;
-
-    @Autowired
     AuthorProjectRoleRepository authorProjectRoleRepository;
 
     @Autowired
     ProjectLifecycleStreamer lifecycleStreamer;
 
     public Project createProject(String userId, CreateProject createProject) {
+        Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
+                .orElseThrow(() -> new NoSuchElementException("Author doesn't exist with ID " + userId));
+
+        //Project Entity
         Project project = new Project();
         project.setTitle(createProject.getTitle());
         project.setSynopsis(createProject.getSynopsis());
         project.setType(createProject.getProjectType());
         project.setVisibilityType(createProject.getVisibilityType());
         project.setSourcingType(createProject.getSourcingType());
-        Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get();
         author.addCreatedProject(project);
+
+        //Create Copy
         Copy newCopy = new Copy();
         newCopy.setProject(project);
         newCopy.setValue("");
         project.setCopy(newCopy);
+
+        //Initialize author as Creator
         AuthorProjectRole authorProjectRole = new AuthorProjectRole();
         authorProjectRole.setRole(AuthorProjectRoleType.CREATOR);
         authorProjectRole.setAuthor(author);
         authorProjectRole.setProject(project);
         author.addAuthorProjectRole(authorProjectRole);
         project.addAuthorProjectRole(authorProjectRole);
+
+        //Save
         project = projectRepository.save(project);
+
+        //Create JMS project message
         ProjectCreationMessage projectCreationMessage = new ProjectCreationMessage();
         projectCreationMessage.setProjectId(String.valueOf(project.getId()));
         projectCreationMessage.setTitle(project.getTitle());
@@ -74,19 +83,21 @@ public class ProjectManagementService {
         if (!Objects.equals(projectToUpdate.getOriginalAuthor().getUserId(), Integer.valueOf(userId))) {
             throw new UnauthorizedException("You do not have permission to update that Project");
         }
+
         ProjectUpdateMessage projectUpdateMessage = new ProjectUpdateMessage();
         projectUpdateMessage.setOldSynopsis(projectToUpdate.getSynopsis());
-        projectUpdateMessage.setNewSynopsis(updateRequest.getSynopsis());
         projectUpdateMessage.setOldTitle(projectToUpdate.getTitle());
-        projectUpdateMessage.setNewTitle(updateRequest.getTitle());
-        projectUpdateMessage.setProjectId(String.valueOf(projectToUpdate.getId()));
-        projectUpdateMessage.setUserId(userId);
         if (!Objects.equals(updateRequest.getTitle(), projectToUpdate.getTitle())){
             projectToUpdate.setTitle(updateRequest.getTitle());
         }
         if (!Objects.equals(updateRequest.getSynopsis(), projectToUpdate.getSynopsis())) {
             projectToUpdate.setSynopsis(updateRequest.getSynopsis());
         }
+        projectUpdateMessage.setNewSynopsis(updateRequest.getSynopsis());
+        projectUpdateMessage.setNewTitle(updateRequest.getTitle());
+        projectUpdateMessage.setProjectId(String.valueOf(projectToUpdate.getId()));
+        projectUpdateMessage.setUserId(userId);
+
         lifecycleStreamer.sendProjectUpdateMessage(projectUpdateMessage);
         return projectRepository.save(projectToUpdate);
     }

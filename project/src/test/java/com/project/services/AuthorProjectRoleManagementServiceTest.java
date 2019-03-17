@@ -32,37 +32,42 @@ import static org.mockito.MockitoAnnotations.initMocks;
 public class AuthorProjectRoleManagementServiceTest {
 
     @Mock
-    AuthorProjectRoleRepository authorProjectRoleRepository;
+    private AuthorProjectRoleRepository authorProjectRoleRepository;
 
     @Mock
-    AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
     @Mock
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Mock
-    AuthorRolePermissions authorRolePermissions;
+    private AuthorRolePermissions authorRolePermissions;
 
-    AuthorProjectRoleManagementService authorProjectRoleManagementService;
+    private AuthorProjectRoleManagementService authorProjectRoleManagementService;
 
-    Author actedAuthor = new Author();
-    Author actorAuthor = new Author();
-    Project project = new Project();
-    Integer projectId = 1;
-    Integer actedUserId = 2;
-    Integer actorUserId = 3;
+    private Author actedAuthor = new Author();
 
-    Integer roleId = 4;
+    private Author actorAuthor = new Author();
 
-    AuthorProjectRole existingRole;
+    private Project project = new Project();
 
-    AuthorProjectRole actorProjectRole = new AuthorProjectRole();
+    private Integer projectId = 1;
+
+    private Integer actedUserId = 2;
+
+    private Integer actorUserId = 3;
+
+    private Integer roleId = 4;
+
+    private AuthorProjectRole existingRole;
+
+    private AuthorProjectRole actorProjectRole = new AuthorProjectRole();
 
     @Captor
-    ArgumentCaptor<AuthorProjectRole> authorRepositoryCaptor;
+    private ArgumentCaptor<AuthorProjectRole> authorRepositoryCaptor;
 
-    AuthorProjectRoleRequest authorProjectRoleRequest;
-    UpdateAuthorProjectRole updateAuthorProjectRole;
+    private AuthorProjectRoleRequest authorProjectRoleRequest;
+    private UpdateAuthorProjectRole updateAuthorProjectRole;
 
     @Before
     public void setup() {
@@ -90,9 +95,9 @@ public class AuthorProjectRoleManagementServiceTest {
         existingRole.setRole(AuthorProjectRoleType.CONTRIBUTOR);
         existingRole.setAuthor(actedAuthor);
         existingRole.setProject(project);
+        existingRole.setId(roleId);
         updateAuthorProjectRole = new UpdateAuthorProjectRole();
         updateAuthorProjectRole.setNewRole(AuthorProjectRoleType.BARRED);
-        updateAuthorProjectRole.setRoleId(roleId);
         when(authorProjectRoleRepository.findById(roleId)).thenReturn(Optional.of(existingRole));
     }
 
@@ -135,7 +140,7 @@ public class AuthorProjectRoleManagementServiceTest {
 
     @Test
     public void test_handle_patch_author_project_role_request_success() {
-        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(updateAuthorProjectRole, actorUserId.toString());
+        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(existingRole, updateAuthorProjectRole, actorUserId.toString());
         verify(authorProjectRoleRepository).save(authorRepositoryCaptor.capture());
         assertThat(authorRepositoryCaptor.getValue().getRole()).isEqualTo(AuthorProjectRoleType.BARRED);
     }
@@ -143,18 +148,12 @@ public class AuthorProjectRoleManagementServiceTest {
     @Test(expected = NoSuchElementException.class)
     public void test_handle_patch_author_project_role_request_no_actor_author() {
         when(authorRepository.findAuthorByUserIdEquals(actorUserId)).thenReturn(Optional.empty());
-        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(updateAuthorProjectRole, actorUserId.toString());
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void test_handle_patch_author_project_role_request_no_role() {
-        when(authorProjectRoleRepository.findById(roleId)).thenReturn(Optional.empty());
-        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(updateAuthorProjectRole, actorUserId.toString());
+        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(existingRole, updateAuthorProjectRole, actorUserId.toString());
     }
 
     @Test(expected = RuntimeException.class)
     public void test_handle_patch_author_project_role_request_actor_no_role() {
         actorAuthor.setAuthorProjectRoles(Lists.emptyList());
-        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(updateAuthorProjectRole, actorUserId.toString());
+        authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(existingRole, updateAuthorProjectRole, actorUserId.toString());
     }
 }

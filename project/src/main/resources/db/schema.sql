@@ -2,8 +2,8 @@ CREATE TABLE Author(
     pk_author_id INTEGER PRIMARY KEY IDENTITY,
     fk_user_id INTEGER NOT NULL,
     username VARCHAR(255) NOT NULL,
-    creation_date DATE NOT NULL,
-    modified_date DATE NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    modified_date VARCHAR(255) NOT NULL,
     deleted INTEGER DEFAULT 0,
     oca INTEGER DEFAULT 1
 )
@@ -13,8 +13,8 @@ CREATE TABLE Copy (
     pk_copy_id INTEGER PRIMARY KEY IDENTITY,
     project_id INTEGER NOT NULL,
     value CLOB NOT NULL,
-    creation_date DATE NOT NULL,
-    modified_date DATE NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    modified_date VARCHAR(255) NOT NULL,
     deleted INTEGER DEFAULT 0,
     oca INTEGER DEFAULT 1
 )
@@ -26,8 +26,8 @@ CREATE TABLE ProjectPart (
   status VARCHAR(255) NOT NULL,
   value CLOB NOT NULL,
   fk_project_id INTEGER NOT NULL,
-  creation_date DATE NOT NULL,
-  modified_date DATE NOT NULL,
+  creation_date VARCHAR(255) NOT NULL,
+  modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
 )
@@ -40,8 +40,8 @@ CREATE TABLE Project (
     visibility_type VARCHAR(255) NOT NULL,
     sourcing_type VARCHAR(255) NOT NULL,
     fk_author_id INTEGER NOT NULL,
-    creation_date DATE NOT NULL,
-    modified_date DATE NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    modified_date VARCHAR(255) NOT NULL,
     deleted INTEGER DEFAULT 0,
     oca INTEGER DEFAULT 1
 )
@@ -51,8 +51,8 @@ CREATE TABLE AuthorProjectRole (
   fk_author_id INTEGER NOT NULL,
   fk_project_id INTEGER NOT NULL,
   role varchar(255) NOT NULL,
-  creation_date DATE NOT NULL,
-  modified_date DATE NOT NULL,
+  creation_date VARCHAR(255) NOT NULL,
+  modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
 )
@@ -63,8 +63,8 @@ CREATE TABLE ProjectTag (
   type VARCHAR(255) NOT NULL,
   fk_author_id INTEGER NOT NULL,
   value VARCHAR(255) NOT NULL,
-  creation_date DATE NOT NULL,
-  modified_date DATE NOT NULL,
+  creation_date VARCHAR(255) NOT NULL,
+  modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
 );

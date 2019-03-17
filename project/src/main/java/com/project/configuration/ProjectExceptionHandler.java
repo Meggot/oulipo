@@ -35,10 +35,10 @@ public class ProjectExceptionHandler extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(NullPointerException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
     protected ResponseEntity<Object> handleNullpointerException(NullPointerException ex) {
         ApiError apiError = new ApiError();
-        apiError.setStatus(HttpStatus.BAD_REQUEST);
+        apiError.setStatus(HttpStatus.NOT_FOUND);
         apiError.setMessage("That requested resource does not exist");
         return buildResponseEntity(apiError);
     }

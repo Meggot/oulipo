@@ -69,12 +69,13 @@ public class AuthorProjectRoleController {
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.PATCH)
-    Resource<AuthorProjectRoleDto> patchRole(@ModelAttribute @Valid UpdateAuthorProjectRole request,
+    @RequestMapping(method = RequestMethod.PATCH, path = "/{roleId}")
+    Resource<AuthorProjectRoleDto> patchRole(@PathVariable("roleId") AuthorProjectRole role,
+                                            @ModelAttribute @Valid UpdateAuthorProjectRole request,
                                              Model model,
                                              @RequestHeader("User") String userId) {
         log.debug("{} sent an UpdateAuthorRoleRequest {}", userId, request);
-        AuthorProjectRole authorProjectRole = authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(request, userId);
+        AuthorProjectRole authorProjectRole = authorProjectRoleManagementService.handleUpdateAuthorProjectRoleRequest(role, request, userId);
         model.addAttribute("authorProjectRole", authorProjectRole);
         return new Resource<>(assembler.toResource(authorProjectRole));
     }

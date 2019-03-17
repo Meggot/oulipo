@@ -30,7 +30,8 @@ public class AuthorController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    PagedResources<AuthorDto> getAuthors(@QuerydslPredicate(root = Author.class) Predicate predicate,
+    PagedResources<AuthorDto> getAuthors(@RequestHeader("User") String userId,
+                                         @QuerydslPredicate(root = Author.class) Predicate predicate,
                                          Pageable pageable, Model model, PagedResourcesAssembler pagedResourcesAssembler) {
         Page<AuthorDto> page = authorRepository.findAll(predicate, pageable).map(author -> authorAssembler.toResource(author));
         model.addAttribute("authors", page);
@@ -46,7 +47,8 @@ public class AuthorController {
 
     @ResponseBody
     @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
-    Resource<AuthorDto> getAuthorById(@PathVariable("userId") Integer userId) {
-        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(userId).orElseThrow(NoSuchElementException::new)));
+    Resource<AuthorDto> getAuthorById(@RequestHeader("User") String userId,
+                                      @PathVariable("userId") Integer requestedAuthorUserId) {
+        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(requestedAuthorUserId).orElseThrow(NoSuchElementException::new)));
     }
 }

@@ -19,14 +19,20 @@ import java.util.NoSuchElementException;
 @Component
 public class ProjectTagManagementService {
 
-    @Autowired
-    AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
+
+    private ProjectRepository projectRepository;
+
+    private ProjectTagRepository projectTagRepository;
 
     @Autowired
-    ProjectRepository projectRepository;
-
-    @Autowired
-    ProjectTagRepository projectTagRepository;
+    ProjectTagManagementService(AuthorRepository authorRepository,
+                                ProjectRepository projectRepository,
+                                ProjectTagRepository projectTagRepository) {
+        this.authorRepository = authorRepository;
+        this.projectRepository = projectRepository;
+        this.projectTagRepository = projectTagRepository;
+    }
 
     public ProjectTag handleCreateTagRequest(CreateTagRequest createTagRequest, String userId) {
         //is user an author?
@@ -62,7 +68,7 @@ public class ProjectTagManagementService {
                 .filter(projectRole -> projectRole.getProject().getId().equals(projectTag.getProject().getId()))
                 .findFirst()
                 .orElseThrow(() -> new UnauthorizedException("Author " + author.getAuthorId() + " does not have an AuthorProjectRole with this project " + projectTag.getProject().getId()));
-        if (authorRole.getRole() != AuthorProjectRoleType.CREATOR || authorRole.getRole() != AuthorProjectRoleType.MODERATOR) {
+        if (authorRole.getRole() != AuthorProjectRoleType.CREATOR && authorRole.getRole() != AuthorProjectRoleType.MODERATOR) {
             throw new UnauthorizedException("Author " + author.getAuthorId() + " does not have permission to post a tag");
         }
         projectTagRepository.delete(projectTag);
