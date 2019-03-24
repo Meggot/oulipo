@@ -14,6 +14,7 @@ public class CommentDto extends ResourceSupport implements Identifiable<Link> {
     private Integer idField;
     private Integer entityId;
     private Integer userId;
+    private EntityType entityType;
     private String value;
     private String creationDate;
 }

@@ -49,7 +49,6 @@ public class ProjectTagManagementService {
         if (authorRole.getRole() != AuthorProjectRoleType.CREATOR && authorRole.getRole() != AuthorProjectRoleType.MODERATOR) {
             throw new UnauthorizedException("Author " + author.getAuthorId() + " does not have permission to post a tag");
         }
-        //TODO: ADMIN ADDED
         ProjectTag newTag = new ProjectTag();
         newTag.setType(TagType.USER_ADDED);
         newTag.setValue(createTagRequest.getValue());

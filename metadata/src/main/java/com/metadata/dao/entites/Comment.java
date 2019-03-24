@@ -1,5 +1,6 @@
 package com.metadata.dao.entites;
 
+import com.common.models.dtos.EntityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,4 +27,7 @@ public class Comment extends EntityObject {
 
     @Column(name = "value")
     private String value;
+
+    @Column(name= "type")
+    private EntityType entityType;
 }

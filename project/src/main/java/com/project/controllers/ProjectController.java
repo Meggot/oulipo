@@ -33,7 +33,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping(produces = "application/json")
+@RequestMapping(path="/projects", produces = "application/json")
 public class ProjectController {
 
     @Autowired

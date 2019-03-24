@@ -13,6 +13,8 @@ public class ProjectPartPermissions {
             throw new UnauthorizedException("Author is barred from contributing to this project");
         }
         switch (sourcingType) {
+            case ARCHIVED:
+                throw new UnauthorizedException("Nobody can contribute to Archived projects");
             case OPEN:
                 return true;
             case PRIVATE:

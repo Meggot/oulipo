@@ -2,9 +2,15 @@
 
 package com.user.controllers;
 
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 import com.common.models.dtos.AccountDto;
+import com.common.models.dtos.AccountRelationshipDto;
+import com.common.models.dtos.AccountRelationshipStatus;
+import com.common.models.dtos.AccountRelationshipType;
 import com.common.models.utils.ReadWriteUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +33,8 @@ public class AccountTest {
 
     public String ACCOUNTS_PATH = "/accounts/";
 
+    public String RELATIONSHIPS_PATH = "/relationship/";
+
     public String hostname = "http://localhost/";
 
     public static String selfLink = "$._links.self.href";
@@ -39,6 +47,8 @@ public class AccountTest {
 
     public static int numOfAccountsCreated = 0;
 
+    public static int numofRelationshipsCreated = 0;
+
     @Test
     public void init() {
 
@@ -48,10 +58,10 @@ public class AccountTest {
         numOfAccountsCreated++;
 
         return mockMvc.perform((post(ACCOUNTS_PATH)).contentType(MediaType.APPLICATION_JSON)
-                                                    .accept(MediaType.APPLICATION_JSON)
-                                                    .param("username", username)
-                                                    .param("email", email)
-                                                    .param("hashedPassword", defaultPassword));
+                .accept(MediaType.APPLICATION_JSON)
+                .param("username", username)
+                .param("email", email)
+                .param("hashedPassword", defaultPassword));
     }
 
     public AccountDto createDefaultAccount() throws Exception {
@@ -59,9 +69,25 @@ public class AccountTest {
         defaultUsername = defaultUsername + numOfAccountsCreated;
         defaultEmail = defaultEmail + numOfAccountsCreated;
         return ReadWriteUtils.asObjectFromString(AccountDto.class,
-                                                 createAccountWithUsernameAndEmail(defaultUsername, defaultEmail).andReturn()
-                                                                                                                 .getResponse()
-                                                                                                                 .getContentAsString());
+                createAccountWithUsernameAndEmail(defaultUsername, defaultEmail).andReturn()
+                        .getResponse()
+                        .getContentAsString());
+    }
+
+    public AccountRelationshipDto createRelationshipDto(AccountDto added, AccountDto addedTo) throws Exception {
+        numofRelationshipsCreated++;
+        return ReadWriteUtils.asObjectFromString(AccountRelationshipDto.class,
+                mockMvc.perform(post(ACCOUNTS_PATH + added.getIdField() + "/relationship")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON)
+                        .param("type", AccountRelationshipType.FRIEND.toString())
+                        .header("User", addedTo.getIdField()))
+                        .andDo(print())
+                        .andExpect(jsonPath("$.addedByUsername", is(addedTo.getUsername())))
+                        .andExpect(jsonPath("$.addedUsername", is(added.getUsername())))
+                        .andExpect(jsonPath("$.type", is(AccountRelationshipType.FRIEND.toString())))
+                        .andExpect(jsonPath("$.status", is(AccountRelationshipStatus.REQUESTED.toString())))
+                        .andReturn().getResponse().getContentAsString());
     }
 
 }

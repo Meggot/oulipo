@@ -3,18 +3,20 @@
 package com.user.controllers;
 
 import com.common.models.dtos.AccountDto;
-import com.common.models.exceptions.EntityValidationException;
+import com.common.models.dtos.AccountRelationshipDto;
+import com.common.models.requests.AccountRelationshipRequest;
 import com.common.models.requests.CreateAccount;
 import com.common.models.requests.UpdateAccount;
-import com.common.models.responses.EntityModificationResponse;
 import com.querydsl.core.types.Predicate;
+import com.user.controllers.assemblers.AccountRelationshipAssembler;
 import com.user.controllers.assemblers.AccountResourceAssembler;
 import com.user.dao.entites.Account;
+import com.user.dao.entites.AccountRelationship;
 import com.user.dao.repository.AccountRepository;
 import com.user.services.AccountManagementService;
+import com.user.services.AccountRelationshipManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
@@ -29,16 +31,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
-import javax.validation.ValidationException;
 
 @Slf4j
 @RestController
@@ -49,10 +48,16 @@ public class AccountController {
     AccountManagementService accountManagementService;
 
     @Autowired
+    AccountRelationshipManagementService accountRelationshipManagementService;
+
+    @Autowired
     AccountRepository accountRepository;
 
     @Autowired
     AccountResourceAssembler accountResourceAssembler;
+
+    @Autowired
+    AccountRelationshipAssembler accountRelationshipAssembler;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
@@ -91,5 +96,14 @@ public class AccountController {
         Page<AccountDto> accounts = accountRepository.findAll(predicate, pageable).map(account -> accountResourceAssembler.toResource(account));
         model.addAttribute("users", accounts);
         return new ResponseEntity<>(assembler.toResource(accounts), HttpStatus.OK);
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{accountId}/relationship", method = RequestMethod.POST)
+    public Resource<AccountRelationshipDto> postRelationshipRequest(@ModelAttribute @Valid AccountRelationshipRequest request,
+                                                                    @RequestHeader("User") Account accountReq,
+                                                                    @PathVariable("accountId") Account account) {
+        AccountRelationship relationship = accountRelationshipManagementService.postRelationshipRequest(request, accountReq, account);
+        return new Resource<>(accountRelationshipAssembler.toResource(relationship));
     }
 }

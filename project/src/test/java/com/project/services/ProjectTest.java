@@ -44,7 +44,7 @@ public class ProjectTest {
     @Autowired
     public AuthorRepository authorRepository;
 
-    public String PROJECTS_PATH = "/";
+    public String PROJECTS_PATH = "/projects/";
 
     public String PARTS_PATH = "/parts/";
 
@@ -53,6 +53,8 @@ public class ProjectTest {
     public String AUTHOR_PATH = "/authors/";
 
     public String COPY_PATH = "/copy/";
+
+    public String EDIT_PATH = "/edits/";
 
     public String ROLES_PATH = "/roles/";
     public String hostname = "http://localhost/";

@@ -5,8 +5,10 @@ package com.gateway;
 import com.common.models.dtos.AccountDto;
 import com.common.models.requests.CreateAccount;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.gateway.security.client.UserClient;
 import com.gateway.security.jwt.JWTFilter;
 import com.gateway.security.jwt.TokenProvider;
+import com.netflix.zuul.http.HttpServletRequestWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -45,6 +47,9 @@ public class UserAwtController {
 
     private final AuthenticationManager authenticationManager;
 
+    @Autowired
+    private UserClient userClient;
+
     public UserAwtController(TokenProvider tokenProvider, AuthenticationManager authenticationManager) {
         this.tokenProvider = tokenProvider;
         this.authenticationManager = authenticationManager;
@@ -52,7 +57,8 @@ public class UserAwtController {
 
     @ResponseBody
     @PostMapping("/api/authenticate")
-    public ResponseEntity<AuthenticationResponse> authorize(@Valid @ModelAttribute LoginVM loginVM) {
+    public ResponseEntity<AuthenticationResponse> authorize(HttpServletRequest request,
+                                                            @Valid @ModelAttribute LoginVM loginVM) {
         log.info("> [AUTHENTICATE] Authenticating login request: {}", loginVM);
         UsernamePasswordAuthenticationToken authenticationToken =
                 new UsernamePasswordAuthenticationToken(loginVM.getUsername(), loginVM.getPassword());
@@ -67,6 +73,7 @@ public class UserAwtController {
         String jwt = tokenProvider.createToken(authentication, rememberMe);
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(JWTFilter.AUTHORIZATION_HEADER, "Bearer " + jwt);
+        userClient.logAttempt(loginVM.getUsername(), request.getRemoteAddr());
         return new ResponseEntity<>(new AuthenticationResponse(jwt, "Authentication Successful."), httpHeaders, HttpStatus.OK);
     }
 

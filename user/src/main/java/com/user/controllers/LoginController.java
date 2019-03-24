@@ -11,8 +11,11 @@ import com.common.models.responses.AuthenticateResponse;
 import com.common.models.responses.LoginResponse;
 import com.user.controllers.assemblers.AccountResourceAssembler;
 import com.user.dao.entites.Account;
+import com.user.dao.entites.AccountLogin;
+import com.user.dao.repository.AccountLoginRepository;
 import com.user.dao.repository.AccountRepository;
 import com.user.services.AccountManagementService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -27,6 +30,7 @@ import java.util.Arrays;
 
 @RestController
 @RequestMapping(produces = "application/json")
+@Slf4j
 public class LoginController {
 
     @Autowired
@@ -36,7 +40,24 @@ public class LoginController {
     private AccountResourceAssembler accountResourceAssembler;
 
     @Autowired
-    AccountManagementService accountManagementService;
+    private AccountManagementService accountManagementService;
+
+    @Autowired
+    private AccountLoginRepository accountLoginRepository;
+
+    @ResponseBody
+    @PostMapping("/login/{username}/addLogin")
+    public boolean addLoginRequest(@PathVariable("username") String username,
+                                   @RequestBody String ipAddress) {
+        log.info("LOGIN REQUEST LOGGED: {} on {}", username, ipAddress);
+        Account account =
+                accountRepository.getAccountByUsername(username).orElseThrow(() -> new RuntimeException("Login attempt succeeded for an account that doesn't exist"));
+        AccountLogin accountLogin = new AccountLogin();
+        accountLogin.setIpAddress(ipAddress);
+        account.addAccountLogin(accountLogin);
+        accountLoginRepository.save(accountLogin);
+        return true;
+    }
 
     @ResponseBody
     @PostMapping("/login")
@@ -47,7 +68,11 @@ public class LoginController {
             loginUser.setUserId(account.getId());
             loginUser.setLogin(account.getUsername());
             loginUser.setPassword(account.getPassword().getHashValue());
-            loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_USER"), new Authority("ROLE_ADMIN")));
+            if (username.equals("ADMINA")) {
+                loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_ADMIN")));
+            } else {
+                loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_USER")));
+            }
             return loginUser;
         });
         return loginUser;

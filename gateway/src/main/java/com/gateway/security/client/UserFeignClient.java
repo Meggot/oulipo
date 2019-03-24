@@ -4,6 +4,7 @@ package com.gateway.security.client;
 
 import com.common.models.dtos.LoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
@@ -13,4 +14,6 @@ public interface UserFeignClient {
     @PostMapping("/login")
     LoginUser loginWithUserName(@RequestBody String username);
 
+    @PostMapping("/login/{username}/addLogin")
+    boolean addLoginAttempt(@PathVariable("username") String username, @RequestBody String ipAddress);
 }

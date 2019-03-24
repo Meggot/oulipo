@@ -4,6 +4,7 @@ package com.project.dao.entites;
 
 import lombok.Data;
 
+import java.util.List;
 import java.util.UUID;
 import javax.persistence.*;
 
@@ -23,4 +24,12 @@ public class Copy extends EntityObject{
 
     @Column(name = "value", length = 10000)
     private String value;
+
+    @OneToMany(mappedBy = "copy")
+    private List<CopyEdit> edits;
+
+    public void addCopyEdit(CopyEdit copyEdit) {
+        this.edits.add(copyEdit);
+        copyEdit.setCopy(this);
+    }
 }

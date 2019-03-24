@@ -38,7 +38,13 @@ public class Author extends EntityObject{
     @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
     private List<AuthorProjectRole> authorProjectRoles = new ArrayList<>();
 
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private List<CopyEdit> copyEdits = new ArrayList<>();
 
+    public void addCopyEdit(CopyEdit copyEdit) {
+        this.copyEdits.add(copyEdit);
+        copyEdit.setAuthor(this);
+    }
     public void addAuthorCreatedTag(ProjectTag tag) {
         this.createdTags.add(tag);
         tag.setOrigin(this);

@@ -1,5 +1,6 @@
 package com.common.models.requests;
 
+import com.common.models.dtos.EntityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,11 +12,14 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Valid
-public class CommentPostRequest {
+public class    CommentPostRequest {
 
     @NotNull
-    Integer entityId;
+    private Integer entityId;
 
     @NotNull
-    String value;
+    private String value;
+
+    @NotNull
+    private EntityType entityType;
 }

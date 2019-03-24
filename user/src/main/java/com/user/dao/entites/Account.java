@@ -5,16 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.PersistenceConstructor;
 
-import java.util.Date;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import java.util.*;
+import javax.persistence.*;
 
 @Entity(name = "Account")
 @Data
@@ -43,12 +35,43 @@ public class Account extends EntityObject {
     @Column(name = "status")
     private AccountStatus status = AccountStatus.ACTIVE;
 
+    @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
+    private List<AccountLogin> logins = new ArrayList<>();
+
+    @OneToMany(mappedBy = "addedBy")
+    private List<AccountRelationship> relationshipsAddedBy;
+
+    @OneToMany(mappedBy = "added")
+    private List<AccountRelationship> relationshipsAdded;
+
+    public List<AccountRelationship> getRelationships() {
+        ArrayList<AccountRelationship> accountRelationships = new ArrayList<>();
+        accountRelationships.addAll(relationshipsAdded);
+        accountRelationships.addAll(relationshipsAddedBy);
+        return accountRelationships;
+    }
+
     @PersistenceConstructor
     public Account(final String accountUsername, final String accountEmail, final Password accountPassword) {
         super();
         this.username = accountUsername;
         this.email = accountEmail;
         this.password = accountPassword;
+    }
+
+    public void addAccountLogin(AccountLogin accountLogin) {
+        logins.add(accountLogin);
+        accountLogin.setAccount(this);
+    }
+
+    public void addRelationshipAddedBy(AccountRelationship accountRelationship) {
+        this.relationshipsAddedBy.add(accountRelationship);
+        accountRelationship.setAddedBy(this);
+    }
+
+    public void addRelationshipAdded(AccountRelationship accountRelationship) {
+        this.relationshipsAdded.add(accountRelationship);
+        accountRelationship.setAdded(this);
     }
 
 }

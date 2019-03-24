@@ -4,6 +4,7 @@ package com.metadata.controllers;
 
 import com.common.models.dtos.MetricDto;
 import com.common.models.exceptions.EntityValidationException;
+import com.common.models.requests.CreateMetricRequest;
 import com.common.models.responses.EntityModificationResponse;
 import com.metadata.controllers.assemblers.MetricAssembler;
 import com.metadata.dao.entites.Metric;
@@ -21,13 +22,9 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/metrics")
@@ -63,12 +60,9 @@ public class MetricController {
 
     @ResponseBody
     @PostMapping
-    public Resource<MetricDto> postMetric(@RequestBody MetricDto metricDto) {
-        EntityModificationResponse<Metric> metricDtoEntityModificationResponse = metricManagementService.createMetric(metricDto);
-        if (metricDtoEntityModificationResponse.isError()) {
-            throw new EntityValidationException(metricDtoEntityModificationResponse.getApiSubErrors(),
-                                                "Metric failed to post due to validation issues.");
-        }
-        return new Resource<>(metricAssembler.toResource(metricDtoEntityModificationResponse.getEntity()));
+    public Resource<MetricDto> postMetric(@ModelAttribute @Valid CreateMetricRequest createMetricRequest,
+                                          @RequestHeader("User") String userId) {
+        Metric metric = metricManagementService.createMetric(createMetricRequest, userId);
+        return new Resource<>(metricAssembler.toResource(metric));
     }
 }

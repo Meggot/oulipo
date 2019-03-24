@@ -19,7 +19,7 @@ public class ProjectControllerTest extends ProjectTest {
         this.mockMvc.perform(get(PROJECTS_PATH))
                 .andDo(print())
                 .andExpect(jsonPath("$._embedded.projectDtoList", iterableWithSize(numofProjectsCreated)))
-                .andExpect(jsonPath("$._links.self.href", is(this.hostname + "?page=0&size=20")))
+                .andExpect(jsonPath("$._links.self.href", is(this.hostname + "projects?page=0&size=20")))
                 .andExpect(jsonPath("$.page.size", is(20)))
                 .andExpect(jsonPath("$.page.totalElements", is(numofProjectsCreated)))
                 .andExpect(jsonPath("$.page.totalPages", is(1)))
@@ -54,7 +54,7 @@ public class ProjectControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.roles[0]._links.self.href", is(this.hostname + "roles/" + projectDto.getRoles().get(0).getIdField())))
                 .andExpect(jsonPath("$.tags", is(projectDto.getTags())))
                 .andExpect(jsonPath("$.version", is(0)))
-                .andExpect(jsonPath(selfLink, is(this.hostname + projectDto.getProjectId())));
+                .andExpect(jsonPath(selfLink, is(this.hostname + "projects/" + projectDto.getProjectId())));
     }
 
     @Test
@@ -109,6 +109,6 @@ public class ProjectControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.roles[0]._links.self.href", is(this.hostname + "roles/" + updateableProject.getRoles().get(0).getIdField())))
                 .andExpect(jsonPath("$.tags", is(updateableProject.getTags())))
                 .andExpect(jsonPath("$.version", is(1)))
-                .andExpect(jsonPath(selfLink, is(this.hostname + updateableProject.getProjectId())));
+                .andExpect(jsonPath(selfLink, is(this.hostname + "projects/" + updateableProject.getProjectId())));
     }
 }

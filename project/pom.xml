@@ -23,6 +23,7 @@
         <cucumber.version>4.2.0</cucumber.version>
         <lombok.version>1.18.4</lombok.version>
         <service.name>${project.artifactId}</service.name>
+        <google-diff.version>895a9512bb</google-diff.version>
     </properties>
 
     <dependencies>
@@ -148,6 +149,11 @@
             <groupId>org.exparity</groupId>
             <artifactId>hamcrest-date</artifactId>
             <version>1.1.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.bitbucket.cowwoc</groupId>
+            <artifactId>diff-match-patch</artifactId>
+            <version>1.2</version>
         </dependency>
     </dependencies>
 

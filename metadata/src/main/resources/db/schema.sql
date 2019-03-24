@@ -4,8 +4,8 @@ CREATE TABLE Metric(
     entity_id INTEGER NOT NULL,
     entity_type varchar(255) NOT NULL,
     user_id INTEGER NOT NULL,
-    creation_date DATE NOT NULL,
-    modified_date DATE NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    modified_date VARCHAR(255) NOT NULL,
     deleted INTEGER DEFAULT 0,
     oca INTEGER DEFAULT 1
 )
@@ -13,10 +13,11 @@ CREATE TABLE Metric(
 CREATE TABLE Comment(
   pk_comment_id INTEGER PRIMARY KEY IDENTITY,
   entity_id INTEGER NOT NULL,
+  type VARCHAR(255) NOT NULL,
   user_id INTEGER NOT NULL,
   value varchar(255) NOT NULL,
-  creation_date DATE NOT NULL,
-  modified_date DATE NOT NULL,
+  creation_date VARCHAR(255) NOT NULL,
+  modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
 );

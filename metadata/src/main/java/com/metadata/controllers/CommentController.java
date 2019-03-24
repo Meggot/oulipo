@@ -1,9 +1,11 @@
 package com.metadata.controllers;
 
 import com.common.models.dtos.CommentDto;
+import com.common.models.dtos.EntityType;
 import com.common.models.requests.CommentPostRequest;
 import com.metadata.controllers.assemblers.CommentAssembler;
 import com.metadata.dao.entites.Comment;
+import com.metadata.dao.entites.QComment;
 import com.metadata.dao.repository.CommentRepository;
 import com.metadata.services.CommentService;
 import com.querydsl.core.types.Predicate;
@@ -50,6 +52,17 @@ public class CommentController {
         Page<CommentDto> dtos = commentRepository.findAll(predicate, pageable).map(entity -> assembler.toResource((Comment) entity));
         model.addAttribute(dtos);
         return pagedResourcesAssembler.toResource(dtos);
+    }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, path = "/{entityType}/{entityId}")
+    public PagedResources<CommentDto> findAllForEntityTypeAndEntityId(@PathVariable("entityType") EntityType entityType,
+                                                                      @PathVariable("entityId") Integer entityId,
+                                                                      Pageable pageable,
+                                                                      PagedResourcesAssembler pagedResourcesAssembler) {
+        Predicate onlyForTypeAndId = QComment.comment.entityType.eq(entityType).and(QComment.comment.entityId.eq(entityId));
+        Page<Comment> dtos = commentRepository.findAll(onlyForTypeAndId, pageable);
+        return pagedResourcesAssembler.toResource(dtos.map(assembler::toResource));
     }
 
     @ResponseBody

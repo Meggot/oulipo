@@ -12,7 +12,6 @@ import com.project.dao.repository.AuthorProjectRoleRepository;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.dao.repository.ProjectTagRepository;
-import com.sun.tools.javac.util.List;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -82,8 +81,8 @@ public class ProjectTagManagementServiceTest {
         authorProjectRole.setRole(AuthorProjectRoleType.CREATOR);
         project = new Project();
         project.setId(projectId);
-        project.setAuthorProjectRoles(List.of(authorProjectRole));
-        author.setAuthorProjectRoles(List.of(authorProjectRole));
+        project.setAuthorProjectRoles(Lists.newArrayList(authorProjectRole));
+        author.setAuthorProjectRoles(Lists.newArrayList(authorProjectRole));
         authorProjectRole.setProject(project);
 
         createTagRequest = new CreateTagRequest();

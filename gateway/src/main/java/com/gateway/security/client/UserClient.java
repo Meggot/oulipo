@@ -24,4 +24,8 @@ public class UserClient {
     public Optional<LoginUser> findOneWithAuthoritiesByLogin(String lowercaseLogin) {
         return this.findOneWithAuthoritiesByEmail(lowercaseLogin);
     }
+
+    public boolean logAttempt(String username, String inetAddress) {
+        return userFeignClient.addLoginAttempt(username, inetAddress);
+    }
 }

@@ -20,6 +20,7 @@ public class CommentService {
         comment.setEntityId(commentPostRequest.getEntityId());
         comment.setUserId(Integer.parseInt(userId));
         comment.setValue(commentPostRequest.getValue());
+        comment.setEntityType(commentPostRequest.getEntityType());
         return commentRepository.save(comment);
     }
 }

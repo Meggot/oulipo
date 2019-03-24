@@ -67,6 +67,18 @@ CREATE TABLE ProjectTag (
   modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE CopyEdit (
+  pk_copy_edit_id INTEGER PRIMARY KEY,
+  fk_copy_id INTEGER NOT NULL,
+  delta CLOB NOT NULL,
+  fk_author_id INTEGER NOT NULL,
+  status VARCHAR(255) NOT NULL,
+  creation_date VARCHAR(255) NOT NULL,
+  modified_date VARCHAR(255) NOT NULL,
+  deleted INTEGER DEFAULT 0,
+  oca INTEGER DEFAULT 1
 );
 
 -- INSERT INTO Author(pk_author_id, fk_user_id, username, creation_date, modified_date, deleted, oca)

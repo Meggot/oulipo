@@ -22,6 +22,7 @@ public class CommentAssembler extends ResourceAssemblerSupport<Comment, CommentD
         dto.setIdField(comment.getId());
         dto.setUserId(comment.getUserId());
         dto.setValue(comment.getValue());
+        dto.setEntityType(comment.getEntityType());
         return dto;
     }
 }
