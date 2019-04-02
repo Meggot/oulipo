@@ -66,7 +66,6 @@ public class CopyControllerTest extends ProjectTest {
                         .andExpect(jsonPath("$.authorName", is(defaultAuthorName)))
                         .andExpect(jsonPath("$.projectTitle", is(projectDto.getTitle())))
                         .andExpect(jsonPath("$.status", is(CopyEditStatus.SUBMITTED.toString())))
-                        .andExpect(jsonPath(selfLink, is(hostname + "copy/" + projectDto.getCopy().getIdField())))
                         .andReturn().getResponse().getContentAsString();
         CopyEditDto copyEditDto = ReadWriteUtils.asObjectFromString(CopyEditDto.class, copyEditValue);
         this.mockMvc.perform(get(COPY_PATH + projectDto.getCopy().getIdField())
@@ -79,8 +78,7 @@ public class CopyControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.edits[0].delta", is(patchtoApply)))
                 .andExpect(jsonPath("$.edits[0].authorName", is(defaultAuthorName)))
                 .andExpect(jsonPath("$.edits[0].projectTitle", is(defaultTitle)))
-                .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.SUBMITTED.toString())))
-                .andExpect(jsonPath(selfLink, is(hostname + "copy/" + projectDto.getCopy().getIdField())));
+                .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.SUBMITTED.toString())));
         this.mockMvc.perform(patch(EDIT_PATH + copyEditDto.getIdField() + "/action")
                 .header("User", defaultUserId)
                 .param("action", EditActionType.APPROVE.toString()))
@@ -96,7 +94,6 @@ public class CopyControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.edits[0].delta", is(patchtoApply)))
                 .andExpect(jsonPath("$.edits[0].authorName", is(defaultAuthorName)))
                 .andExpect(jsonPath("$.edits[0].projectTitle", is(defaultTitle)))
-                .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.APPLIED.toString())))
-                .andExpect(jsonPath(selfLink, is(hostname + "copy/" + projectDto.getCopy().getIdField())));
+                .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.APPLIED.toString())));
     }
 }

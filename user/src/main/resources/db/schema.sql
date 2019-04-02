@@ -41,6 +41,18 @@ CREATE TABLE AccountRelationship (
   modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE AccountTag (
+  pk_tag_id INTEGER PRIMARY KEY IDENTITY,
+  fk_account_id INTEGER NOT NULL,
+  tag_type VARCHAR(255) NOT NULL,
+  tag_category VARCHAR(255) NOT NULL,
+  tag_value VARCHAR(255) NOT NULL,
+  creation_date VARCHAR(255) NOT NULL,
+  modified_date VARCHAR(255) NOT NULL,
+  deleted INTEGER DEFAULT 0,
+  oca INTEGER DEFAULT 1
 );
 
 -- INSERT INTO Passwords(pk_pwd_id, hash_value) VALUES (1, 'TestPassword')

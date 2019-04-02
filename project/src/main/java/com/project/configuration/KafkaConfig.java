@@ -2,10 +2,7 @@
 
 package com.project.configuration;
 
-import com.common.models.messages.AccountCreationMessage;
-import com.common.models.messages.AccountUpdateMessage;
-import com.common.models.messages.ProjectCreationMessage;
-import com.common.models.messages.ProjectUpdateMessage;
+import com.common.models.messages.*;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -43,58 +40,19 @@ public class KafkaConfig {
         return new KafkaAdmin(configs);
     }
 
-    @Value("${jms.topic.user-lifecycle.creation}")
-    private String userLifecycleCreationTopic;
-
-    @Value("${jms.topic.user-lifecycle.update}")
-    private String userLifecycleUpdateTopic;
-
-    @Value("${jms.topic.project-lifecycle.creation")
-    private String projectLifecycleCreationTopic;
-
-    @Value("${jms.topic.project-lifecycle.update")
-    private String projectLifecycleUpdateTopic;
-
-    @Bean
-    public NewTopic projectLifecycleCreationTopic() {
-        return new NewTopic(projectLifecycleCreationTopic, 1, (short) 1);
-    }
-
-    @Bean
-    public NewTopic projectLifecycleUpdateTopic() {
-        return new NewTopic(projectLifecycleUpdateTopic, 1, (short) 1);
-    }
-
-    @Bean
-    public NewTopic userLifecycleCreationTopic() {
-        return new NewTopic(userLifecycleCreationTopic, 1, (short) 1);
-    }
-
-    public ProducerFactory<String, ProjectCreationMessage> projectCreationProducerFactory() {
+    private Map<String, Object> getDefaultProducerProperties() {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
         props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(props);
+        return props;
     }
 
-    public ProducerFactory<String, ProjectUpdateMessage> projectUpdateProducerFactory() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(props);
-    }
-
-    @Bean
-    public NewTopic userLifecycleUpdateTopic() {
-        return new NewTopic(userLifecycleUpdateTopic, 1, (short) 1);
-    }
 
     public ConsumerFactory<String, AccountCreationMessage> accountCreationConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "audit");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "project");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(AccountCreationMessage.class));
@@ -103,11 +61,13 @@ public class KafkaConfig {
     public ConsumerFactory<String, AccountUpdateMessage> accountUpdateConsumerFactory() {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "audit");
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "project");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props, new StringDeserializer(), new JsonDeserializer<>(AccountUpdateMessage.class));
     }
+
+
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, AccountCreationMessage> accountCreationMessageConcurrentKafkaListenerContainerFactory() {
@@ -125,12 +85,53 @@ public class KafkaConfig {
 
     @Bean
     public KafkaTemplate<String, ProjectUpdateMessage> projectUpdateTemplate() {
-        return new KafkaTemplate<>(projectUpdateProducerFactory());
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
     }
 
     @Bean
     public KafkaTemplate<String, ProjectCreationMessage> projectCreationTemplate() {
-        return new KafkaTemplate<>(projectCreationProducerFactory());
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectPartUpdateMessage> projectPartUpdateTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectPartCreationMessage> projectPartCreationTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+
+    @Bean
+    public KafkaTemplate<String, CopyEditUpdateMesage> copyEditUpdateTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, CopyEditCreationMessage> copyEditCreationTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectTagUpdateMessage> projectTagUpdateTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectTagCreationMessage> projectTagCreationTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectRoleUpdateMessage> projectRoleUpdateTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
+    }
+
+    @Bean
+    public KafkaTemplate<String, ProjectRoleCreationMessage> projectRoleCreationTemplate() {
+        return new KafkaTemplate<>(new DefaultKafkaProducerFactory<>(getDefaultProducerProperties()));
     }
 
 }

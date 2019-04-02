@@ -3,11 +3,7 @@
 package com.audit.factories;
 
 import com.audit.dao.entites.Audit;
-import com.common.models.messages.AccountCreationMessage;
-import com.common.models.messages.AccountUpdateMessage;
-import com.common.models.messages.MessageType;
-import com.common.models.messages.ProjectCreationMessage;
-import com.common.models.messages.ProjectUpdateMessage;
+import com.common.models.messages.*;
 import lombok.experimental.UtilityClass;
 
 @UtilityClass
@@ -58,11 +54,50 @@ public class AuditFactory {
         audit.setOriginUserId(Integer.parseInt(message.getUserId()));
         audit.setEventType(MessageType.PROJECT_UPDATE);
         StringBuilder auditValueBuilder = new StringBuilder();
-        auditValueBuilder.append("Title oval: ").append(message.getOldTitle());
-        auditValueBuilder.append("Title nval: ").append(message.getNewTitle());
-        auditValueBuilder.append("Synopsis oval: ").append(message.getOldSynopsis());
-        auditValueBuilder.append("Synopsis nval: ").append(message.getNewSynopsis());
+        auditValueBuilder.append("Title[ oval: ").append(message.getOldTitle());
+        auditValueBuilder.append("  nval: ").append(message.getNewTitle());
+        auditValueBuilder.append("] Synopsis[ oval: ").append(message.getOldSynopsis());
+        auditValueBuilder.append("  nval: ").append(message.getNewSynopsis());
+        auditValueBuilder.append("]");
         audit.setValue(auditValueBuilder.toString());
+        return audit;
+    }
+
+    public static Audit toAudit(ProjectTagCreationMessage message) {
+        Audit audit = new Audit();
+        audit.setEntityId(message.getTagId());
+        audit.setOriginUserId(message.getUserIdAdded());
+        audit.setEventType(MessageType.PROJECT_TAG_CREATION);
+        StringBuilder auditValueBuilder = new StringBuilder();
+        auditValueBuilder.append(message.getProjectTitle() + "- Type: " + message.getType() + ":" + message.getValue());
+        audit.setValue(auditValueBuilder.toString());
+        return audit;
+    }
+
+    public static Audit toAudit(ProjectTagUpdateMessage message) {
+        Audit audit = new Audit();
+        audit.setEntityId(message.getTagId());
+        audit.setOriginUserId(message.getUserIdAdded());
+        audit.setEventType(MessageType.PROJECT_TAG_UPDATE);
+        audit.setValue(message.getProjectTitle() + "- Type: " + message.getType() + ": " + message.getValue());
+        return audit;
+    }
+
+    public static Audit toAudit(ProjectPartUpdateMessage message) {
+        Audit audit = new Audit();
+        audit.setEventType(MessageType.PROJECT_PART_UPDATE);
+        audit.setOriginUserId(Integer.parseInt(message.getPartUserId()));
+        audit.setEntityId(message.getPartId());
+        audit.setValue(message.getPartAuthorName() + " updated a part on project " + message.getProjectId() + " of value " + message.getPartValue());
+        return audit;
+    }
+
+    public static Audit toAudit(ProjectPartCreationMessage message) {
+        Audit audit = new Audit();
+        audit.setEntityId(message.getPartId());
+        audit.setOriginUserId(Integer.parseInt(message.getPartUserId()));
+        audit.setEventType(MessageType.PROJECT_PART_CREATION);
+        audit.setValue(message.getPartAuthorName() + " creatd a part on project " + message.getProjectId());
         return audit;
     }
 }

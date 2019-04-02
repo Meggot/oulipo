@@ -12,6 +12,7 @@ import com.project.dao.repository.AuthorProjectRoleRepository;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.dao.repository.ProjectTagRepository;
+import com.project.streaming.InMemoryLifecycleStreamer;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;
@@ -93,11 +94,13 @@ public class ProjectTagManagementServiceTest {
         deleteProjectTag.setProject(project);
         deleteProjectTag.setOrigin(author);
 
+        ProjectTag createdTag = new ProjectTag();
+        createdTag.setId(3);
         when(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(requestingUserId))).thenReturn(Optional.of(author));
         when(projectRepository.findById(projectId)).thenReturn(Optional.of(project));
         when(authorProjectRoleRepository.findById(authorProjectRoleId)).thenReturn(Optional.of(authorProjectRole));
-
-        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectRepository, projectTagRepository);
+        when(projectTagRepository.save(any())).thenReturn(createdTag);
+        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectRepository, projectTagRepository, new InMemoryLifecycleStreamer());
     }
 
     @Test

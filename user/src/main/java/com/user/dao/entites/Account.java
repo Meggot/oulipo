@@ -44,6 +44,9 @@ public class Account extends EntityObject {
     @OneToMany(mappedBy = "added")
     private List<AccountRelationship> relationshipsAdded;
 
+    @OneToMany(mappedBy = "account")
+    private List<AccountTag> tags;
+
     public List<AccountRelationship> getRelationships() {
         ArrayList<AccountRelationship> accountRelationships = new ArrayList<>();
         accountRelationships.addAll(relationshipsAdded);
@@ -57,6 +60,11 @@ public class Account extends EntityObject {
         this.username = accountUsername;
         this.email = accountEmail;
         this.password = accountPassword;
+    }
+
+    public void addTag(AccountTag accountTag) {
+        tags.add(accountTag);
+        accountTag.setAccount(this);
     }
 
     public void addAccountLogin(AccountLogin accountLogin) {

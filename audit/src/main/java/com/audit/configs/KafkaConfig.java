@@ -2,10 +2,7 @@
 
 package com.audit.configs;
 
-import com.common.models.messages.AccountCreationMessage;
-import com.common.models.messages.AccountUpdateMessage;
-import com.common.models.messages.ProjectCreationMessage;
-import com.common.models.messages.ProjectUpdateMessage;
+import com.common.models.messages.*;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
@@ -37,36 +34,13 @@ public class KafkaConfig {
         return new KafkaAdmin(configs);
     }
 
-    @Value("${jms.topic.user-lifecycle.creation}")
-    private String userLifecycleCreationTopic;
-
-    @Value("${jms.topic.user-lifecycle.update}")
-    private String userLifecycleUpdateTopic;
-
-    @Value("${jms.topic.project-lifecycle.creation")
-    private String projectLifecycleCreationTopic;
-
-    @Value("${jms.topic.project-lifecycle.update")
-    private String projectLifecycleUpdateTopic;
-
-    @Bean
-    public NewTopic userLifecycleCreationTopic() {
-        return new NewTopic(userLifecycleCreationTopic, 2, (short) 1);
-    }
-
-    @Bean
-    public NewTopic userLifecycleUpdateTopic() {
-        return new NewTopic(userLifecycleUpdateTopic, 2, (short) 1);
-    }
-
-    @Bean
-    public NewTopic projectLifecycleCreationTopic() {
-        return new NewTopic(projectLifecycleCreationTopic, 2, (short) 1);
-    }
-
-    @Bean
-    public NewTopic projectLifecycleUpdateTopic() {
-        return new NewTopic(projectLifecycleUpdateTopic, 2, (short) 1);
+    public Map<String, Object> getDefaultListenerProps() {
+        Map<String, Object> props = new HashMap<>();
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        props.put(ConsumerConfig.GROUP_ID_CONFIG, "audit");
+        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
+        return props;
     }
 
     public ConsumerFactory<String, AccountUpdateMessage> accountUpdateConsumerFactory() {
@@ -76,8 +50,8 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props,
-                                                 new StringDeserializer(),
-                                                 new JsonDeserializer<>(AccountUpdateMessage.class));
+                new StringDeserializer(),
+                new JsonDeserializer<>(AccountUpdateMessage.class));
     }
 
     public ConsumerFactory<String, AccountCreationMessage> accountCreationConsumerFactory() {
@@ -87,8 +61,8 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props,
-                                                 new StringDeserializer(),
-                                                 new JsonDeserializer<>(AccountCreationMessage.class));
+                new StringDeserializer(),
+                new JsonDeserializer<>(AccountCreationMessage.class));
     }
 
     public ConsumerFactory<String, ProjectCreationMessage> projectCreationConsumerFactory() {
@@ -98,8 +72,8 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props,
-                                                 new StringDeserializer(),
-                                                 new JsonDeserializer<>(ProjectCreationMessage.class));
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectCreationMessage.class));
     }
 
     public ConsumerFactory<String, ProjectUpdateMessage> projectUpdateConsumerFactory() {
@@ -109,20 +83,61 @@ public class KafkaConfig {
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props,
-                                                 new StringDeserializer(),
-                                                 new JsonDeserializer<>(ProjectUpdateMessage.class));
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectUpdateMessage.class));
     }
 
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, AccountCreationMessage> accountCreationMessageConcurrentKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, AccountCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(accountCreationConsumerFactory());
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(AccountCreationMessage.class)));
         return factory;
     }
+
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, AccountUpdateMessage> accountUpdateMessageConcurrentKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, AccountUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(accountUpdateConsumerFactory());
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(AccountUpdateMessage.class)));
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProjectTagCreationMessage> projectTagCreationMessageConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ProjectTagCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectTagCreationMessage.class)));
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProjectTagUpdateMessage> projectTagUpdateMessageConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ProjectTagUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectTagUpdateMessage.class)));
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProjectPartCreationMessage> projectPartCreationMessageConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ProjectPartCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectPartCreationMessage.class)));
+        return factory;
+    }
+
+    @Bean
+    public ConcurrentKafkaListenerContainerFactory<String, ProjectPartUpdateMessage> projectPartUpdateMessageConcurrentKafkaListenerContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, ProjectPartUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectPartUpdateMessage.class)));
         return factory;
     }
 
@@ -130,13 +145,18 @@ public class KafkaConfig {
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ProjectCreationMessage> projectCreationMessageConcurrentKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ProjectCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(projectCreationConsumerFactory());
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectCreationMessage.class)));
         return factory;
     }
+
     @Bean
     public ConcurrentKafkaListenerContainerFactory<String, ProjectUpdateMessage> projectUpdateMessageConcurrentKafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, ProjectUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(projectUpdateConsumerFactory());
+        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
+                new StringDeserializer(),
+                new JsonDeserializer<>(ProjectUpdateMessage.class)));
         return factory;
     }
 }

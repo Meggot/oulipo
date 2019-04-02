@@ -3,6 +3,8 @@ package com.project.services;
 import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.TagType;
 import com.common.models.exceptions.UnauthorizedException;
+import com.common.models.messages.ProjectTagCreationMessage;
+import com.common.models.messages.ProjectTagUpdateMessage;
 import com.common.models.requests.CreateTagRequest;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
@@ -11,6 +13,7 @@ import com.project.dao.entites.ProjectTag;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.dao.repository.ProjectTagRepository;
+import com.project.streaming.ProjectLifecycleStreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -25,13 +28,17 @@ public class ProjectTagManagementService {
 
     private ProjectTagRepository projectTagRepository;
 
+    private ProjectLifecycleStreamer projectLifecycleStreamer;
+
     @Autowired
     ProjectTagManagementService(AuthorRepository authorRepository,
                                 ProjectRepository projectRepository,
-                                ProjectTagRepository projectTagRepository) {
+                                ProjectTagRepository projectTagRepository,
+                                ProjectLifecycleStreamer projectLifecycleStreamer) {
         this.authorRepository = authorRepository;
         this.projectRepository = projectRepository;
         this.projectTagRepository = projectTagRepository;
+        this.projectLifecycleStreamer = projectLifecycleStreamer;
     }
 
     public ProjectTag handleCreateTagRequest(CreateTagRequest createTagRequest, String userId) {
@@ -55,6 +62,15 @@ public class ProjectTagManagementService {
         project.addTag(newTag);
         author.addAuthorCreatedTag(newTag);
         newTag = projectTagRepository.save(newTag);
+
+        ProjectTagCreationMessage projectTagCreationMessage = new ProjectTagCreationMessage();
+        projectTagCreationMessage.setProjectTitle(project.getTitle());
+        projectTagCreationMessage.setTagId(newTag.getId());
+        projectTagCreationMessage.setType(newTag.getType());
+        projectTagCreationMessage.setUserIdAdded(author.getUserId());
+        projectTagCreationMessage.setValue(newTag.getValue());
+        projectLifecycleStreamer.sendProjectTagCreationMessage(projectTagCreationMessage);
+
         return newTag;
     }
 
@@ -70,6 +86,15 @@ public class ProjectTagManagementService {
         if (authorRole.getRole() != AuthorProjectRoleType.CREATOR && authorRole.getRole() != AuthorProjectRoleType.MODERATOR) {
             throw new UnauthorizedException("Author " + author.getAuthorId() + " does not have permission to post a tag");
         }
+
+        ProjectTagUpdateMessage projectTagUpdateMessage = new ProjectTagUpdateMessage();
+        projectTagUpdateMessage.setValue("DELETED");
+        projectTagUpdateMessage.setProjectTitle(projectTag.getProject().getTitle());
+        projectTagUpdateMessage.setTagId(projectTag.getId());
+        projectTagUpdateMessage.setType(projectTag.getType());
+        projectTagUpdateMessage.setUserIdAdded(author.getUserId());
+        projectLifecycleStreamer.sendProjectTagUpdateMessage(projectTagUpdateMessage);
+
         projectTagRepository.delete(projectTag);
         return true;
     }

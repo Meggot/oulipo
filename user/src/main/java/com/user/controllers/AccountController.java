@@ -4,17 +4,22 @@ package com.user.controllers;
 
 import com.common.models.dtos.AccountDto;
 import com.common.models.dtos.AccountRelationshipDto;
+import com.common.models.dtos.AccountTagDto;
 import com.common.models.requests.AccountRelationshipRequest;
+import com.common.models.requests.AccountTagRequest;
 import com.common.models.requests.CreateAccount;
 import com.common.models.requests.UpdateAccount;
 import com.querydsl.core.types.Predicate;
 import com.user.controllers.assemblers.AccountRelationshipAssembler;
 import com.user.controllers.assemblers.AccountResourceAssembler;
+import com.user.controllers.assemblers.AccountTagAssembler;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.AccountRelationship;
+import com.user.dao.entites.AccountTag;
 import com.user.dao.repository.AccountRepository;
 import com.user.services.AccountManagementService;
 import com.user.services.AccountRelationshipManagementService;
+import com.user.services.AccountTagManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -58,6 +63,12 @@ public class AccountController {
 
     @Autowired
     AccountRelationshipAssembler accountRelationshipAssembler;
+
+    @Autowired
+    AccountTagManagementService accountTagManagementService;
+
+    @Autowired
+    AccountTagAssembler accountTagAssembler;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
@@ -105,5 +116,14 @@ public class AccountController {
                                                                     @PathVariable("accountId") Account account) {
         AccountRelationship relationship = accountRelationshipManagementService.postRelationshipRequest(request, accountReq, account);
         return new Resource<>(accountRelationshipAssembler.toResource(relationship));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{accountId}/tags", method = RequestMethod.POST)
+    public Resource<AccountTagDto> postAccountTag(@ModelAttribute @Valid AccountTagRequest request,
+                                                  @PathVariable("accountId") Account accountToAdd,
+                                                  @RequestHeader("User") Account account) {
+        AccountTag accountTag = accountTagManagementService.handleAccountTagRequest(request, accountToAdd);
+        return new Resource<>(accountTagAssembler.toResource(accountTag));
     }
 }

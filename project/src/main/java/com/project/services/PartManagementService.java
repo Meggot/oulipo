@@ -4,6 +4,8 @@ import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.PartStatus;
 import com.common.models.exceptions.PartNotEditableException;
 import com.common.models.exceptions.UnauthorizedException;
+import com.common.models.messages.ProjectPartCreationMessage;
+import com.common.models.messages.ProjectPartUpdateMessage;
 import com.common.models.requests.PostPartValueRequest;
 import com.github.tomakehurst.wiremock.security.NotAuthorisedException;
 import com.project.dao.entites.Author;
@@ -14,6 +16,7 @@ import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.PartRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.services.permissions.ProjectPartPermissions;
+import com.project.streaming.ProjectLifecycleStreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -38,6 +41,9 @@ public class PartManagementService {
 
     @Autowired
     CopyManagementService copyManagementService;
+
+    @Autowired
+    ProjectLifecycleStreamer projectLifecycleStreamer;
 
     public ProjectPart requestPartOnProject(Project project, String userId) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
@@ -67,7 +73,12 @@ public class PartManagementService {
         newPart.setValue("");
         author.addCreatedPart(newPart);
         project.addPart(newPart);
+
         newPart = partRepository.save(newPart);
+        ProjectPartCreationMessage projectPartCreationMessage = new ProjectPartCreationMessage();
+        projectPartCreationMessage.setPartAuthorName(author.getUsername());
+        projectPartCreationMessage.setPartId(newPart.getId());
+        projectPartCreationMessage.setProjectId(newPart.getProject().getId());
         projectRepository.save(project);
         return newPart;
     }
@@ -88,6 +99,16 @@ public class PartManagementService {
             copyManagementService.addValueToCopy(part.getProject().getCopy(), partValue.getValue());
         }
         part = partRepository.save(part);
+
+        ProjectPartUpdateMessage projectPartUpdateMessage = new ProjectPartUpdateMessage();
+        projectPartUpdateMessage.setPartAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
+        projectPartUpdateMessage.setPartId(part.getId());
+        projectPartUpdateMessage.setPartStatus(part.getStatus().toString());
+        projectPartUpdateMessage.setProjectId(part.getProject().getId());
+        projectPartUpdateMessage.setPartValue(part.getValue());
+        projectPartUpdateMessage.setPartUserId(userId);
+        projectLifecycleStreamer.sendProjectPartUpdateMessage(projectPartUpdateMessage);
+
         return part;
     }
 }
