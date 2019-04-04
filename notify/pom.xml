@@ -115,7 +115,7 @@
                 <artifactId>dockerfile-maven-plugin</artifactId>
                 <version>1.4.9</version>
                 <configuration>
-                    <repository>meggot/${project.groupId}/${project.artifactId}</repository>
+                    <repository>meggot/${project.groupId}</repository>
                 </configuration>
                 <executions>
                     <execution>

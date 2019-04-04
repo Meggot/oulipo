@@ -8,20 +8,20 @@ zuul:
   routes:
     register:
       path: /api/register
-      url: http://user:13001/
+      url: http://localhost:13001/
     user:
       path: /api/users/**
-      url: http://user:13001/
+      url: http://localhost:13001/
     project:
       path: /api/projects/**
-      url: http://project:13002/
+      url: http://localhost:13002/
       #serviceId: PROJECT-SERVICE
     metadata:
       path: /api/metadata/**
-      url: http://metadata:13003/
+      url: http://localhost:13003/
     audit:
       path: /api/audit/**
-      url: http://audit:13004/
+      url: http://localhost:13004/
   host:
     socket-timeout-millis: 241000
     connect-timeout-millis: 241000

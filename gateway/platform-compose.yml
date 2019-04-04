@@ -1,27 +1,27 @@
 version: '2'
 services:
   gateway:
-    image: meggot/oulipo/gateway
+    image: meggot/oulipo:gateway
     ports:
       - "13000:13000"
   user:
-    image: meggot/oulipo/user
+    image: meggot/oulipo:user
     ports:
       - "13001:13001"
   project:
-    image: meggot/oulipo/project
+    image: meggot/oulipo:project
     ports:
       - "13002:13002"
   metadata:
-    image: meggot/oulipo/metadata
+    image: meggot/oulipo:metadata
     ports:
       - "13003:13003"
   audit:
-    image: meggot/oulipo/audit
+    image: meggot/oulipo:audit
     ports:
       - "13004:13004"
   notify:
-    image: meggot/oulipo/notify
+    image: meggot/oulipo:notify
     ports:
       - "13005:13005"
   zookeeper:
