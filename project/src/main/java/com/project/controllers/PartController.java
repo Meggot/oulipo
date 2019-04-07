@@ -15,7 +15,7 @@ import javax.validation.Valid;
 
 
 @RestController
-@RequestMapping("/parts")
+@RequestMapping(value = "/parts", produces = "application/json")
 public class PartController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class PartController {
     @RequestMapping(path = "/{partId}", method = RequestMethod.PATCH)
     public Resource<ProjectPartDto> addValueToPart(@PathVariable("partId") ProjectPart part,
                                                    @RequestHeader("User") String userId,
-                                                   @Valid @ModelAttribute("PostPartValueRequest") PostPartValueRequest partValue) {
+                                                   @ModelAttribute("PostPartValueRequest") PostPartValueRequest partValue) {
         ProjectPart projectPart = partManagementService.postValueOnPart(part, userId, partValue);
         return new Resource<>(partAssembler.toResource(projectPart));
     }

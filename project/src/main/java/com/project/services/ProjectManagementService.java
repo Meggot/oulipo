@@ -37,11 +37,14 @@ public class ProjectManagementService {
     AuthorProjectRoleRepository authorProjectRoleRepository;
 
     @Autowired
+    AuthorManagementService authorManagementService;
+
+    @Autowired
     ProjectLifecycleStreamer lifecycleStreamer;
 
     public Project createProject(String userId, CreateProject createProject) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
-                .orElseThrow(() -> new NoSuchElementException("Author doesn't exist with ID " + userId));
+                .orElseGet(() -> authorManagementService.createAuthor(Integer.parseInt(userId),"Author" + userId));
 
         //Project Entity
         Project project = new Project();

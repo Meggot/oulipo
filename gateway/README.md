@@ -20,4 +20,5 @@ so no worries
  1. build all projects individually using `mvn install dockerfile:build`
  2. make sure no docker containers are running using : `docker ps`
  3. make sure all containers are removed using:  `docker rm $(docker ps -a -q)`
+ 4. remove all images. docker rmi $(docker images -q)
  4. run using `docker-compose up -d`

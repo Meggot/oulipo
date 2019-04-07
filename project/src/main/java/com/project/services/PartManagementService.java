@@ -45,9 +45,12 @@ public class PartManagementService {
     @Autowired
     ProjectLifecycleStreamer projectLifecycleStreamer;
 
+    @Autowired
+    AuthorManagementService authorManagementService;
+
     public ProjectPart requestPartOnProject(Project project, String userId) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
-                .orElseThrow(() -> new NoSuchElementException("Author with UserId " + userId + " was not found "));
+                .orElseGet(() -> authorManagementService.createAuthor(Integer.parseInt(userId),"Author" + userId));
         Optional<ProjectPart> partOwnedByUserId = project.getPartList().stream().filter(part -> part.getStatus().equals(PartStatus.RESERVED) && part.getCurrentlyHoldingAuthor().getUserId().equals(Integer.parseInt(userId))).findAny();
         if (partOwnedByUserId.isPresent()) {
             return partOwnedByUserId.get();

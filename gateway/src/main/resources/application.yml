@@ -25,8 +25,12 @@ zuul:
   host:
     socket-timeout-millis: 241000
     connect-timeout-millis: 241000
-  zuul:
-    sensitiveHeaders: Cookie,Set-Cookie
+  sensitiveHeaders: Cookie,Set-Cookie
+  use-filter: false
+
+ribbon:
+  restclient:
+    enabled: false
 
 eureka:
   client:

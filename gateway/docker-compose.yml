@@ -5,25 +5,35 @@ services:
     ports:
       - "13000:13000"
   user:
-    image: meggot/oulipo:user
+    image: meggot/ouldoipo:user
     ports:
       - "13001:13001"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
   project:
     image: meggot/oulipo:project
     ports:
       - "13002:13002"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
   metadata:
     image: meggot/oulipo:metadata
     ports:
       - "13003:13003"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
   audit:
     image: meggot/oulipo:audit
     ports:
       - "13004:13004"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
   notify:
     image: meggot/oulipo:notify
     ports:
       - "13005:13005"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=docker"
   zookeeper:
     image: wurstmeister/zookeeper
     ports:

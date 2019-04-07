@@ -1,13 +1,9 @@
-FROM maven:alpine
-WORKDIR /usr/src/app
-COPY pom.xml .
-
-COPY src/lib/common-1.0-SNAPSHOT.jar src/lib/common-1.0-SNAPSHOT.jar
-RUN mvn install
-COPY . .
-#FROM openjdk:8-jdk-alpine
+FROM openjdk:8-jdk-alpine
 VOLUME /tmp
-ADD target/gateway-1.0-SNAPSHOT.jar /app/gateway-1.0-SNAPSHOT.jar
+ARG DEPENDENCY=target/dependency
+COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY ${DEPENDENCY}/META-INF /app/META-INF
+COPY ${DEPENDENCY}/BOOT-INF/classes /app
+ENV SPRING_PROFILES_ACTIVE=docker
 EXPOSE 13000
-MAINTAINER bradleywilliamsgb@gmail.com
-ENTRYPOINT ["java", "-XshowSettings:vm", "-jar", "/app/gateway-1.0-SNAPSHOT.jar",  "--spring.profiles.active=docker"  ]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com/gateway/GatewayApplication"]

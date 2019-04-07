@@ -2,7 +2,7 @@
 
 package com.gateway.security.client;
 
-import com.common.models.dtos.LoginUser;
+import com.gateway.models.LoginUser;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;

@@ -16,7 +16,7 @@ public class AuthorManagementService {
     @Autowired
     AuthorRepository authorRepository;
 
-    public void createAuthor(Integer userId, String username) {
+    public Author createAuthor(Integer userId, String username) {
         if (authorRepository.existsByUserIdEquals(userId)) {
             log.error("Failed to create an Author with userId {} as it already exists.", userId);
             throw new InternalServerException("Author already exists for user_id " + userId);
@@ -26,6 +26,7 @@ public class AuthorManagementService {
         newAuthor.setUsername(username);
         newAuthor = authorRepository.save(newAuthor);
         log.info(">[CREATE] createAuthor({}, {}) Created author successfully, author id {}", userId, username, newAuthor.getAuthorId());
+        return newAuthor;
     }
 
     public void updateAuthor(Integer userId, String newUsername) {

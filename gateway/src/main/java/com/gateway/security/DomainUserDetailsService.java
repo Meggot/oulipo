@@ -1,6 +1,6 @@
 package com.gateway.security;
 
-import com.common.models.dtos.LoginUser;
+import com.gateway.models.LoginUser;
 import com.gateway.security.client.UserClient;
 import com.netflix.zuul.context.RequestContext;
 import org.hibernate.validator.internal.constraintvalidators.hv.EmailValidator;

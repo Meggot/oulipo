@@ -2,19 +2,14 @@
 
 package com.gateway;
 
-import com.common.models.dtos.AccountDto;
-import com.common.models.requests.CreateAccount;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.gateway.security.client.UserClient;
 import com.gateway.security.jwt.JWTFilter;
 import com.gateway.security.jwt.TokenProvider;
-import com.netflix.zuul.http.HttpServletRequestWrapper;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
