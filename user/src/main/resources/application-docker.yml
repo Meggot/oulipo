@@ -1,3 +1,12 @@
 spring:
   kafka:
-    bootstrap-servers: kafka:9092
+    bootstrap-servers: kafka.local:9092
+#  datasource:
+#    driverclassname:
+#      org.postgresql.Driver
+#    url:
+#      jdbc:postgresql://localhost:5432/postgres
+#    username:
+#      postgres
+#    password:
+#      password

@@ -18,6 +18,7 @@ import javax.persistence.EntityManagerFactory;
 /**
  * Created by bradleyw on 25/03/2018.
  */
+//@Profile("!docker")
 @Configuration
 @ComponentScan({"com.user.dao.entites"})
 @EnableJpaRepositories("com.user.dao.repository")
