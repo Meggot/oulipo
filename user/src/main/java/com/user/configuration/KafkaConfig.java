@@ -4,6 +4,7 @@ package com.user.configuration;
 
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
+import com.common.models.messages.MessageSentMessage;
 import org.apache.kafka.clients.admin.AdminClientConfig;
 import org.apache.kafka.clients.admin.NewTopic;
 import org.apache.kafka.clients.producer.ProducerConfig;
@@ -41,6 +42,11 @@ public class KafkaConfig {
     @Value("${jms.topic.user-lifecycle.update}")
     private String userLifecycleUpdateTopic;
 
+    @Value("${jms.topic.message.sent}")
+    private String messageSentTopic;
+
+    @Bean
+    public NewTopic messageSentTopic() { return new NewTopic(messageSentTopic, 2, (short) 2); }
     @Bean
     public NewTopic userLifecycleCreationTopic() {
         return new NewTopic(userLifecycleCreationTopic, 2, (short) 2);
@@ -70,6 +76,15 @@ public class KafkaConfig {
     }
 
     @Bean
+    public ProducerFactory<String, MessageSentMessage> messageSentMessageProducerFactory() {
+        Map<String, Object> configProps = new HashMap<>();
+        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
+        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
+        return new DefaultKafkaProducerFactory<>(configProps);
+    }
+
+    @Bean
     public KafkaTemplate<String, AccountCreationMessage> accountCreationTemplate() {
         return new KafkaTemplate<>(accountCreationProducerFactory());
     }
@@ -77,6 +92,11 @@ public class KafkaConfig {
     @Bean
     public KafkaTemplate<String, AccountUpdateMessage> accountUpdateTemplate() {
         return new KafkaTemplate<>(accountUpdateProducerFactory());
+    }
+
+    @Bean
+    public KafkaTemplate<String, MessageSentMessage> messageSentTemplate() {
+        return new KafkaTemplate<>(messageSentMessageProducerFactory());
     }
 
 }

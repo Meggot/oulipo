@@ -39,13 +39,19 @@ public class Account extends EntityObject {
     private List<AccountLogin> logins = new ArrayList<>();
 
     @OneToMany(mappedBy = "addedBy")
-    private List<AccountRelationship> relationshipsAddedBy;
+    private List<AccountRelationship> relationshipsAddedBy = new ArrayList<>();
 
     @OneToMany(mappedBy = "added")
-    private List<AccountRelationship> relationshipsAdded;
+    private List<AccountRelationship> relationshipsAdded = new ArrayList<>();
 
     @OneToMany(mappedBy = "account")
-    private List<AccountTag> tags;
+    private List<AccountTag> tags = new ArrayList<>();
+
+    @OneToMany(mappedBy = "sender")
+    private List<Message> sentMessages = new ArrayList<>();
+
+    @OneToMany(mappedBy = "recipient")
+    private List<Message> receivedMessages = new ArrayList<>();
 
     public List<AccountRelationship> getRelationships() {
         ArrayList<AccountRelationship> accountRelationships = new ArrayList<>();
@@ -80,6 +86,16 @@ public class Account extends EntityObject {
     public void addRelationshipAdded(AccountRelationship accountRelationship) {
         this.relationshipsAdded.add(accountRelationship);
         accountRelationship.setAdded(this);
+    }
+
+    public void addMessageReceived(Message message) {
+        this.receivedMessages.add(message);
+        message.setRecipient(this);
+    }
+
+    public void addMessageSent(Message message) {
+        this.sentMessages.add(message);
+        message.setSender(this);
     }
 
 }

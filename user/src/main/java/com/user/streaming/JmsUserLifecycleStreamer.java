@@ -4,6 +4,7 @@ package com.user.streaming;
 
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
+import com.common.models.messages.MessageSentMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -25,11 +26,34 @@ public class JmsUserLifecycleStreamer implements UserLifecycleStreamer{
     @Autowired
     private KafkaTemplate<String, AccountUpdateMessage> accountUpdateTemplate;
 
+    @Autowired
+    private KafkaTemplate<String, MessageSentMessage> messageSentTemplate;
+
     @Value("${jms.topic.user-lifecycle.creation}")
     private String userLifecycleCreationTopic;
 
     @Value("${jms.topic.user-lifecycle.update}")
     private String userLifecycleUpdateTopic;
+
+    @Value("${jms.topic.message.sent}")
+    private String messageSentTopic;
+
+    @Override
+    public void sendMessageSentMessage(MessageSentMessage messageSentMessage) {
+        ListenableFuture<SendResult<String, MessageSentMessage>> future = messageSentTemplate.send(userLifecycleCreationTopic, messageSentMessage);
+        future.addCallback(new ListenableFutureCallback<SendResult<String, MessageSentMessage>>() {
+
+            @Override
+            public void onFailure(Throwable throwable) {
+                log.error("> [KAFKA] Failed to send message [{}] due to {}", messageSentMessage, throwable.getMessage());
+            }
+
+            @Override
+            public void onSuccess(SendResult<String, MessageSentMessage> stringStringSendResult) {
+                log.info("> [KAFKA] Successfully sent message [{}] with offset [{}]", messageSentMessage, stringStringSendResult.getRecordMetadata().offset());
+            }
+        });
+    }
 
     @Override
     public void sendAccountCreationMessage(AccountCreationMessage accountCreationMessage) {

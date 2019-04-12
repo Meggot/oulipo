@@ -53,6 +53,17 @@ CREATE TABLE AccountTag (
   modified_date VARCHAR(255) NOT NULL,
   deleted INTEGER DEFAULT 0,
   oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE Message (
+   pk_message_id INTEGER PRIMARY KEY IDENTITY,
+   fk_sender_id INTEGER NOT NULL,
+   fk_recipient_id INTEGER NOT NULL,
+   message_value CLOB NOT NULL,
+   creation_date VARCHAR(255) NOT NULL,
+   modified_date VARCHAR(255) NOT NULL,
+   deleted INTEGER DEFAULT 0,
+   oca INTEGER DEFAULT 1
 );
 
 -- INSERT INTO Passwords(pk_pwd_id, hash_value) VALUES (1, 'TestPassword')

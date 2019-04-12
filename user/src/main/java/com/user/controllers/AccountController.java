@@ -13,6 +13,7 @@ import com.querydsl.core.types.Predicate;
 import com.user.controllers.assemblers.AccountRelationshipAssembler;
 import com.user.controllers.assemblers.AccountResourceAssembler;
 import com.user.controllers.assemblers.AccountTagAssembler;
+import com.user.controllers.assemblers.MessageAssembler;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.AccountRelationship;
 import com.user.dao.entites.AccountTag;

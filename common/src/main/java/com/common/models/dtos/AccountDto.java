@@ -33,4 +33,12 @@ public class AccountDto extends ResourceSupport implements Identifiable<Link> {
 
     private List<AccountLoginDto> logins;
 
+    private List<AccountRelationshipDto> relationships;
+
+    private List<AccountTagDto> tags;
+
+    private List<MessageDto> sentMessages;
+
+    private List<MessageDto> receivedMessages;
+
 }

@@ -31,6 +31,8 @@ public class AccountTest {
     @Autowired
     public MockMvc mockMvc;
 
+    public String MESSAGES_PATH = "/messages/";
+
     public String ACCOUNTS_PATH = "/accounts/";
 
     public String RELATIONSHIPS_PATH = "/relationship/";
@@ -69,7 +71,7 @@ public class AccountTest {
         defaultUsername = defaultUsername + numOfAccountsCreated;
         defaultEmail = defaultEmail + numOfAccountsCreated;
         return ReadWriteUtils.asObjectFromString(AccountDto.class,
-                createAccountWithUsernameAndEmail(defaultUsername, defaultEmail).andReturn()
+                createAccountWithUsernameAndEmail(defaultUsername, defaultEmail).andDo(print()).andReturn()
                         .getResponse()
                         .getContentAsString());
     }
