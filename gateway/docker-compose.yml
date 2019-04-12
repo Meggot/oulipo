@@ -1,39 +1,41 @@
 version: '2'
 services:
   gateway:
-    image: meggot/oulipo:gateway
+    image: meggot/oulipo/gateway:1.0-SNAPSHOT
     ports:
       - "13000:13000"
+    environment:
+      - "SPRING_PROFILES_ACTIVE=platformcompose"
   user:
-    image: meggot/ouldoipo:user
+    image: meggot/oulipo/user:1.0-SNAPSHOT
     ports:
       - "13001:13001"
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=platformcompose"
   project:
-    image: meggot/oulipo:project
+    image: meggot/oulipo/project:1.0-SNAPSHOT
     ports:
       - "13002:13002"
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=platformcompose"
   metadata:
-    image: meggot/oulipo:metadata
+    image: meggot/oulipo/metadata:1.0-SNAPSHOT
     ports:
       - "13003:13003"
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=platformcompose"
   audit:
-    image: meggot/oulipo:audit
+    image: meggot/oulipo/audit:1.0-SNAPSHOT
     ports:
       - "13004:13004"
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=platformcompose"
   notify:
-    image: meggot/oulipo:notify
+    image: meggot/oulipo/notify:1.0-SNAPSHOT
     ports:
       - "13005:13005"
     environment:
-      - "SPRING_PROFILES_ACTIVE=docker"
+      - "SPRING_PROFILES_ACTIVE=platformcompose"
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -45,7 +47,6 @@ services:
     environment:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9092
       KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
-#      KAFKA_CREATE_TOPICS: "topic-user-lifecycle-creation:1:1" NOT NEEDED
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_BROKER_ID: 1
     volumes:

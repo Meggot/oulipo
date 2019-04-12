@@ -7,10 +7,6 @@ spring:
   kafka:
     bootstrap-servers: localhost:9092
 
-#hibernate:
-#  hbm2ddl:
-#    auto: create
-
 jms:
   topic:
     user-lifecycle:

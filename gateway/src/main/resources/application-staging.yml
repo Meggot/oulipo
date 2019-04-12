@@ -1,0 +1,12 @@
+zuul:
+  routes:
+    register:
+      url: http://user.local:13001/
+    user:
+      url: http://user.local:13001/
+    project:
+      url: http://project.local:13002/
+    metadata:
+      url: http://metadata.local:13003/
+    audit:
+      url: http://audit.local:13004/

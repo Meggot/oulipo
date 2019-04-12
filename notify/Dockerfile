@@ -4,6 +4,5 @@ ARG DEPENDENCY=target/dependency
 COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
 COPY ${DEPENDENCY}/META-INF /app/META-INF
 COPY ${DEPENDENCY}/BOOT-INF/classes /app
-ENV SPRING_PROFILES_ACTIVE=docker
 EXPOSE 13005
 ENTRYPOINT ["java","-cp","app:app/lib/*","com/notify/NotifyApplication"]

@@ -25,6 +25,10 @@ public class RequestLoggingPreFilter extends ZuulFilter {
         return true;
     }
 
+    /**
+     * Test
+     * @return
+     */
     public Object run() {
         RequestContext ctx = RequestContext.getCurrentContext();
         HttpServletRequest request = ctx.getRequest();
