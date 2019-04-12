@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Role;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
@@ -37,7 +38,7 @@ public class MessageController {
 
     @Secured({"ROLE_ADMIN"})
     @RequestMapping(method = RequestMethod.GET)
-    public PagedResources<MessageDto> getMessages(Predicate predicate,
+    public PagedResources<MessageDto> getMessages(@QuerydslPredicate(root = Message.class)Predicate predicate,
                                                   Pageable pageable,
                                                   PagedResourcesAssembler pagedResourcesAssembler) {
         Page<MessageDto> messageDtoPage = repository.findAll(predicate, pageable).map(assembler::toResource);
