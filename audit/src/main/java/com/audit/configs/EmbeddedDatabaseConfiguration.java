@@ -31,7 +31,7 @@ public class EmbeddedDatabaseConfiguration {
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .addScript("db/schema.sql")
-                .setName("ProjectDatabase")
+                .setName("AuditDatabase")
                 .build();
     }
 

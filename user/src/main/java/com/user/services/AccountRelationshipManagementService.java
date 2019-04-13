@@ -22,7 +22,6 @@ public class AccountRelationshipManagementService {
 
 
     public AccountRelationship postRelationshipRequest(AccountRelationshipRequest req, Account addedBy, Account added) {
-        log.debug("Recieved request");
         Optional<AccountRelationship> optional = added.getRelationships().stream()
                 .filter(accountRelationship -> accountRelationship.getAdded().getId() == added.getId()
                 || accountRelationship.getAddedBy().getId() == addedBy.getId())
@@ -44,7 +43,7 @@ public class AccountRelationshipManagementService {
     public AccountRelationship patchRelationship(AccountRelationship relationship, Account initiator, UpdateAccountRelationshipRequest request) {
         if (relationship.getStatus() == AccountRelationshipStatus.REQUESTED) {
             if (initiator.equals(relationship.getAddedBy())) {
-                throw new UnauthorizedException("You can't patch a relationship request as the requestor");
+                throw new UnauthorizedException("You can't patch a relationship request as the initiator");
             }
         }
         if (request.getStatus().equals(AccountRelationshipStatus.REQUESTED)) {

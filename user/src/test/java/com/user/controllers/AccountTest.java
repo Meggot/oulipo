@@ -7,10 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
-import com.common.models.dtos.AccountDto;
-import com.common.models.dtos.AccountRelationshipDto;
-import com.common.models.dtos.AccountRelationshipStatus;
-import com.common.models.dtos.AccountRelationshipType;
+import com.common.models.dtos.*;
 import com.common.models.utils.ReadWriteUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,19 +34,29 @@ public class AccountTest {
 
     public String RELATIONSHIPS_PATH = "/relationship/";
 
+    public String GROUP_PATH = "/groups/";
+
     public String hostname = "http://localhost/";
 
     public static String selfLink = "$._links.self.href";
 
-    public String defaultUsername = "Testing";
+    public String defaultUsername = "Teste";
 
     public String defaultEmail = "TestingEmail@Email.net";
 
     public String defaultPassword = "hunter1";
 
+    public String defaultGroupName = "Testing Group";
+
+    public String defaultGroupDescription = "This is a Group for Testing.";
+
+    public String defaultGroupType = GroupType.OPEN.toString();
+
     public static int numOfAccountsCreated = 0;
 
     public static int numofRelationshipsCreated = 0;
+
+    public static int numOfGroupsCreated = 0;
 
     @Test
     public void init() {
@@ -64,6 +71,16 @@ public class AccountTest {
                 .param("username", username)
                 .param("email", email)
                 .param("hashedPassword", defaultPassword));
+    }
+
+    public GroupDto createDefaultGroup(AccountDto leader) throws Exception {
+        numOfGroupsCreated++;
+        return ReadWriteUtils.asObjectFromString(GroupDto.class,
+                this.mockMvc.perform(post(GROUP_PATH).header("User", leader.getIdField())
+                        .param("name", defaultGroupName)
+                        .param("description", defaultGroupDescription)
+                        .param("type", defaultGroupType)).andReturn()
+                        .getResponse().getContentAsString());
     }
 
     public AccountDto createDefaultAccount() throws Exception {

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.Valid;
 import java.util.Arrays;
 
 @RestController
@@ -69,7 +70,7 @@ public class LoginController {
             loginUser.setLogin(account.getUsername());
             loginUser.setPassword(account.getPassword().getHashValue());
             if (username.equals("ADMINA")) {
-                loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_ADMIN")));
+                loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_ADMIN"), new Authority("ROLE_USER")));
             } else {
                 loginUser.setAuthorities(Arrays.asList(new Authority("ROLE_USER")));
             }
@@ -80,7 +81,7 @@ public class LoginController {
 
     @ResponseBody
     @PostMapping("/api/register")
-    public Resource<AccountDto> registerAccount(@RequestBody CreateAccount registerAccount) {
+    public Resource<AccountDto> registerAccount(@Valid @RequestBody CreateAccount registerAccount) {
         Account account = accountManagementService.createAccount(registerAccount);
         return new Resource<>(accountResourceAssembler.toResource(account));
     }

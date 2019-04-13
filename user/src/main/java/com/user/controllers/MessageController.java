@@ -38,7 +38,7 @@ public class MessageController {
 
     @Secured({"ROLE_ADMIN"})
     @RequestMapping(method = RequestMethod.GET)
-    public PagedResources<MessageDto> getMessages(@QuerydslPredicate(root = Message.class)Predicate predicate,
+    public PagedResources<MessageDto> getMessages(@QuerydslPredicate(root = Message.class) Predicate predicate,
                                                   Pageable pageable,
                                                   PagedResourcesAssembler pagedResourcesAssembler) {
         Page<MessageDto> messageDtoPage = repository.findAll(predicate, pageable).map(assembler::toResource);

@@ -3,24 +3,18 @@
 package com.user.controllers;
 
 import com.common.models.dtos.AccountDto;
+import com.common.models.dtos.AccountGroupMembershipDto;
 import com.common.models.dtos.AccountRelationshipDto;
 import com.common.models.dtos.AccountTagDto;
-import com.common.models.requests.AccountRelationshipRequest;
-import com.common.models.requests.AccountTagRequest;
-import com.common.models.requests.CreateAccount;
-import com.common.models.requests.UpdateAccount;
+import com.common.models.requests.*;
 import com.querydsl.core.types.Predicate;
-import com.user.controllers.assemblers.AccountRelationshipAssembler;
-import com.user.controllers.assemblers.AccountResourceAssembler;
-import com.user.controllers.assemblers.AccountTagAssembler;
-import com.user.controllers.assemblers.MessageAssembler;
-import com.user.dao.entites.Account;
-import com.user.dao.entites.AccountRelationship;
-import com.user.dao.entites.AccountTag;
+import com.user.controllers.assemblers.*;
+import com.user.dao.entites.*;
 import com.user.dao.repository.AccountRepository;
 import com.user.services.AccountManagementService;
 import com.user.services.AccountRelationshipManagementService;
 import com.user.services.AccountTagManagementService;
+import com.user.services.GroupManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -34,14 +28,7 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -66,14 +53,20 @@ public class AccountController {
     AccountRelationshipAssembler accountRelationshipAssembler;
 
     @Autowired
+    AccountGroupMembershipAssembler accountGroupMembershipAssembler;
+
+    @Autowired
     AccountTagManagementService accountTagManagementService;
 
     @Autowired
     AccountTagAssembler accountTagAssembler;
 
+    @Autowired
+    GroupManagementService groupManagementService;
+
     @ResponseBody
     @RequestMapping(method = RequestMethod.POST)
-    public Resource<AccountDto> createAccountRequest(@Valid @ModelAttribute("CreateAccount") CreateAccount createAccount, BindingResult bindingResult) {
+    public Resource<AccountDto> createAccountRequest(@Valid @ModelAttribute("CreateAccount") CreateAccount createAccount) {
         Account account = accountManagementService.createAccount(createAccount);
         return new Resource<>(accountResourceAssembler.toResource(account));
     }
@@ -126,5 +119,15 @@ public class AccountController {
                                                   @RequestHeader("User") Account account) {
         AccountTag accountTag = accountTagManagementService.handleAccountTagRequest(request, accountToAdd);
         return new Resource<>(accountTagAssembler.toResource(accountTag));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/{accountId}/group/{groupId}", method = RequestMethod.POST)
+    public Resource<AccountGroupMembershipDto> postAccountMembership(@Valid  @ModelAttribute PostAccountGroupMembershipRequest request,
+                                                                     @RequestHeader("User") Account addedBy,
+                                                                     @PathVariable("accountId") Account added,
+                                                                     @PathVariable("groupId") Group group) {
+        AccountGroupMembership accountGroupMembership = groupManagementService.handlePostAccountGroupMembershipRequest(request, addedBy, added, group);
+        return new Resource<>(accountGroupMembershipAssembler.toResource(accountGroupMembership));
     }
 }

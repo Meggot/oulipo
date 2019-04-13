@@ -8,7 +8,7 @@ CREATE TABLE Passwords(
 )
 
 CREATE TABLE Accounts(
-   pk_user_id INTEGER PRIMARY KEY IDENTITY,
+   pk_account_id INTEGER PRIMARY KEY IDENTITY,
    fk_pwd_id INTEGER FOREIGN KEY REFERENCES Passwords(pk_pwd_id),
    account_type INTEGER DEFAULT 1,
    username varchar(25) NOT NULL,
@@ -60,6 +60,41 @@ CREATE TABLE Message (
    fk_sender_id INTEGER NOT NULL,
    fk_recipient_id INTEGER NOT NULL,
    message_value CLOB NOT NULL,
+   creation_date VARCHAR(255) NOT NULL,
+   modified_date VARCHAR(255) NOT NULL,
+   deleted INTEGER DEFAULT 0,
+   oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE Groups (
+    pk_group_id INTEGER PRIMARY KEY IDENTITY,
+    name VARCHAR(255) NOT NULL,
+    description VARCHAR(255) NOT NULL,
+    type VARCHAR(255) NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    modified_date VARCHAR(255) NOT NULL,
+    deleted INTEGER DEFAULT 0,
+    oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE AccountGroupMembership (
+   pk_account_membership_id INTEGER PRIMARY KEY IDENTITY,
+   fk_account_id INTEGER NOT NULL,
+   fk_added_by INTEGER,
+   fk_group_id INTEGER NOT NULL,
+   role VARCHAR(255) NOT NULL,
+    creation_date VARCHAR(255) NOT NULL,
+    modified_date VARCHAR(255) NOT NULL,
+    deleted INTEGER DEFAULT 0,
+    oca INTEGER DEFAULT 1
+)
+
+CREATE TABLE ProjectGroupMembership(
+   pk_project_membership_id INTEGER PRIMARY KEY IDENTITY,
+   project_id INTEGER NOT NULL,
+   project_name VARCHAR(255) NOT NULL,
+   fk_group_id INTEGER NOT NULL,
+   fk_added_by_id INTEGER NOT NULL,
    creation_date VARCHAR(255) NOT NULL,
    modified_date VARCHAR(255) NOT NULL,
    deleted INTEGER DEFAULT 0,
