@@ -22,10 +22,10 @@ public class ProjectPartDto extends ResourceSupport implements Identifiable<Link
 
     private Integer idField;
     private Integer projectId;
+    private String projectTitle;
     private PartStatus status;
     private String activeValue;
     private Integer sequence;
     private String authorName;
-
 
 }

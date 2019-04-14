@@ -21,6 +21,7 @@ public class PartAssembler extends ResourceAssemblerSupport<ProjectPart, Project
         dto.setSequence(part.getSequence());
         dto.setStatus(part.getStatus());
         dto.setProjectId(part.getProject().getId());
+        dto.setProjectTitle(part.getProject().getTitle());
         dto.setAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
         return dto;
     }
