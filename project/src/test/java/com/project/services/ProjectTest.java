@@ -44,6 +44,8 @@ public class ProjectTest {
     @Autowired
     public AuthorRepository authorRepository;
 
+    public String EXPLORE_PATH = "/explore/";
+
     public String PROJECTS_PATH = "/projects/";
 
     public String PARTS_PATH = "/parts/";
@@ -132,11 +134,9 @@ public class ProjectTest {
 
     public ProjectTagDto createDefaultTagOnProjectId(String projectId) throws Exception {
         numOfTagsCreated++;
-
-        String tagValue = "Tagged";
         String stringValue = this.mockMvc.perform(post(TAGS_PATH)
                 .param("projectId", projectId)
-                .param("value", tagValue)
+                .param("value", defaultTagValue)
                 .header("User", defaultUserId)).andReturn().getResponse().getContentAsString();
         return ReadWriteUtils.asObjectFromString(ProjectTagDto.class,
                 stringValue);
