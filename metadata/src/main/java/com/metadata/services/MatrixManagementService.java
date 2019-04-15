@@ -2,10 +2,6 @@
 
 package com.metadata.services;
 
-import static com.common.models.dtos.MetricType.DOWNVOTE;
-import static com.common.models.dtos.MetricType.SHARE;
-import static com.common.models.dtos.MetricType.UPVOTE;
-
 import com.common.models.dtos.EntityType;
 import com.common.models.dtos.MatrixDto;
 import com.common.models.dtos.MetricType;
@@ -15,6 +11,8 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.common.models.dtos.MetricType.*;
 
 @Component
 public class MatrixManagementService {

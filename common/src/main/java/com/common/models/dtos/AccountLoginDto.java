@@ -5,8 +5,6 @@ import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.time.LocalDateTime;
-
 @Data
 public class AccountLoginDto extends ResourceSupport implements Identifiable<Link> {
 

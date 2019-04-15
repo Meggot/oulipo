@@ -11,10 +11,7 @@ import com.project.dao.entites.Copy;
 import com.project.dao.entites.CopyEdit;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.CopyEditRepository;
-import com.project.dao.repository.CopyRepository;
-import com.project.dao.repository.ProjectRepository;
 import com.project.services.permissions.CopyEditPermissions;
-import net.bytebuddy.asm.Advice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 

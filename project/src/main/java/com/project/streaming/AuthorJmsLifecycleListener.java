@@ -5,7 +5,6 @@ package com.project.streaming;
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
 import com.project.services.AuthorManagementService;
-import lombok.Builder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;

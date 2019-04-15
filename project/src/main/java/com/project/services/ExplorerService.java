@@ -6,18 +6,11 @@ import com.common.models.dtos.SourcingType;
 import com.common.models.dtos.TagType;
 import com.common.models.requests.SearchSortType;
 import com.google.common.collect.Lists;
-import com.project.dao.entites.Project;
-import com.project.dao.entites.QAuthor;
 import com.project.dao.entites.QProject;
-import com.project.dao.repository.ProjectRepository;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
 import java.util.List;
 
 @Component

@@ -11,8 +11,6 @@ import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
-import java.util.List;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

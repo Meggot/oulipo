@@ -2,7 +2,6 @@ package com.project.dao.entites;
 
 
 import com.common.models.dtos.TagType;
-import com.sun.istack.Nullable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

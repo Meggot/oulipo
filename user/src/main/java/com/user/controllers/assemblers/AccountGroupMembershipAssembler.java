@@ -1,10 +1,8 @@
 package com.user.controllers.assemblers;
 
 import com.common.models.dtos.AccountGroupMembershipDto;
-import com.common.models.dtos.GroupDto;
 import com.user.controllers.GroupsController;
 import com.user.dao.entites.AccountGroupMembership;
-import com.user.dao.entites.Group;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 

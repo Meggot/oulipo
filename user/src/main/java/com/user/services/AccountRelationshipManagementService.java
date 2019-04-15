@@ -1,8 +1,8 @@
 package com.user.services;
 
+import com.common.models.dtos.AccountRelationshipStatus;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.AccountRelationshipRequest;
-import com.common.models.dtos.AccountRelationshipStatus;
 import com.common.models.requests.UpdateAccountRelationshipRequest;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.AccountRelationship;

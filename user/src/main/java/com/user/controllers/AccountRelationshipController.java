@@ -1,7 +1,6 @@
 package com.user.controllers;
 
 import com.common.models.dtos.AccountRelationshipDto;
-import com.common.models.dtos.AccountRelationshipStatus;
 import com.common.models.requests.UpdateAccountRelationshipRequest;
 import com.querydsl.core.types.Predicate;
 import com.user.controllers.assemblers.AccountRelationshipAssembler;

@@ -4,11 +4,11 @@ import com.common.models.dtos.AuthorProjectRoleDto;
 import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.ProjectDto;
 import com.project.dao.entites.Author;
-import com.project.dao.entites.AuthorProjectRole;
 import com.project.services.ProjectTest;
 import org.junit.Test;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;

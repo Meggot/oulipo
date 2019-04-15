@@ -4,11 +4,9 @@ package com.project.dao.entites;
 
 import lombok.Data;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.UUID;
-import javax.persistence.*;
 
 @Entity(name = "Author")
 @Data

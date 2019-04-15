@@ -1,18 +1,15 @@
 package com.user.controllers;
 
+import com.common.models.dtos.AccountDto;
+import com.common.models.dtos.AccountStatus;
+import org.junit.Test;
+
 import static com.common.models.variables.StandardFields.DEFAULT_PAGE_SIZE;
-import static org.hamcrest.Matchers.nullValue;
-import static org.junit.Assert.*;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.hamcrest.Matchers.is;
-
-import com.common.models.dtos.AccountDto;
-import com.common.models.dtos.AccountStatus;
-import com.common.models.dtos.ProjectDto;
-import org.junit.Test;
 
 public class AccountControllerTest extends AccountTest {
 

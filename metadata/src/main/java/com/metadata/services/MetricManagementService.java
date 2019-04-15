@@ -2,9 +2,7 @@
 
 package com.metadata.services;
 
-import com.common.models.dtos.MetricDto;
 import com.common.models.requests.CreateMetricRequest;
-import com.common.models.responses.EntityModificationResponse;
 import com.metadata.dao.entites.Metric;
 import com.metadata.dao.repository.MetricRepository;
 import org.springframework.beans.factory.annotation.Autowired;

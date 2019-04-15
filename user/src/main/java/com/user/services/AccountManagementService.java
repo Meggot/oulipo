@@ -11,7 +11,6 @@ import com.user.dao.entites.Password;
 import com.user.dao.repository.AccountRepository;
 import com.user.dao.repository.PasswordRepository;
 import com.user.services.validators.AccountEntityValidator;
-import com.user.streaming.JmsUserLifecycleStreamer;
 import com.user.streaming.UserLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

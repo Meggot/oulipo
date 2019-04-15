@@ -2,11 +2,9 @@
 
 package com.user.services.validators;
 
-import com.common.models.dtos.AccountDto;
 import com.common.models.exceptions.ApiValidationError;
 import com.common.models.requests.CreateAccount;
 import com.common.models.requests.UpdateAccount;
-import com.common.models.utils.ValidationUtil;
 import com.user.dao.entites.Account;
 import com.user.dao.repository.AccountRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -15,10 +13,6 @@ import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
 import java.util.Set;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validation;
-import javax.validation.Validator;
-import javax.validation.ValidatorFactory;
 
 @Slf4j
 @Component

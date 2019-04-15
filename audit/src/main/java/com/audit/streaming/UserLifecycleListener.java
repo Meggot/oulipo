@@ -2,13 +2,10 @@
 
 package com.audit.streaming;
 
-import com.audit.dao.entites.Audit;
 import com.audit.dao.repository.AuditRepository;
 import com.audit.factories.AuditFactory;
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
-import com.common.models.messages.ProjectCreationMessage;
-import com.common.models.messages.ProjectUpdateMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,8 +14,6 @@ import org.springframework.kafka.support.KafkaHeaders;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
-
-import javax.validation.Valid;
 
 @Component
 @Slf4j

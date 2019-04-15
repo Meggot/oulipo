@@ -5,10 +5,8 @@ import com.common.models.messages.AccountCreationMessage;
 import com.common.models.utils.ReadWriteUtils;
 import com.project.dao.entites.Author;
 import com.project.dao.repository.AuthorRepository;
-import com.project.streaming.AuthorJmsLifecycleListener;
 import com.project.streaming.AuthorLifecycleListener;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,16 +17,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import javax.swing.text.DateFormatter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.hamcrest.Matchers.is;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
 @SpringBootTest(properties = "spring.profiles.active = Test")
 @RunWith(SpringRunner.class)

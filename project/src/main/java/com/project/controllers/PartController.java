@@ -3,15 +3,12 @@ package com.project.controllers;
 import com.common.models.dtos.ProjectPartDto;
 import com.common.models.requests.PostPartValueRequest;
 import com.project.controllers.assemblers.PartAssembler;
-import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.dao.entites.Project;
 import com.project.dao.entites.ProjectPart;
 import com.project.services.PartManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 
 @RestController

@@ -4,11 +4,11 @@ import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import java.io.Serializable;
-import java.time.LocalDateTime;
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.persistence.PostUpdate;
+import java.io.Serializable;
+import java.time.LocalDateTime;
 
 @Data
 @MappedSuperclass

@@ -4,9 +4,8 @@ package com.project.dao.entites;
 
 import lombok.Data;
 
-import java.util.List;
-import java.util.UUID;
 import javax.persistence.*;
+import java.util.List;
 
 @Entity(name = "Copy")
 @Data

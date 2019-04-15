@@ -3,7 +3,6 @@ package com.user.controllers.assemblers;
 import com.common.models.dtos.ProjectGroupMembershipDto;
 import com.user.controllers.GroupsController;
 import com.user.dao.entites.ProjectGroupMembership;
-import org.springframework.hateoas.ResourceSupport;
 import org.springframework.hateoas.mvc.ResourceAssemblerSupport;
 import org.springframework.stereotype.Component;
 

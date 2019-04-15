@@ -3,17 +3,14 @@ package com.project.controllers;
 import com.common.models.dtos.PartStatus;
 import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectPartDto;
-import com.project.dao.entites.ProjectPart;
 import com.project.services.ProjectTest;
 import org.junit.Test;
 
-
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.isEmptyString;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 public class PartControllerTest extends ProjectTest {
 

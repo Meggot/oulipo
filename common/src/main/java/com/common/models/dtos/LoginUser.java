@@ -4,9 +4,7 @@ package com.common.models.dtos;
 
 import lombok.Data;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 @Data
 public class LoginUser {

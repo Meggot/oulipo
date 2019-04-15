@@ -1,17 +1,14 @@
 package com.project.controllers;
 
-import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.ProjectDto;
-import com.common.models.dtos.ProjectTagDto;
 import com.project.services.ProjectTest;
 import org.junit.Test;
 
-
-import static org.hamcrest.Matchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
 public class ExplorerControllerTest extends ProjectTest {

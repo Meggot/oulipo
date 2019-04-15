@@ -6,7 +6,6 @@ import com.common.models.dtos.PartStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.UUID;
 import javax.persistence.*;
 
 @Data

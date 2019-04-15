@@ -1,9 +1,9 @@
 package com.gateway.security;
 
-import java.util.Optional;
-
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 /**
  * Implementation of AuditorAware based on Spring Security.

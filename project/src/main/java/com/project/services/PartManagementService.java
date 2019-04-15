@@ -7,7 +7,6 @@ import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.messages.ProjectPartCreationMessage;
 import com.common.models.messages.ProjectPartUpdateMessage;
 import com.common.models.requests.PostPartValueRequest;
-import com.github.tomakehurst.wiremock.security.NotAuthorisedException;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
 import com.project.dao.entites.Project;
@@ -20,9 +19,7 @@ import com.project.streaming.ProjectLifecycleStreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.NoSuchElementException;
 import java.util.Optional;
-import java.util.function.Predicate;
 
 @Component
 public class PartManagementService {

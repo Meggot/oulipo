@@ -4,28 +4,17 @@ import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectType;
 import com.common.models.requests.SearchSortType;
 import com.project.controllers.assemblers.ProjectAssembler;
-import com.project.dao.entites.Project;
-import com.project.dao.entites.QProject;
 import com.project.dao.repository.ProjectRepository;
 import com.project.services.ExplorerService;
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.core.Query;
-import com.querydsl.core.types.Predicate;
-import com.querydsl.core.types.dsl.BooleanExpression;
-import com.querydsl.jpa.JPQLQuery;
-import com.querydsl.jpa.impl.JPAQuery;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.web.bind.annotation.*;
-import sun.jvm.hotspot.memory.ParNewGeneration;
 
-import javax.persistence.EntityManagerFactory;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController

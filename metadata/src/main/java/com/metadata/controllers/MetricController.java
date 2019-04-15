@@ -3,9 +3,7 @@
 package com.metadata.controllers;
 
 import com.common.models.dtos.MetricDto;
-import com.common.models.exceptions.EntityValidationException;
 import com.common.models.requests.CreateMetricRequest;
-import com.common.models.responses.EntityModificationResponse;
 import com.metadata.controllers.assemblers.MetricAssembler;
 import com.metadata.dao.entites.Metric;
 import com.metadata.dao.repository.MetricRepository;

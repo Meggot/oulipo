@@ -6,7 +6,6 @@ import com.common.models.exceptions.ApiValidationError;
 import lombok.experimental.UtilityClass;
 import org.springframework.validation.FieldError;
 
-import java.util.Collections;
 import javax.validation.ConstraintViolation;
 
 @UtilityClass
