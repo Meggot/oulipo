@@ -19,6 +19,7 @@ public class MessageAssembler extends ResourceAssemblerSupport<Message, MessageD
         dto.setFromUserId(message.getSender().getId());
         dto.setFromUsername(message.getSender().getUsername());
         dto.setToUsername(message.getRecipient().getUsername());
+        dto.setToUserId(message.getRecipient().getId());
         dto.setSentAt(message.getCreationDate());
         dto.setValue(message.getValue());
         return dto;

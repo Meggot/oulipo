@@ -15,7 +15,7 @@ public class CommentService {
     private CommentRepository commentRepository;
 
     public Comment postComment(CommentPostRequest commentPostRequest, String userId) {
-        log.debug(">[CREATE] Handlding create comment request {}", commentPostRequest);
+        log.debug(">[CREATE] Handling create comment request {}", commentPostRequest);
         Comment comment = new Comment();
         comment.setEntityId(commentPostRequest.getEntityId());
         comment.setUserId(Integer.parseInt(userId));

@@ -22,5 +22,7 @@ public class MessageDto extends ResourceSupport implements Identifiable<Link> {
 
     private String toUsername;
 
+    private Integer toUserId;
+
     private LocalDateTime sentAt;
 }

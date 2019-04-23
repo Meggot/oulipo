@@ -23,6 +23,7 @@ public class PartAssembler extends ResourceAssemblerSupport<ProjectPart, Project
         dto.setProjectId(part.getProject().getId());
         dto.setProjectTitle(part.getProject().getTitle());
         dto.setAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
+        dto.setAuthorUserId(part.getCurrentlyHoldingAuthor().getUserId());
         return dto;
     }
 
@@ -33,6 +34,7 @@ public class PartAssembler extends ResourceAssemblerSupport<ProjectPart, Project
         dto.setProjectId(part.getProject().getId());
         dto.setSequence(part.getSequence());
         dto.setAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
+        dto.setAuthorUserId(part.getCurrentlyHoldingAuthor().getUserId());
         return dto;
     }
 }

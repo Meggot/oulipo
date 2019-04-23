@@ -26,6 +26,9 @@ public class AccountResourceAssembler extends ResourceAssemblerSupport<Account, 
     @Autowired
     private AccountRelationshipAssembler accountRelationshipAssembler;
 
+    @Autowired
+    private AccountGroupMembershipAssembler groupAssembler;
+
     public AccountResourceAssembler() {
         super(AccountController.class, AccountDto.class);
     }
@@ -52,6 +55,9 @@ public class AccountResourceAssembler extends ResourceAssemblerSupport<Account, 
                 .collect(Collectors.toList()));
         resource.setSentMessages(o.getSentMessages().stream()
                 .map(messageAssembler::toResource)
+                .collect(Collectors.toList()));
+        resource.setGroups(o.getGroups().stream()
+                .map(groupAssembler::toResource)
                 .collect(Collectors.toList()));
 
         return resource;

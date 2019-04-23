@@ -81,6 +81,6 @@ public class Project extends EntityObject {
     public Integer getNextToBePostedPartSequence() {
         return partList.stream()
                 .filter(part -> part.getStatus() == PartStatus.RESERVED || part.getStatus() == PartStatus.ACTIVE)
-                .max(Comparator.comparing(ProjectPart::getSequence)).get().getSequence();
+                .min(Comparator.comparing(ProjectPart::getSequence)).get().getSequence();
     }
 }

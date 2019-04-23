@@ -38,7 +38,7 @@ public class Account extends EntityObject {
     private AccountStatus status = AccountStatus.ACTIVE;
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
-    private List<AccountGroupMembership> groups;
+    private List<AccountGroupMembership> groups = new ArrayList<>();
 
     @OneToMany(mappedBy = "account", cascade = CascadeType.ALL)
     private List<AccountLogin> logins = new ArrayList<>();

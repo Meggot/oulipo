@@ -11,11 +11,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class AccountMessageTest extends AccountTest {
 
     @Test
-    public void testSendMessageTo() throws Exception {
+    public void testSendMessageToUsername() throws Exception {
         String messageValue = "Hello World";
         AccountDto messageTo = createDefaultAccount();
         AccountDto messageFrom = createDefaultAccount();
-        this.mockMvc.perform(post(MESSAGES_PATH + "/user/" + messageTo.getIdField() + "/message")
+        this.mockMvc.perform(post(MESSAGES_PATH + "/user/" + messageTo.getUsername() + "/message")
                 .param("value", messageValue)
                 .header("User", messageFrom.getIdField()))
                 .andDo(print())

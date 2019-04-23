@@ -2,6 +2,7 @@
 
 package com.audit.dao.entites;
 
+import com.common.models.dtos.EntityType;
 import com.common.models.messages.MessageType;
 import lombok.Data;
 
@@ -19,6 +20,9 @@ public class Audit extends EntityObject {
 
     @Column(name = "entity_id")
     private Integer entityId;
+
+    @Column(name = "entity_type")
+    private EntityType entityType;
 
     @Column(name = "event_type")
     private MessageType eventType;

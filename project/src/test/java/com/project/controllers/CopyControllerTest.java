@@ -27,7 +27,7 @@ public class CopyControllerTest extends ProjectTest {
     }
 
     @Test
-    public void addCopyEditToCopy() throws Exception {
+    public void addCopyEditToCopyCreator() throws Exception {
         String initialValue = "There's a little boy outside, and he cnt find his way h0me";
         String patchtoApply = "@@ -7,15 +7,8 @@\n" +
                 " s a \n" +
@@ -66,7 +66,9 @@ public class CopyControllerTest extends ProjectTest {
                         .andExpect(jsonPath("$.delta", is(patchtoApply)))
                         .andExpect(jsonPath("$.authorName", is(defaultAuthorName)))
                         .andExpect(jsonPath("$.projectTitle", is(projectDto.getTitle())))
-                        .andExpect(jsonPath("$.status", is(CopyEditStatus.SUBMITTED.toString())))
+                        .andExpect(jsonPath("$.projectId", is(projectDto.getProjectId())))
+                        .andExpect(jsonPath("$.copyId", is(projectDto.getCopy().getIdField())))
+                        .andExpect(jsonPath("$.status", is(CopyEditStatus.APPLIED.toString())))
                         .andReturn().getResponse().getContentAsString();
         CopyEditDto copyEditDto = ReadWriteUtils.asObjectFromString(CopyEditDto.class, copyEditValue);
         this.mockMvc.perform(get(COPY_PATH + projectDto.getCopy().getIdField())
@@ -74,17 +76,17 @@ public class CopyControllerTest extends ProjectTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(projectDto.getCopy().getIdField())))
                 .andExpect(jsonPath("$.projectId", is(projectDto.getProjectId())))
-                .andExpect(jsonPath("$.value", is(" " + initialValue)))
+                .andExpect(jsonPath("$.value", is(" " + patchedValue)))
                 .andExpect(jsonPath("$.edits[0].idField", is(copyEditDto.getIdField())))
                 .andExpect(jsonPath("$.edits[0].delta", is(patchtoApply)))
                 .andExpect(jsonPath("$.edits[0].authorName", is(defaultAuthorName)))
                 .andExpect(jsonPath("$.edits[0].projectTitle", is(defaultTitle)))
-                .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.SUBMITTED.toString())));
-        this.mockMvc.perform(patch(EDIT_PATH + copyEditDto.getIdField() + "/action")
-                .header("User", defaultUserId)
-                .param("action", EditActionType.APPROVE.toString()))
-                .andDo(print())
-                .andExpect(jsonPath("$.status", is(CopyEditStatus.APPLIED.toString())));
+                .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.APPLIED.toString())));
+//        this.mockMvc.perform(patch(EDIT_PATH + copyEditDto.getIdField() + "/action")
+//                .header("User", defaultUserId)
+//                .param("action", EditActionType.APPROVE.toString()))
+//                .andDo(print())
+//                .andExpect(jsonPath("$.status", is(CopyEditStatus.APPLIED.toString())));
         this.mockMvc.perform(get(COPY_PATH + projectDto.getCopy().getIdField())
                 .header("User", defaultUserId))
                 .andDo(print())

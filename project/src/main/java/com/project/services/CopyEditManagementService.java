@@ -1,5 +1,6 @@
 package com.project.services;
 
+import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.CopyEditStatus;
 import com.common.models.dtos.EditActionType;
 import com.common.models.dtos.SourcingType;
@@ -92,6 +93,12 @@ public class CopyEditManagementService {
         author.addCopyEdit(newCopyEdit);
         newCopyEdit.setDelta(copyEditRequest.getDelta());
         newCopyEdit.setStatus(CopyEditStatus.SUBMITTED);
-        return copyEditRepository.save(newCopyEdit);
+        newCopyEdit = copyEditRepository.save(newCopyEdit);
+
+        if (authorProjectRole.getRole() == AuthorProjectRoleType.CREATOR) {
+            actionAgainstCopyEdit(EditActionType.APPROVE, userId, newCopyEdit);
+        }
+
+        return newCopyEdit;
     }
 }

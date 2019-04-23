@@ -19,7 +19,9 @@ public class CopyEditAssembler extends ResourceAssemblerSupport<CopyEdit, CopyEd
         dto.setAuthorName(copyEdit.getAuthor().getUsername());
         dto.setDelta(copyEdit.getDelta());
         dto.setIdField(copyEdit.getId());
+        dto.setCopyId(copyEdit.getCopy().getId());
         dto.setProjectTitle(copyEdit.getCopy().getProject().getTitle());
+        dto.setProjectId(copyEdit.getCopy().getProject().getId());
         dto.setStatus(copyEdit.getStatus());
         return dto;
     }

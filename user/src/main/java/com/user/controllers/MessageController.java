@@ -6,6 +6,7 @@ import com.querydsl.core.types.Predicate;
 import com.user.controllers.assemblers.MessageAssembler;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.Message;
+import com.user.dao.repository.AccountRepository;
 import com.user.dao.repository.MessageRepository;
 import com.user.services.MessageManagementService;
 import lombok.extern.slf4j.Slf4j;
@@ -20,6 +21,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @RestController
@@ -31,6 +33,9 @@ public class MessageController {
 
     @Autowired
     private MessageRepository repository;
+
+    @Autowired
+    private AccountRepository accountRepository;
 
     @Autowired
     private MessageManagementService messageManagementService;
@@ -45,10 +50,13 @@ public class MessageController {
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST, path = "/user/{userId}/message")
-    public Resource<MessageDto> postMessageOnUser(@PathVariable("userId") Account recipient,
-                                                  @RequestHeader("User") Account sender,
-                                                  @ModelAttribute @Valid SendMessageRequest message) {
+    @RequestMapping(method = RequestMethod.POST, path = "/user/{username}/message")
+    public Resource<MessageDto> postMessageOnUserName(@PathVariable("username") String username,
+                                                    @RequestHeader("User") Account sender,
+                                                    @ModelAttribute @Valid SendMessageRequest message) {
+        Account recipient = accountRepository.getAccountByUsername(username).orElseThrow(
+                () -> new NoSuchElementException("User " + sender.getUsername() + " tried to send a message to " + username +" but an account doesn't exist with that username")
+        );
         Message savedMessage = messageManagementService.handlePostMessage(message, recipient, sender);
         return new Resource<>(assembler.toResource(savedMessage));
     }

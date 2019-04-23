@@ -3,6 +3,7 @@
 package com.audit.factories;
 
 import com.audit.dao.entites.Audit;
+import com.common.models.dtos.EntityType;
 import com.common.models.messages.*;
 import lombok.experimental.UtilityClass;
 
@@ -12,6 +13,7 @@ public class AuditFactory {
     public Audit toAudit(AccountUpdateMessage accountUpdateMessage) {
         Audit audit = new Audit();
         audit.setEntityId(accountUpdateMessage.getAccountId());
+        audit.setEntityType(EntityType.USER);
         audit.setOriginUserId(accountUpdateMessage.getAccountId());
         audit.setEventType(MessageType.ACCOUNT_UPDATE);
         StringBuilder auditValueBuilder = new StringBuilder();
@@ -26,6 +28,7 @@ public class AuditFactory {
     public static Audit toAudit(AccountCreationMessage message) {
         Audit audit = new Audit();
         audit.setEntityId(message.getAccountId());
+        audit.setEntityType(EntityType.USER);
         audit.setOriginUserId(message.getAccountId());
         audit.setEventType(MessageType.ACCOUNT_CREATION);
         StringBuilder auditValueBuilder = new StringBuilder();
@@ -38,6 +41,7 @@ public class AuditFactory {
     public static Audit toAudit(ProjectCreationMessage message) {
         Audit audit = new Audit();
         audit.setEntityId(Integer.parseInt(message.getProjectId()));
+        audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(Integer.parseInt(message.getUserId()));
         audit.setEventType(MessageType.PROJECT_CREATION);
         StringBuilder auditValueBuilder = new StringBuilder();
@@ -51,6 +55,7 @@ public class AuditFactory {
     public static Audit toAudit(ProjectUpdateMessage message) {
         Audit audit = new Audit();
         audit.setEntityId(Integer.parseInt(message.getProjectId()));
+        audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(Integer.parseInt(message.getUserId()));
         audit.setEventType(MessageType.PROJECT_UPDATE);
         StringBuilder auditValueBuilder = new StringBuilder();
@@ -66,6 +71,7 @@ public class AuditFactory {
     public static Audit toAudit(ProjectTagCreationMessage message) {
         Audit audit = new Audit();
         audit.setEntityId(message.getTagId());
+        audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(message.getUserIdAdded());
         audit.setEventType(MessageType.PROJECT_TAG_CREATION);
         StringBuilder auditValueBuilder = new StringBuilder();
@@ -77,6 +83,7 @@ public class AuditFactory {
     public static Audit toAudit(ProjectTagUpdateMessage message) {
         Audit audit = new Audit();
         audit.setEntityId(message.getTagId());
+        audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(message.getUserIdAdded());
         audit.setEventType(MessageType.PROJECT_TAG_UPDATE);
         audit.setValue(message.getProjectTitle() + "- Type: " + message.getType() + ": " + message.getValue());
@@ -86,6 +93,7 @@ public class AuditFactory {
     public static Audit toAudit(ProjectPartUpdateMessage message) {
         Audit audit = new Audit();
         audit.setEventType(MessageType.PROJECT_PART_UPDATE);
+        audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(Integer.parseInt(message.getPartUserId()));
         audit.setEntityId(message.getPartId());
         audit.setValue(message.getPartAuthorName() + " updated a part on project " + message.getProjectId() + " of value " + message.getPartValue());
@@ -95,6 +103,7 @@ public class AuditFactory {
     public static Audit toAudit(ProjectPartCreationMessage message) {
         Audit audit = new Audit();
         audit.setEntityId(message.getPartId());
+        audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(Integer.parseInt(message.getPartUserId()));
         audit.setEventType(MessageType.PROJECT_PART_CREATION);
         audit.setValue(message.getPartAuthorName() + " creatd a part on project " + message.getProjectId());

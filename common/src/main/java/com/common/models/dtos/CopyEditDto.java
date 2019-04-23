@@ -20,5 +20,9 @@ public class CopyEditDto extends ResourceSupport implements Identifiable<Link> {
 
     private String projectTitle;
 
+    private Integer copyId;
+
+    private Integer projectId;
+
     private CopyEditStatus status;
 }

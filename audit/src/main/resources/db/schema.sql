@@ -1,6 +1,7 @@
 CREATE Table Audits(
     pk_audit_id INTEGER PRIMARY KEY IDENTITY,
     entity_id INTEGER NOT NULL,
+    entity_type VARCHAR(255) NOT NULL,
     event_type VARCHAR(255) NOT NULL,
     origin_user_id INTEGER NOT NULL,
     value VARCHAR(255) NOT NULL,
