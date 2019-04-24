@@ -38,7 +38,7 @@ public class JmsUserLifecycleStreamer implements UserLifecycleStreamer{
 
     @Override
     public void sendMessageSentMessage(MessageSentMessage messageSentMessage) {
-        ListenableFuture<SendResult<String, MessageSentMessage>> future = messageSentTemplate.send(userLifecycleCreationTopic, messageSentMessage);
+        ListenableFuture<SendResult<String, MessageSentMessage>> future = messageSentTemplate.send(messageSentTopic, messageSentMessage);
         future.addCallback(new ListenableFutureCallback<SendResult<String, MessageSentMessage>>() {
 
             @Override
