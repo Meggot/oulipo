@@ -46,7 +46,7 @@ public class ProjectAssembler extends ResourceAssemblerSupport<Project, ProjectD
         dto.setVersion(project.getOca());
         dto.setCopy(copyAssembler.toResource(project.getCopy()));
         dto.setParts(project.getPartList().stream()
-                .map(partAssembler::toResourceProjectDisplay).collect(Collectors.toList()));
+                .map(partAssembler::toResource).collect(Collectors.toList()));
         dto.setRoles(project.getAuthorProjectRoles().stream()
                 .map(authorProjectRoleAssembler::toResource).collect(Collectors.toList()));
         dto.setTags(project.getTags().stream()

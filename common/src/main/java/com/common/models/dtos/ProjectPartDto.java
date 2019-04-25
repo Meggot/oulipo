@@ -11,6 +11,8 @@ import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
 
+import java.time.LocalDateTime;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,5 +28,5 @@ public class ProjectPartDto extends ResourceSupport implements Identifiable<Link
     private Integer sequence;
     private String authorName;
     private Integer authorUserId;
-
+    private LocalDateTime added;
 }
