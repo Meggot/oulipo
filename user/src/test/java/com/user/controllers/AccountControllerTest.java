@@ -16,10 +16,10 @@ public class AccountControllerTest extends AccountTest {
     @Test
     public void createAccountRequest() throws Exception {
         super.createAccountWithUsernameAndEmail(defaultUsername, defaultEmail)
-             .andDo(print())
-             .andExpect(jsonPath("$.username", is(defaultUsername)))
-             .andExpect(jsonPath("$.email", is(defaultEmail)))
-             .andExpect(jsonPath("$.status", is(AccountStatus.ACTIVE.toString())));
+                .andDo(print())
+                .andExpect(jsonPath("$.username", is(defaultUsername)))
+                .andExpect(jsonPath("$.email", is(defaultEmail)))
+                .andExpect(jsonPath("$.status", is(AccountStatus.ACTIVE.toString())));
     }
 
     @Test
@@ -28,36 +28,48 @@ public class AccountControllerTest extends AccountTest {
         String newEmail = "Changed!@email.net";
         AccountDto accountDto = createDefaultAccount();
         mockMvc.perform(patch(ACCOUNTS_PATH + "/" + accountDto.getIdField()).param("username", newUsername)
-                                                                            .param("email", newEmail)
-                                                                            .param("hashedPassword", "SomeRandomPass"))
-               .andDo(print())
-               .andExpect(jsonPath("$.idField", is(accountDto.getIdField())))
-               .andExpect(jsonPath("$.username", is(newUsername)))
-               .andExpect(jsonPath("$.email", is(newEmail)))
-               .andExpect(jsonPath("$.status", is(accountDto.getStatus().toString())))
-               .andExpect(jsonPath(selfLink, is(hostname + "accounts/" + accountDto.getIdField())));
+                .param("email", newEmail)
+                .param("hashedPassword", "SomeRandomPass"))
+                .andDo(print())
+                .andExpect(jsonPath("$.idField", is(accountDto.getIdField())))
+                .andExpect(jsonPath("$.username", is(newUsername)))
+                .andExpect(jsonPath("$.email", is(newEmail)))
+                .andExpect(jsonPath("$.status", is(accountDto.getStatus().toString())))
+                .andExpect(jsonPath(selfLink, is(hostname + "accounts/" + accountDto.getIdField())));
     }
 
     @Test
     public void findById() throws Exception {
         AccountDto accountDto = createDefaultAccount();
         mockMvc.perform(get(ACCOUNTS_PATH + accountDto.getIdField()))
-               .andDo(print())
-               .andExpect(jsonPath("$.idField", is(accountDto.getIdField())))
-               .andExpect(jsonPath("$.username", is(accountDto.getUsername())))
-               .andExpect(jsonPath("$.email", is(accountDto.getEmail())))
-               .andExpect(jsonPath("$.status", is(accountDto.getStatus().toString())))
-               .andExpect(jsonPath(selfLink, is(hostname + "accounts/" + accountDto.getIdField())));
+                .andDo(print())
+                .andExpect(jsonPath("$.idField", is(accountDto.getIdField())))
+                .andExpect(jsonPath("$.username", is(accountDto.getUsername())))
+                .andExpect(jsonPath("$.email", is(accountDto.getEmail())))
+                .andExpect(jsonPath("$.status", is(accountDto.getStatus().toString())))
+                .andExpect(jsonPath(selfLink, is(hostname + "accounts/" + accountDto.getIdField())));
 
     }
 
     @Test
     public void findAll() throws Exception {
         mockMvc.perform(get(ACCOUNTS_PATH))
-               .andDo(print())
-               .andExpect(jsonPath("$.page.size", is(DEFAULT_PAGE_SIZE)))
-               .andExpect(jsonPath("$.page.totalElements", is(numOfAccountsCreated)))
-               .andExpect(jsonPath("$.page.totalPages", is(numOfAccountsCreated > 0 ? 1 : 0)))
-               .andExpect(jsonPath("$.page.number", is(0)));
+                .andDo(print())
+                .andExpect(jsonPath("$.page.size", is(DEFAULT_PAGE_SIZE)))
+                .andExpect(jsonPath("$.page.totalElements", is(numOfAccountsCreated)))
+                .andExpect(jsonPath("$.page.totalPages", is(numOfAccountsCreated > 0 ? 1 : 0)))
+                .andExpect(jsonPath("$.page.number", is(0)));
+    }
+
+    @Test
+    public void testSearchByUsername() throws Exception {
+        AccountDto accountDto = createDefaultAccount();
+        mockMvc.perform(get(ACCOUNTS_PATH + "/search")
+                .header("User", accountDto.getIdField())
+                .param("username", accountDto.getUsername()))
+                .andDo(print())
+                .andExpect(jsonPath("$._embedded.accountDtoList[0].username", is(accountDto.getUsername())))
+                .andExpect(jsonPath("$._embedded.accountDtoList[0].email", is(accountDto.getEmail())))
+                .andExpect(jsonPath("$.page.totalElements", is(1)));
     }
 }

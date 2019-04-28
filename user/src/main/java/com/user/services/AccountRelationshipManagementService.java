@@ -31,6 +31,9 @@ public class AccountRelationshipManagementService {
                     addedBy.getUsername(), added.getUsername(), req.getType(), optional.get().getRelationshipType() + ":" + optional.get().getStatus());
             relationshipRepository.delete(optional.get());
         }
+        if (added.getUsername().equalsIgnoreCase(addedBy.getUsername())) {
+            throw new IllegalStateException("You can't send a request to yourself.");
+        }
         log.info(">[CREATE] Successfully posted the status. {}", req);
         AccountRelationship accountRelationship = new AccountRelationship();
         accountRelationship.setRelationshipType(req.getType());

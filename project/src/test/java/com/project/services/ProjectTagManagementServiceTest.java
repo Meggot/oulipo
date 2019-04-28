@@ -87,7 +87,6 @@ public class ProjectTagManagementServiceTest {
         authorProjectRole.setProject(project);
 
         createTagRequest = new CreateTagRequest();
-        createTagRequest.setProjectId(projectId);
         createTagRequest.setValue(testTag);
 
         deleteProjectTag = new ProjectTag();
@@ -105,7 +104,7 @@ public class ProjectTagManagementServiceTest {
 
     @Test
     public void handle_create_tag_create_success() {
-        projectTagManagementService.handleCreateTagRequest(createTagRequest, requestingUserId);
+        projectTagManagementService.handleCreateTagRequest(createTagRequest, project, requestingUserId);
         verify(projectTagRepository, times(1)).save(projectTagArgumentCaptor.capture());
         ProjectTag createdProjectTag = projectTagArgumentCaptor.getValue();
         assertThat(createdProjectTag.getOrigin()).isEqualToComparingFieldByField(author);
@@ -117,25 +116,19 @@ public class ProjectTagManagementServiceTest {
     @Test(expected = NoSuchElementException.class)
     public void handle_create_tag_create_no_author() {
         when(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(requestingUserId))).thenReturn(Optional.empty());
-        projectTagManagementService.handleCreateTagRequest(createTagRequest, requestingUserId);
-    }
-
-    @Test(expected = NoSuchElementException.class)
-    public void handle_create_tag_create_no_project() {
-        when(projectRepository.findById(projectId)).thenReturn(Optional.empty());
-        projectTagManagementService.handleCreateTagRequest(createTagRequest, requestingUserId);
+        projectTagManagementService.handleCreateTagRequest(createTagRequest, project, requestingUserId);
     }
 
     @Test(expected = UnauthorizedException.class)
     public void handle_create_tag_no_author_role() {
         project.setAuthorProjectRoles(Lists.emptyList());
-        projectTagManagementService.handleCreateTagRequest(createTagRequest, requestingUserId);
+        projectTagManagementService.handleCreateTagRequest(createTagRequest, project, requestingUserId);
     }
 
     @Test(expected = UnauthorizedException.class)
     public void handle_create_tag_author_bad_role() {
         authorProjectRole.setRole(AuthorProjectRoleType.CONTRIBUTOR);
-        projectTagManagementService.handleCreateTagRequest(createTagRequest, requestingUserId);
+        projectTagManagementService.handleCreateTagRequest(createTagRequest, project, requestingUserId);
     }
 
     @Test

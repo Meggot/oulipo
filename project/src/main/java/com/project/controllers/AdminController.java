@@ -39,11 +39,12 @@ public class AdminController {
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST, path = "/projects/tag")
-    public Resource<ProjectTagDto> addAdminTag(@RequestHeader("User") String adminUserId,
+    @RequestMapping(method = RequestMethod.POST, path = "/projects/{projectId}/tag")
+    public Resource<ProjectTagDto> addAdminTag(@PathVariable("projectId") Project project,
+            @RequestHeader("User") String adminUserId,
                                                @ModelAttribute @Valid CreateTagRequest createTagRequest) {
         log.debug(">[ADMIN] {} has added an Admin tag to {}", adminUserId, createTagRequest);
-        ProjectTag tagEntity = adminActionManagementService.handleAdminTag(createTagRequest, adminUserId);
+        ProjectTag tagEntity = adminActionManagementService.handleAdminTag(createTagRequest, project, adminUserId);
         return new Resource<>(projectTagAssembler.toResource(tagEntity));
     }
 }

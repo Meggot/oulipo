@@ -54,15 +54,6 @@ public class ProjectTagController {
     }
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public Resource<ProjectTagDto> postTag(@ModelAttribute @Valid CreateTagRequest createTagRequest,
-                                           @RequestHeader("User") String userId) {
-        log.debug("Received a post request for tags {} ", createTagRequest);
-        ProjectTag tagEntity = projectTagManagementService.handleCreateTagRequest(createTagRequest, userId);
-        return new Resource<>(tagAssembler.toResource(tagEntity));
-    }
-
-    @ResponseBody
     @RequestMapping(path = "/{tagId}", method = RequestMethod.DELETE)
     public ResponseEntity deleteTag(@PathVariable("tagId") ProjectTag projectTag,
                                     @RequestHeader("User") String userId) {

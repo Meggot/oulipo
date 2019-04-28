@@ -40,7 +40,7 @@ public class GroupControllerTest extends AccountTest {
         AccountDto leader = createDefaultAccount();
         AccountDto member = createDefaultAccount();
         GroupDto groupDto = createDefaultGroup(leader);
-        this.mockMvc.perform(post(ACCOUNTS_PATH + "/" + member.getIdField() + "/group/" + groupDto.getIdField())
+        this.mockMvc.perform(post(ACCOUNTS_PATH + "/" + member.getUsername() + "/group/" + groupDto.getIdField())
                 .header("User", leader.getIdField())
                 .param("role", GroupRole.MEMBER.toString()))
                 .andDo(print())
@@ -93,6 +93,21 @@ public class GroupControllerTest extends AccountTest {
                 .andExpect(jsonPath("$.projects[0].groupId", is(groupDto.getIdField())))
                 .andExpect(jsonPath("$.projects[0].addedByUsername", is(leader.getUsername())))
                 .andExpect(jsonPath("$.projects[0].addedById", is(leader.getIdField())));
+    }
 
+    @Test
+    public void searchForGroupByName() throws Exception {
+        AccountDto leader = createDefaultAccount();
+        GroupDto groupDto = createGroupWithName(leader, "TestingGroupAlpha");
+        this.mockMvc.perform(get(GROUP_PATH + "/search").header("User", leader.getIdField()).param("name", groupDto.getName()))
+                .andDo(print())
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].name", is(groupDto.getName())))
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].description", is(groupDto.getDescription())))
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].type", is(groupDto.getType().toString())))
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].accountUsername", is(leader.getUsername())))
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].accountId", is(leader.getIdField())))
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].groupName", is(groupDto.getName())))
+                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].role", is(GroupRole.LEADER.toString())))
+                .andExpect(jsonPath("$.page.totalElements", is(1)));
     }
 }

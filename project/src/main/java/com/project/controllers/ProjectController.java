@@ -3,12 +3,17 @@
 package com.project.controllers;
 
 import com.common.models.dtos.ProjectDto;
+import com.common.models.dtos.ProjectTagDto;
 import com.common.models.requests.CreateProject;
+import com.common.models.requests.CreateTagRequest;
 import com.common.models.requests.UpdateProject;
 import com.project.controllers.assemblers.ProjectAssembler;
+import com.project.controllers.assemblers.ProjectTagAssembler;
 import com.project.dao.entites.Project;
+import com.project.dao.entites.ProjectTag;
 import com.project.dao.repository.ProjectRepository;
 import com.project.services.ProjectManagementService;
+import com.project.services.ProjectTagManagementService;
 import com.querydsl.core.types.Predicate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,6 +42,12 @@ public class ProjectController {
 
     @Autowired
     ProjectRepository projectRepository;
+
+    @Autowired
+    ProjectTagAssembler tagAssembler;
+
+    @Autowired
+    ProjectTagManagementService projectTagManagementService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
@@ -78,5 +89,14 @@ public class ProjectController {
         ProjectDto updateProjectDto = projectAssembler.toResource(updatedProject);
         model.addAttribute("project", updateProjectDto);
         return new Resource<>(updateProjectDto);
+    }
+
+    @ResponseBody
+    @RequestMapping(value="/{projectId}/tags", method = RequestMethod.POST)
+    public Resource<ProjectTagDto> postTag(@PathVariable("projectId") Project project,
+                @ModelAttribute @Valid CreateTagRequest createTagRequest,
+                                           @RequestHeader("User") String userId) {
+        ProjectTag tagEntity = projectTagManagementService.handleCreateTagRequest(createTagRequest, project, userId);
+        return new Resource<>(tagAssembler.toResource(tagEntity));
     }
 }

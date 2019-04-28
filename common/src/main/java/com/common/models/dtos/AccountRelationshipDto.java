@@ -16,7 +16,11 @@ public class AccountRelationshipDto extends ResourceSupport implements Identifia
 
     private String addedByUsername;
 
+    private Integer addedByUserId;
+
     private String addedUsername;
+
+    private Integer addedUserId;
 
     private AccountRelationshipType type;
 

@@ -32,8 +32,7 @@ public class ExplorerControllerTest extends ProjectTest {
     @Test
     public void searchTags() throws Exception {
         ProjectDto projectDto = createDefaultProject();
-        this.mockMvc.perform(post(TAGS_PATH)
-                .param("projectId", String.valueOf(projectDto.getProjectId()))
+        this.mockMvc.perform(post(PROJECTS_PATH + projectDto.getProjectId() + "/tags")
                 .param("value", "NSFW")
                 .header("User", defaultUserId));
         numOfTagsCreated++;
@@ -47,8 +46,7 @@ public class ExplorerControllerTest extends ProjectTest {
                 .param("tags", defaultTagValue + 1))
                 .andDo(print())
                 .andExpect(jsonPath("$.page.totalElements", is(0)));
-        this.mockMvc.perform(post(TAGS_PATH)
-                .param("projectId", String.valueOf(projectDto.getProjectId()))
+        this.mockMvc.perform(post(PROJECTS_PATH + projectDto.getProjectId() + "/tags")
                 .param("value", "NewTag")
                 .header("User", defaultUserId));
         numOfTagsCreated++;

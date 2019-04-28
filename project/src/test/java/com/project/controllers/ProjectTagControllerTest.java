@@ -57,8 +57,7 @@ public class ProjectTagControllerTest extends ProjectTest {
         String tagValue = "Tagged";
         ProjectDto project = createDefaultProject();
         numOfTagsCreated++;
-        this.mockMvc.perform(post(TAGS_PATH)
-                .param("projectId", String.valueOf(project.getProjectId()))
+        this.mockMvc.perform(post(PROJECTS_PATH + project.getProjectId() + "/tags")
                 .param("value", tagValue)
                 .header("User", defaultUserId))
                 .andDo(print())

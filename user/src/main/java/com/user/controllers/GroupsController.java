@@ -99,4 +99,15 @@ public class GroupsController {
         Page<GroupDto> page = repository.findAll(whereProjectIdIsMember, pageable).map(assembler::toResource);
         return pagedResourcesAssembler.toResource(page);
     }
+
+    @ResponseBody
+    @RequestMapping(method = RequestMethod.GET, path = "/search")
+    public PagedResources<GroupDto> getGroupsWhereGroupNameContains(@RequestHeader("User") Account requester,
+                                                                    Pageable pageable,
+                                                                    @RequestParam(name = "name") String groupName,
+                                                                    PagedResourcesAssembler pagedResourcesAssembler) {
+        Predicate whereGroupNameContains = QGroup.group.name.containsIgnoreCase(groupName);
+        Page<GroupDto> page = repository.findAll(whereGroupNameContains, pageable).map(assembler::toResource);
+        return pagedResourcesAssembler.toResource(page);
+    }
 }

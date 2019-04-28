@@ -124,8 +124,7 @@ public class ProjectTest {
 
     public ProjectTagDto createDefaultTagOnProjectId(String projectId) throws Exception {
         numOfTagsCreated++;
-        String stringValue = this.mockMvc.perform(post(TAGS_PATH)
-                .param("projectId", projectId)
+        String stringValue = this.mockMvc.perform(post(PROJECTS_PATH + projectId + "/tags")
                 .param("value", defaultTagValue)
                 .header("User", defaultUserId)).andReturn().getResponse().getContentAsString();
         return ReadWriteUtils.asObjectFromString(ProjectTagDto.class,

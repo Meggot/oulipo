@@ -19,7 +19,9 @@ public class AccountRelationshipAssembler extends ResourceAssemblerSupport<Accou
         AccountRelationshipDto accountRelationshipDto = createResourceWithId(accountRelationship.getId(), accountRelationship);
         accountRelationshipDto.setIdField(accountRelationship.getId());
         accountRelationshipDto.setAddedByUsername(accountRelationship.getAddedBy().getUsername());
+        accountRelationshipDto.setAddedByUserId(accountRelationship.getAddedBy().getId());
         accountRelationshipDto.setAddedUsername(accountRelationship.getAdded().getUsername());
+        accountRelationshipDto.setAddedUserId(accountRelationship.getAdded().getId());
         accountRelationshipDto.setStatus(accountRelationship.getStatus());
         accountRelationshipDto.setType(accountRelationship.getRelationshipType());
         return accountRelationshipDto;

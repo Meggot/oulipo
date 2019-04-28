@@ -31,11 +31,9 @@ public class AdminActionManagementService {
         return projectRepository.save(project);
     }
 
-    public ProjectTag handleAdminTag(CreateTagRequest createTagRequest, String adminUserId) {
+    public ProjectTag handleAdminTag(CreateTagRequest createTagRequest, Project project, String adminUserId) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(adminUserId))
                 .orElseThrow(() -> new NoSuchElementException("Admin Author doesn't exist with ID " + adminUserId));
-        Project project = projectRepository.findById(createTagRequest.getProjectId())
-                .orElseThrow(() -> new NoSuchElementException("Project by the projectid " + createTagRequest.getProjectId() + " does not exist"));
         ProjectTag newTag = new ProjectTag();
         newTag.setType(TagType.ADMIN_ADDED);
         newTag.setValue(createTagRequest.getValue());

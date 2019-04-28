@@ -41,13 +41,11 @@ public class ProjectTagManagementService {
         this.projectLifecycleStreamer = projectLifecycleStreamer;
     }
 
-    public ProjectTag handleCreateTagRequest(CreateTagRequest createTagRequest, String userId) {
+    public ProjectTag handleCreateTagRequest(CreateTagRequest createTagRequest, Project project, String userId) {
         //is user an author?
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
                 .orElseThrow(() -> new NoSuchElementException("Author by the userid " + userId + " does not exist"));
         //is user an author of the project?
-        Project project = projectRepository.findById(createTagRequest.getProjectId())
-                .orElseThrow(() -> new NoSuchElementException("Project by the projectid " + createTagRequest.getProjectId() + " does not exist"));
         AuthorProjectRole authorRole = project.getAuthorProjectRoles().stream().filter(tag -> tag.getAuthor().getAuthorId().equals(author.getAuthorId()))
                 .findFirst()
                 .orElseThrow(() -> new UnauthorizedException("Author " + author.getAuthorId() + " does not have an AuthorProjectRole with this project " + project.getId()));

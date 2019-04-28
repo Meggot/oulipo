@@ -82,6 +82,17 @@ public class AccountTest {
                         .getResponse().getContentAsString());
     }
 
+
+    public GroupDto createGroupWithName(AccountDto leader, String groupName) throws Exception {
+        numOfGroupsCreated++;
+        return ReadWriteUtils.asObjectFromString(GroupDto.class,
+                this.mockMvc.perform(post(GROUP_PATH).header("User", leader.getIdField())
+                        .param("name", groupName)
+                        .param("description", defaultGroupDescription)
+                        .param("type", defaultGroupType)).andReturn()
+                        .getResponse().getContentAsString());
+    }
+
     public AccountDto createDefaultAccount() throws Exception {
         //We have to add the num of accounts to these fields to stop duplciated error.
         defaultUsername = defaultUsername + numOfAccountsCreated;
@@ -95,7 +106,7 @@ public class AccountTest {
     public AccountRelationshipDto createRelationshipDto(AccountDto added, AccountDto addedTo) throws Exception {
         numofRelationshipsCreated++;
         return ReadWriteUtils.asObjectFromString(AccountRelationshipDto.class,
-                mockMvc.perform(post(ACCOUNTS_PATH + added.getIdField() + "/relationship")
+                mockMvc.perform(post(ACCOUNTS_PATH + added.getUsername() + "/relationship")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                         .param("type", AccountRelationshipType.FRIEND.toString())

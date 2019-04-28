@@ -77,15 +77,27 @@ public class AccountController {
     @ResponseBody
     @RequestMapping(value = "/{accountId}", method = RequestMethod.PATCH)
     public Resource<AccountDto> updateAccount(@PathVariable Integer accountId, @ModelAttribute("UpdateAccount") UpdateAccount updateAccount) {
-        Account account =  accountManagementService.updateAccount(accountId, updateAccount);
+        Account account = accountManagementService.updateAccount(accountId, updateAccount);
         return new Resource<>(accountResourceAssembler.toResource(account));
     }
 
     @ResponseBody
     @RequestMapping("/{accountId}")
-    public HttpEntity<Identifiable> findById(@PathVariable("accountId") Account account, Model model) {
+    public Resource<AccountDto> findById(@PathVariable("accountId") Account account, Model model) {
         model.addAttribute("account", account);
-        return new ResponseEntity<>(accountResourceAssembler.toResource(account), HttpStatus.OK);
+        return new Resource<>(accountResourceAssembler.toResource(account));
+    }
+
+    @ResponseBody
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    public PagedResources<AccountDto> search(@RequestHeader("User") Account user,
+                                             @RequestParam(value = "username") String username,
+                                             Pageable pageable,
+                                             PagedResourcesAssembler pagedResourcesAssembler) {
+        Predicate accountWhereUsernameContains = QAccount.account.username.containsIgnoreCase(username);
+        Page<AccountDto> accountPage = accountRepository.findAll(accountWhereUsernameContains, pageable)
+                .map(account -> accountResourceAssembler.toResource(account));
+        return pagedResourcesAssembler.toResource(accountPage);
     }
 
     @ResponseBody
@@ -107,30 +119,39 @@ public class AccountController {
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{accountId}/relationship", method = RequestMethod.POST)
+    @RequestMapping(value = "/{username}/relationship", method = RequestMethod.POST)
     public Resource<AccountRelationshipDto> postRelationshipRequest(@ModelAttribute @Valid AccountRelationshipRequest request,
                                                                     @RequestHeader("User") Account accountReq,
-                                                                    @PathVariable("accountId") Account account) {
+                                                                    @PathVariable("username") String username) {
+        Account account = accountRepository.getAccountByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("Cannot find user by the username"));
+
         AccountRelationship relationship = accountRelationshipManagementService.postRelationshipRequest(request, accountReq, account);
         return new Resource<>(accountRelationshipAssembler.toResource(relationship));
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{accountId}/tags", method = RequestMethod.POST)
+    @RequestMapping(value = "/{username}/tags", method = RequestMethod.POST)
     public Resource<AccountTagDto> postAccountTag(@ModelAttribute @Valid AccountTagRequest request,
-                                                  @PathVariable("accountId") Account accountToAdd,
-                                                  @RequestHeader("User") Account account) {
-        AccountTag accountTag = accountTagManagementService.handleAccountTagRequest(request, accountToAdd);
+                                                  @RequestHeader("accountId") Account accountAdder,
+                                                  @PathVariable("username") String username) {
+        Account account = accountRepository.getAccountByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("Cannot find user by the username"));
+
+        AccountTag accountTag = accountTagManagementService.handleAccountTagRequest(request, account);
         return new Resource<>(accountTagAssembler.toResource(accountTag));
     }
 
     @ResponseBody
-    @RequestMapping(value = "/{accountId}/group/{groupId}", method = RequestMethod.POST)
-    public Resource<AccountGroupMembershipDto> postAccountMembership(@Valid  @ModelAttribute PostAccountGroupMembershipRequest request,
+    @RequestMapping(value = "/{username}/group/{groupId}", method = RequestMethod.POST)
+    public Resource<AccountGroupMembershipDto> postAccountMembership(@Valid @ModelAttribute PostAccountGroupMembershipRequest request,
                                                                      @RequestHeader("User") Account addedBy,
-                                                                     @PathVariable("accountId") Account added,
+                                                                     @PathVariable("username") String username,
                                                                      @PathVariable("groupId") Group group) {
-        AccountGroupMembership accountGroupMembership = groupManagementService.handlePostAccountGroupMembershipRequest(request, addedBy, added, group);
+        Account account = accountRepository.getAccountByUsername(username)
+                .orElseThrow(() -> new IllegalStateException("Cannot find user by the username"));
+
+        AccountGroupMembership accountGroupMembership = groupManagementService.handlePostAccountGroupMembershipRequest(request, addedBy, account, group);
         return new Resource<>(accountGroupMembershipAssembler.toResource(accountGroupMembership));
     }
 }

@@ -40,6 +40,9 @@ public class AccountRelationshipControllerTest extends AccountTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(accountRelationshipDto.getIdField())))
                 .andExpect(jsonPath("$.addedUsername", is(added.getUsername())))
+                .andExpect(jsonPath("$.addedUserId", is(added.getIdField())))
+                .andExpect(jsonPath("$.addedByUsername", is(addedBy.getUsername())))
+                .andExpect(jsonPath("$.addedByUserId", is(addedBy.getIdField())))
                 .andExpect(jsonPath("$.type", is(AccountRelationshipType.FRIEND.toString())))
                 .andExpect(jsonPath("$.status", is(AccountRelationshipStatus.REQUESTED.toString())))
                 .andExpect(jsonPath(selfLink, is(hostname + "relationship/" + accountRelationshipDto.getIdField())));
@@ -50,14 +53,16 @@ public class AccountRelationshipControllerTest extends AccountTest {
         AccountDto added = createDefaultAccount();
         AccountDto addedBy = createDefaultAccount();
         numofRelationshipsCreated++;
-        this.mockMvc.perform(post(ACCOUNTS_PATH + added.getIdField() + "/relationship")
+        this.mockMvc.perform(post(ACCOUNTS_PATH + added.getUsername() + "/relationship")
                 .contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON)
                 .param("type", AccountRelationshipType.FRIEND.toString())
                 .header("User", addedBy.getIdField()))
                 .andDo(print())
                 .andExpect(jsonPath("$.addedByUsername", is(addedBy.getUsername())))
+                .andExpect(jsonPath("$.addedByUserId", is(addedBy.getIdField())))
                 .andExpect(jsonPath("$.addedUsername", is(added.getUsername())))
+                .andExpect(jsonPath("$.addedUserId", is(added.getIdField())))
                 .andExpect(jsonPath("$.type", is(AccountRelationshipType.FRIEND.toString())))
                 .andExpect(jsonPath("$.status", is(AccountRelationshipStatus.REQUESTED.toString())));
     }

@@ -12,10 +12,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CreateTagRequest {
-
-    @NotNull
-    private Integer projectId;
-
     @NotNull
     private String value;
 }
