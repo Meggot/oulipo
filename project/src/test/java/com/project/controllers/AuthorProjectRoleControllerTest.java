@@ -51,9 +51,8 @@ public class AuthorProjectRoleControllerTest extends ProjectTest {
         Author newAuthor = createNewAuthor(newUserId, newAuthorName);
         ProjectDto newProject = createDefaultProject();
         numOfAuthorProjectRolesCreated++;
-        this.mockMvc.perform(post(ROLES_PATH).header("User", defaultUserId)
+        this.mockMvc.perform(post(PROJECTS_PATH + newProject.getProjectId() + "/roles").header("User", defaultUserId)
                 .param("userId", String.valueOf(newUserId))
-                .param("projectId", String.valueOf(newProject.getProjectId()))
                 .param("authorProjectRoleType", AuthorProjectRoleType.CONTRIBUTOR.toString()))
                 .andDo(print())
                 .andExpect(jsonPath("$.authorId", is(newAuthor.getAuthorId())))

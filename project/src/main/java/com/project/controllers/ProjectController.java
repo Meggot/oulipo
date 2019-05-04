@@ -2,16 +2,21 @@
 
 package com.project.controllers;
 
+import com.common.models.dtos.AuthorProjectRoleDto;
 import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectTagDto;
+import com.common.models.requests.AuthorProjectRoleRequest;
 import com.common.models.requests.CreateProject;
 import com.common.models.requests.CreateTagRequest;
 import com.common.models.requests.UpdateProject;
+import com.project.controllers.assemblers.AuthorProjectRoleAssembler;
 import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.controllers.assemblers.ProjectTagAssembler;
+import com.project.dao.entites.AuthorProjectRole;
 import com.project.dao.entites.Project;
 import com.project.dao.entites.ProjectTag;
 import com.project.dao.repository.ProjectRepository;
+import com.project.services.AuthorProjectRoleManagementService;
 import com.project.services.ProjectManagementService;
 import com.project.services.ProjectTagManagementService;
 import com.querydsl.core.types.Predicate;
@@ -38,6 +43,9 @@ public class ProjectController {
     ProjectAssembler projectAssembler;
 
     @Autowired
+    private AuthorProjectRoleAssembler roleAssembler;
+
+    @Autowired
     ProjectManagementService projectManagementService;
 
     @Autowired
@@ -48,6 +56,9 @@ public class ProjectController {
 
     @Autowired
     ProjectTagManagementService projectTagManagementService;
+
+    @Autowired
+    private AuthorProjectRoleManagementService authorProjectRoleManagementService;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
@@ -99,4 +110,16 @@ public class ProjectController {
         ProjectTag tagEntity = projectTagManagementService.handleCreateTagRequest(createTagRequest, project, userId);
         return new Resource<>(tagAssembler.toResource(tagEntity));
     }
+
+
+    @ResponseBody
+    @RequestMapping(value="/{projectId}/roles", method = RequestMethod.POST)
+    Resource<AuthorProjectRoleDto> postRole(@PathVariable("projectId") Project project,
+            @ModelAttribute @Valid AuthorProjectRoleRequest request, Model model, @RequestHeader("User") String userId) {
+        AuthorProjectRole authorProjectRole = authorProjectRoleManagementService.handleCreateAuthorProjectRoleRequest(request, project, userId);
+        model.addAttribute("authorProjectRole", authorProjectRole);
+        return new Resource<>(roleAssembler.toResource(authorProjectRole));
+    }
+
+
 }

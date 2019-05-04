@@ -11,6 +11,7 @@ import static org.hamcrest.Matchers.isEmptyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class PartControllerTest extends ProjectTest {
 
@@ -21,7 +22,7 @@ public class PartControllerTest extends ProjectTest {
         this.mockMvc.perform(post(PARTS_PATH + "project/" + projectDto.getProjectId() + " /parts").header("User", defaultUserId))
                 .andDo(print())
                 .andExpect(jsonPath("$.projectId", is(projectDto.getProjectId())))
-                .andExpect(jsonPath("$.status", is(PartStatus.RESERVED.toString())))
+                .andExpect(jsonPath("$.status", is(PartStatus.IN_PROGRESS.toString())))
                 .andExpect(jsonPath("$.activeValue", is("")))
                 .andExpect(jsonPath("$.sequence", is(1)))
                 .andExpect(jsonPath("$.authorName", is(defaultAuthorName)));
@@ -41,7 +42,7 @@ public class PartControllerTest extends ProjectTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(partDto.getIdField())))
                 .andExpect(jsonPath("$.projectId", is(partDto.getProjectId())))
-                .andExpect(jsonPath("$.status", is(patchStatus)))
+                .andExpect(jsonPath("$.status", is(PartStatus.IN_PROGRESS.toString())))
                 .andExpect(jsonPath("$.activeValue", is(someValue)))
                 .andExpect(jsonPath("$.sequence", is(1)))
                 .andExpect(jsonPath("$.authorName", is(defaultAuthorName)))
@@ -63,6 +64,22 @@ public class PartControllerTest extends ProjectTest {
     }
 
     @Test
-    public void getPartById() {
+    public void deletePart() throws Exception {
+        ProjectDto projectDto = createDefaultProject();
+        ProjectPartDto partDto = createDefaultPartOnProjectId((String.valueOf(projectDto.getProjectId())));
+        this.mockMvc.perform(get(PARTS_PATH + "/" + partDto.getIdField())
+                .header("User", defaultUserId))
+                .andDo(print())
+                .andExpect(jsonPath("$.projectId", is(projectDto.getProjectId())))
+                .andExpect(jsonPath("$.status", is(PartStatus.IN_PROGRESS.toString())))
+                .andExpect(jsonPath("$.authorName", is(defaultAuthorName)))
+                .andExpect(jsonPath("$.projectTitle", is(projectDto.getTitle())));
+        this.mockMvc.perform(patch((PARTS_PATH + "/" + partDto.getIdField() + "/delete"))
+                .header("User", defaultUserId))
+                .andExpect(status().isOk());
+        this.mockMvc.perform(get(PARTS_PATH + "/" + partDto.getIdField())
+                .header("User", defaultUserId))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 }

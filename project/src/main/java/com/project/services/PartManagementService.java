@@ -11,17 +11,23 @@ import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
 import com.project.dao.entites.Project;
 import com.project.dao.entites.ProjectPart;
+import com.project.dao.repository.AuthorProjectRoleRepository;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.PartRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.services.permissions.ProjectPartPermissions;
 import com.project.streaming.ProjectLifecycleStreamer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
+import static com.common.models.dtos.PartStatus.*;
+
 @Component
+@Slf4j
 public class PartManagementService {
 
     @Autowired
@@ -45,9 +51,12 @@ public class PartManagementService {
     @Autowired
     AuthorManagementService authorManagementService;
 
+    @Autowired
+    AuthorProjectRoleRepository authorProjectRoleRepository;
+
     public ProjectPart requestPartOnProject(Project project, String userId) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
-                .orElseGet(() -> authorManagementService.createAuthor(Integer.parseInt(userId),"Author" + userId));
+                .orElseGet(() -> authorManagementService.createAuthor(Integer.parseInt(userId), "Author" + userId));
         Optional<ProjectPart> partOwnedByUserId = project.getPartList().stream().filter(part -> part.getStatus().equals(PartStatus.RESERVED) && part.getCurrentlyHoldingAuthor().getUserId().equals(Integer.parseInt(userId))).findAny();
         if (partOwnedByUserId.isPresent()) {
             return partOwnedByUserId.get();
@@ -62,14 +71,31 @@ public class PartManagementService {
         }
         projectPartPermissions.canUserRoleRequestPartOnProjectType(authorProjectRoleType, project.getSourcingType());
 
+        if (authorProjectRoleType == null) {
+            AuthorProjectRole authorProjectRole = new AuthorProjectRole();
+            project.addAuthorProjectRole(authorProjectRole);
+            author.addAuthorProjectRole(authorProjectRole);
+            authorProjectRole.setRole(AuthorProjectRoleType.CONTRIBUTOR);
+            authorProjectRoleRepository.save(authorProjectRole);
+        }
+
         Optional<ProjectPart> lastCreatedPartOnProject = project.getLastAddedPart();
         ProjectPart newPart = new ProjectPart();
         if (lastCreatedPartOnProject.isPresent()) {
             newPart.setSequence(new Integer(lastCreatedPartOnProject.get().getSequence() + 1));
+            newPart.setStatus(PartStatus.RESERVED);
         } else {
             newPart.setSequence(new Integer(1));
+            newPart.setStatus(IN_PROGRESS);
         }
-        newPart.setStatus(PartStatus.RESERVED);
+
+        if (project.getPartList().stream()
+                .anyMatch(part -> part.getStatus() == IN_PROGRESS)) {
+            newPart.setStatus(RESERVED);
+        } else {
+            newPart.setStatus(IN_PROGRESS);
+        }
+
         newPart.setValue("");
         author.addCreatedPart(newPart);
         project.addPart(newPart);
@@ -93,10 +119,16 @@ public class PartManagementService {
         if (part.getSequence() != part.getProject().getNextToBePostedPartSequence()) {
             throw new PartNotEditableException("That part cannot be submitted as it is not the next in the sequence");
         }
+
         part.setValue(partValue.getValue());
-        part.setStatus(partValue.getReviewStatus());
         if (partValue.getReviewStatus().equals(PartStatus.LOCKED)) {
+            part.setStatus(partValue.getReviewStatus());
             copyManagementService.addValueToCopy(part.getProject().getCopy(), partValue.getValue());
+            Optional<ProjectPart> nextInLine = part.getProject().getNextToBeInLineToWriting();
+            if (nextInLine.isPresent()) {
+                nextInLine.get().setStatus(IN_PROGRESS);
+                log.debug("Setting {} part as in progress as it is next in line.", nextInLine.get());
+            }
         }
         part = partRepository.save(part);
 
@@ -110,5 +142,31 @@ public class PartManagementService {
         projectLifecycleStreamer.sendProjectPartUpdateMessage(projectPartUpdateMessage);
 
         return part;
+    }
+
+    public boolean deletePart(ProjectPart part, String userId) {
+        if (part.getStatus().equals(PartStatus.LOCKED)) {
+            log.debug("User {} has requested to delete part {} but it is locked", userId, part.getId());
+            return false;
+        }
+        Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
+                .orElseThrow(() -> new NoSuchElementException("An author with that UserId does not exist"));
+
+        if (part.getCurrentlyHoldingAuthor().getUserId().equals(author.getUserId())) {
+            log.debug("User {} has requested to delete his own part {} deleting..", userId, part.getId());
+            partRepository.delete(part);
+            return true;
+        }
+
+        AuthorProjectRole requesterRole = author.getAuthorProjectRoles().stream()
+                .filter(authorProjectRole -> authorProjectRole.getProject().getId().equals(part.getProject().getId())).findFirst()
+                .orElseThrow(() -> new NoSuchElementException(("Author does not have an author role for this project")));
+        if (projectPartPermissions.canUserRoleRequestDeleteOnPart(requesterRole.getRole())) {
+            log.debug("User {} has requested to part {}, and they have the right permission role of {}", userId, part.getId(), requesterRole);
+            partRepository.delete(part);
+            return true;
+        }
+        log.debug("User {} has requested to part {}, but they have do not have the right permission. They are: {}", userId, part.getId(), requesterRole);
+        return false;
     }
 }

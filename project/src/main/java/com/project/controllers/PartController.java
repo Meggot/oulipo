@@ -8,6 +8,7 @@ import com.project.dao.entites.ProjectPart;
 import com.project.services.PartManagementService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.Resource;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -43,5 +44,17 @@ public class PartController {
     @RequestMapping(path = "/{partId}", method = RequestMethod.GET)
     public Resource<ProjectPartDto> getPartById(@PathVariable("partId") ProjectPart part) {
         return new Resource<>(partAssembler.toResource(part));
+    }
+
+    @ResponseBody
+    @RequestMapping(path = "/{partId}/delete", method = RequestMethod.PATCH)
+    public ResponseEntity deletePartId(@PathVariable("partId") ProjectPart part,
+                                       @RequestHeader("User") String userId) {
+        boolean partRemoved = partManagementService.deletePart(part, userId);
+        if (partRemoved) {
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.badRequest().build();
+        }
     }
 }

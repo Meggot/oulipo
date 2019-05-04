@@ -57,6 +57,11 @@ public class Project extends EntityObject {
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
     private Copy copy;
 
+    public Optional<ProjectPart> getNextToBeInLineToWriting() {
+        return partList.stream()
+                .filter(part -> part.getStatus() == PartStatus.RESERVED)
+                .min(Comparator.comparing(ProjectPart::getSequence));
+    }
 
     public void addTag(ProjectTag projectTag) {
         this.tags.add(projectTag);
@@ -79,8 +84,13 @@ public class Project extends EntityObject {
     }
 
     public Integer getNextToBePostedPartSequence() {
-        return partList.stream()
-                .filter(part -> part.getStatus() == PartStatus.RESERVED || part.getStatus() == PartStatus.ACTIVE)
-                .min(Comparator.comparing(ProjectPart::getSequence)).get().getSequence();
+        Optional<ProjectPart> nextInLine = partList.stream()
+                .filter(part -> part.getStatus() == PartStatus.IN_PROGRESS)
+                .min(Comparator.comparing(ProjectPart::getSequence));
+        if (nextInLine.isPresent()) {
+            return nextInLine.get().getSequence();
+        } else {
+            return 1;
+        }
     }
 }

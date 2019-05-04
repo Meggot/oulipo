@@ -7,8 +7,8 @@ import com.project.dao.entites.AuthorProjectRole;
 import com.project.dao.entites.Project;
 import com.project.dao.repository.AuthorProjectRoleRepository;
 import com.project.dao.repository.AuthorRepository;
-import com.project.dao.repository.ProjectRepository;
 import com.project.services.permissions.AuthorRolePermissions;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,34 +16,32 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Component
+@Slf4j
 public class AuthorProjectRoleManagementService {
 
     private AuthorProjectRoleRepository authorProjectRoleRepository;
 
     private AuthorRepository authorRepository;
 
-    private ProjectRepository projectRepository;
 
     private AuthorRolePermissions authorRolePermissionsEngine;
 
     @Autowired
     public AuthorProjectRoleManagementService(AuthorProjectRoleRepository authorProjectRoleRepository,
                                               AuthorRepository authorRepository,
-                                              ProjectRepository projectRepository,
                                               AuthorRolePermissions authorRolePermissions) {
         this.authorProjectRoleRepository = authorProjectRoleRepository;
         this.authorRepository = authorRepository;
-        this.projectRepository = projectRepository;
         this.authorRolePermissionsEngine = authorRolePermissions;
 
     }
 
     public AuthorProjectRole handleCreateAuthorProjectRoleRequest(AuthorProjectRoleRequest authorProjectRoleRequest,
+                                                                  Project project,
                                                                   String userId) {
+        log.debug(">[CREATE] Handling a role posting by {} with req {}", userId, authorProjectRoleRequest);
         Author requestedAuthor = authorRepository.findAuthorByUserIdEquals(authorProjectRoleRequest.getUserId())
                 .orElseThrow(() -> new NoSuchElementException("A author by userId " + authorProjectRoleRequest.getUserId() + " does not exist"));
-        Project project = projectRepository.findById(authorProjectRoleRequest.getProjectId())
-                .orElseThrow(() -> new NoSuchElementException("A project by projectId " + authorProjectRoleRequest.getProjectId() + " does not exist"));
 
         Optional<AuthorProjectRole> existingAuthorProjectRole = project.getAuthorProjectRoles().stream()
                 .filter(authorsExisting -> authorsExisting.getAuthor().getUserId().equals(authorProjectRoleRequest.getUserId()))
@@ -55,8 +53,8 @@ public class AuthorProjectRoleManagementService {
 
         if (authorRolePermissionsEngine.canUserRolePostRole(getAuthorRoleOfProjectById(project.getId(), userId).getRole(), authorProjectRoleRequest.getAuthorProjectRoleType())) {
             AuthorProjectRole authorProjectRole = new AuthorProjectRole();
-            authorProjectRole.setProject(project);
-            authorProjectRole.setAuthor(requestedAuthor);
+            project.addAuthorProjectRole(authorProjectRole);
+            requestedAuthor.addAuthorProjectRole(authorProjectRole);
             authorProjectRole.setRole(authorProjectRoleRequest.getAuthorProjectRoleType());
             authorProjectRole = authorProjectRoleRepository.save(authorProjectRole);
             return authorProjectRole;
@@ -65,6 +63,7 @@ public class AuthorProjectRoleManagementService {
     }
 
     public AuthorProjectRole handleUpdateAuthorProjectRoleRequest(AuthorProjectRole authorProjectRole, UpdateAuthorProjectRole request, String userId) {
+        log.debug(">[UPDATE] Handling a role update request by {} of {}", userId, request);
         if (authorRolePermissionsEngine.canUserRolePatchRole(getAuthorRoleOfProjectById(authorProjectRole.getProject().getId(), userId).getRole(),
                 request.getNewRole(),
                 authorProjectRole.getRole())) {

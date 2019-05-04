@@ -32,5 +32,18 @@ public class ProjectPartPermissions {
                 throw new RuntimeException("Sourcing Type " + sourcingType + " not recognized in part permissions engine");
         }
     }
+
+    public boolean canUserRoleRequestDeleteOnPart(AuthorProjectRoleType requesterType) {
+        if (requesterType == AuthorProjectRoleType.BARRED) {
+            throw new UnauthorizedException("Author is barred from editing this project");
+        }
+        switch (requesterType) {
+            case MODERATOR:
+            case CREATOR:
+                return true;
+            default:
+                return false;
+        }
+    }
 }
 

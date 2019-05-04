@@ -18,8 +18,5 @@ public class AuthorProjectRoleRequest {
     private Integer userId;
 
     @NotNull
-    private Integer projectId;
-
-    @NotNull
     private AuthorProjectRoleType authorProjectRoleType;
 }

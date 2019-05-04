@@ -100,9 +100,8 @@ public class ProjectTest {
     public AuthorProjectRoleDto createAuthorRole(String userId, String projectId, AuthorProjectRoleType type) throws Exception {
         numOfAuthorProjectRolesCreated++;
         return ReadWriteUtils.asObjectFromString(AuthorProjectRoleDto.class,
-                this.mockMvc.perform(post(ROLES_PATH).header("User", defaultUserId)
+                this.mockMvc.perform(post(PROJECTS_PATH + projectId + "/roles").header("User", defaultUserId)
                         .param("userId", userId)
-                        .param("projectId", projectId)
                         .param("authorProjectRoleType", type.toString())).andReturn()
                         .getResponse().getContentAsString());
     }
