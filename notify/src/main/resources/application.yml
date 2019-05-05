@@ -12,9 +12,23 @@ spring:
 
 jms:
   topic:
-    user-lifecycle:
-      creation: topic-user-lifecycle-creation
-      update: topic-user-lifecycle-update
     project-lifecycle:
       creation: topic-project-lifecycle-creation
       update: topic-project-lifecycle-update
+    project-part-lifecycle:
+      creation: topic-project-part-lifecycle-creation
+      update: topic-project-part-lifecycle-update
+    copy-edit-lifecycle:
+      creation: topic-copy-edit-lifecycle-creation
+      update: topic-copy-edit-lifecycle-update
+    project-tag-lifecycle:
+      creation: topic-project-tag-lifecycle-creation
+      update: topic-project-tag-lifecycle-update
+    project-role-lifecycle:
+      creation: topic-project-role-lifecycle-creation
+      update: topic-project-role-lifecycle-update
+    user-lifecycle:
+      creation: topic-user-lifecycle-creation
+      update: topic-user-lifecycle-update
+    message:
+      sent: topic-message-sent

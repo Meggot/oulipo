@@ -99,7 +99,7 @@ public class ProjectManagementService {
         }
         projectUpdateMessage.setNewSynopsis(updateRequest.getSynopsis());
         projectUpdateMessage.setNewTitle(updateRequest.getTitle());
-        projectUpdateMessage.setProjectId(String.valueOf(projectToUpdate.getId()));
+        projectUpdateMessage.setProjectId(projectToUpdate.getId());
         projectUpdateMessage.setUserId(userId);
 
         lifecycleStreamer.sendProjectUpdateMessage(projectUpdateMessage);

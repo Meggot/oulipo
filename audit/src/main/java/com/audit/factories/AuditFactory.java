@@ -70,7 +70,7 @@ public class AuditFactory {
 
     public static Audit toAudit(ProjectTagCreationMessage message) {
         Audit audit = new Audit();
-        audit.setEntityId(message.getTagId());
+        audit.setEntityId(message.getProjectId());
         audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(message.getUserIdAdded());
         audit.setEventType(MessageType.PROJECT_TAG_CREATION);
@@ -82,7 +82,7 @@ public class AuditFactory {
 
     public static Audit toAudit(ProjectTagUpdateMessage message) {
         Audit audit = new Audit();
-        audit.setEntityId(message.getTagId());
+        audit.setEntityId(message.getProjectId());
         audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(message.getUserIdAdded());
         audit.setEventType(MessageType.PROJECT_TAG_UPDATE);

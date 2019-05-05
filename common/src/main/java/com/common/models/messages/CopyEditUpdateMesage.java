@@ -11,6 +11,8 @@ public class CopyEditUpdateMesage {
 
     private Integer copyId;
 
+    private Integer projectId;
+
     private String delta;
 
     private String authorName;

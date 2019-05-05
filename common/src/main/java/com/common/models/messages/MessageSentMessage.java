@@ -10,7 +10,11 @@ import lombok.NoArgsConstructor;
 public class MessageSentMessage {
     private String toUsername;
 
+    private Integer toUserId;
+
     private String fromUsername;
+
+    private Integer fromUserId;
 
     private String sentTime;
 

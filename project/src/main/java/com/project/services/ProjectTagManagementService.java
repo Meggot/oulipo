@@ -63,6 +63,7 @@ public class ProjectTagManagementService {
 
         ProjectTagCreationMessage projectTagCreationMessage = new ProjectTagCreationMessage();
         projectTagCreationMessage.setProjectTitle(project.getTitle());
+        projectTagCreationMessage.setProjectId(project.getId());
         projectTagCreationMessage.setTagId(newTag.getId());
         projectTagCreationMessage.setType(newTag.getType());
         projectTagCreationMessage.setUserIdAdded(author.getUserId());
@@ -88,6 +89,7 @@ public class ProjectTagManagementService {
         ProjectTagUpdateMessage projectTagUpdateMessage = new ProjectTagUpdateMessage();
         projectTagUpdateMessage.setValue("DELETED");
         projectTagUpdateMessage.setProjectTitle(projectTag.getProject().getTitle());
+        projectTagUpdateMessage.setProjectId(projectTag.getProject().getId());
         projectTagUpdateMessage.setTagId(projectTag.getId());
         projectTagUpdateMessage.setType(projectTag.getType());
         projectTagUpdateMessage.setUserIdAdded(author.getUserId());

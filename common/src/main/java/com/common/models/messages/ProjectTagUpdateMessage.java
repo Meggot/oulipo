@@ -16,6 +16,8 @@ public class ProjectTagUpdateMessage implements Serializable {
 
     private String projectTitle;
 
+    private Integer projectId;
+
     private TagType type;
 
     private Integer userIdAdded;

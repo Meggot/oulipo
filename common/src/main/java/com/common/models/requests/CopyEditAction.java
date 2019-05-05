@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 
 @Valid
 @Data
@@ -13,5 +14,6 @@ import javax.validation.Valid;
 @AllArgsConstructor
 public class CopyEditAction {
 
+    @NotNull
     EditActionType action;
 }

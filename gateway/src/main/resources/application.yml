@@ -22,6 +22,9 @@ zuul:
     audit:
       path: /api/audit/**
       url: http://localhost:13004/
+    notify:
+      path: /api/notify/**
+      url: http://localhost:13005/
   host:
     socket-timeout-millis: 241000
     connect-timeout-millis: 241000

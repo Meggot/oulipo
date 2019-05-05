@@ -220,6 +220,7 @@ public class JmsProjectLifecycleStreamer implements ProjectLifecycleStreamer {
 
     @Override
     public void sendCopyEditCreationMessage(CopyEditCreationMessage copyEditCreationMessage) {
+        log.info("sending");
         ListenableFuture<SendResult<String, CopyEditCreationMessage>> future = copyEditCreationTemplate.send(copyEditLifecycleCreationTopic.name(), copyEditCreationMessage);
         future.addCallback(new ListenableFutureCallback<SendResult<String, CopyEditCreationMessage>>() {
 

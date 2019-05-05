@@ -15,4 +15,6 @@ public class CopyEditCreationMessage {
     private String authorName;
 
     private String projectTitle;
+
+    private Integer projectId;
 }

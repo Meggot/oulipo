@@ -5,6 +5,8 @@ import com.common.models.dtos.CopyEditStatus;
 import com.common.models.dtos.EditActionType;
 import com.common.models.dtos.SourcingType;
 import com.common.models.exceptions.UnauthorizedException;
+import com.common.models.messages.CopyEditCreationMessage;
+import com.common.models.messages.CopyEditUpdateMesage;
 import com.common.models.requests.CopyEditRequest;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
@@ -13,6 +15,7 @@ import com.project.dao.entites.CopyEdit;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.CopyEditRepository;
 import com.project.services.permissions.CopyEditPermissions;
+import com.project.streaming.ProjectLifecycleStreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -32,6 +35,9 @@ public class CopyEditManagementService {
 
     @Autowired
     private CopyManagementService copyManagementService;
+
+    @Autowired
+    private ProjectLifecycleStreamer projectLifecycleStreamer;
 
     public CopyEdit actionAgainstCopyEdit(EditActionType action, String userId, CopyEdit copyEdit) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
@@ -66,6 +72,16 @@ public class CopyEditManagementService {
             default:
                 throw new RuntimeException("Action " + action + " not supported in CopyEditManagementService");
         }
+
+        CopyEditUpdateMesage copyEditUpdateMesage = new CopyEditUpdateMesage();
+        copyEditUpdateMesage.setAuthorName(copyEdit.getAuthor().getUsername());
+        copyEditUpdateMesage.setCopyId(copyEdit.getCopy().getId());
+        copyEditUpdateMesage.setProjectId(copyEdit.getCopy().getProject().getId());
+        copyEditUpdateMesage.setDelta(copyEdit.getDelta());
+        copyEditUpdateMesage.setEditStatus(action.toString());
+        copyEditUpdateMesage.setProjectTitle(copyEdit.getCopy().getProject().getTitle());
+        projectLifecycleStreamer.sendCopyEditUpdateMessage(copyEditUpdateMesage);
+
         return copyEditRepository.save(copyEdit);
     }
 
@@ -94,6 +110,13 @@ public class CopyEditManagementService {
         newCopyEdit.setDelta(copyEditRequest.getDelta());
         newCopyEdit.setStatus(CopyEditStatus.SUBMITTED);
         newCopyEdit = copyEditRepository.save(newCopyEdit);
+
+        CopyEditCreationMessage copyEditCreationMessage = new CopyEditCreationMessage();
+        copyEditCreationMessage.setAuthorName(author.getUsername());
+        copyEditCreationMessage.setCopyId(newCopyEdit.getCopy().getId());
+        copyEditCreationMessage.setDelta(newCopyEdit.getDelta());
+        copyEditCreationMessage.setProjectId(newCopyEdit.getCopy().getProject().getId());
+        projectLifecycleStreamer.sendCopyEditCreationMessage(copyEditCreationMessage);
 
         if (authorProjectRole.getRole() == AuthorProjectRoleType.CREATOR) {
             actionAgainstCopyEdit(EditActionType.APPROVE, userId, newCopyEdit);

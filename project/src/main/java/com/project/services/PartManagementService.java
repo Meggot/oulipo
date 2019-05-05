@@ -105,7 +105,10 @@ public class PartManagementService {
         projectPartCreationMessage.setPartAuthorName(author.getUsername());
         projectPartCreationMessage.setPartId(newPart.getId());
         projectPartCreationMessage.setProjectId(newPart.getProject().getId());
+        projectLifecycleStreamer.sendProjectPartCreationMessage(projectPartCreationMessage);
+
         projectRepository.save(project);
+
         return newPart;
     }
 

@@ -23,5 +23,5 @@ public class ProjectUpdateMessage implements Serializable {
 
     private String UserId;
 
-    private String projectId;
+    private Integer projectId;
 }

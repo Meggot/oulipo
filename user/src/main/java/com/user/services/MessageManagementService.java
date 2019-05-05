@@ -26,8 +26,10 @@ public class MessageManagementService {
         message = repository.save(message);
         MessageSentMessage messageSentMessage = new MessageSentMessage();
         messageSentMessage.setFromUsername(sender.getUsername());
+        messageSentMessage.setFromUserId(sender.getId());
         messageSentMessage.setSentTime(message.getCreationDate().toString());
         messageSentMessage.setToUsername(recipient.getUsername());
+        messageSentMessage.setToUserId(recipient.getId());
         messageSentMessage.setValue(message.getValue());
         userLifecycleStreamer.sendMessageSentMessage(messageSentMessage);
         return message;

@@ -1,0 +1,15 @@
+package com.common.models.dtos;
+
+import lombok.Data;
+
+public enum NotificationType {
+    INBOX_MESSAGE_RECEIVED,
+    PROJECT_TAG_CREATED,
+    PROJECT_TAG_REMOVED,
+    PROJECT_PART_POSTED,
+    PROJECT_PART_UPDATED,
+    PROJECT_EDIT_POSTED,
+    PROJECT_EDIT_UPDATED,
+    AUTHOR_PART_UPDATED,
+    AUTHOR_ROLE_UPDATED,
+}
