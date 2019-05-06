@@ -1,37 +1,37 @@
 version: '2'
 services:
   gateway:
-    image: meggot/oulipo/gateway:1.0-SNAPSHOT
+    image: meggot/oulipo/gateway:2.0-SNAPSHOT
     ports:
       - "13000:13000"
     environment:
       - "SPRING_PROFILES_ACTIVE=platformcompose"
   user:
-    image: meggot/oulipo/user:1.0-SNAPSHOT
+    image: meggot/oulipo/user:2.0-SNAPSHOT
     ports:
       - "13001:13001"
     environment:
       - "SPRING_PROFILES_ACTIVE=platformcompose"
   project:
-    image: meggot/oulipo/project:1.0-SNAPSHOT
+    image: meggot/oulipo/project:2.0-SNAPSHOT
     ports:
       - "13002:13002"
     environment:
       - "SPRING_PROFILES_ACTIVE=platformcompose"
   metadata:
-    image: meggot/oulipo/metadata:1.0-SNAPSHOT
+    image: meggot/oulipo/metadata:2.0-SNAPSHOT
     ports:
       - "13003:13003"
     environment:
       - "SPRING_PROFILES_ACTIVE=platformcompose"
   audit:
-    image: meggot/oulipo/audit:1.0-SNAPSHOT
+    image: meggot/oulipo/audit:2.0-SNAPSHOT
     ports:
       - "13004:13004"
     environment:
       - "SPRING_PROFILES_ACTIVE=platformcompose"
   notify:
-    image: meggot/oulipo/notify:1.0-SNAPSHOT
+    image: meggot/oulipo/notify:2.0-SNAPSHOT
     ports:
       - "13005:13005"
     environment:
