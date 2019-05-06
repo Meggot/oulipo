@@ -16,7 +16,7 @@ public class NotificationsFactory {
     public Notification toNotification(ProjectTagCreationMessage message) {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
-        notification.setMessage("Tagged!");
+        notification.setMessage(message.getProjectTitle() + " has had a new tag of " + message.getValue());
         notification.setType(NotificationType.PROJECT_TAG_CREATED);
         return notificationRepository.save(notification);
     }
@@ -24,7 +24,7 @@ public class NotificationsFactory {
     public Notification toNotification(ProjectTagUpdateMessage message) {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
-        notification.setMessage("Untagged!");
+        notification.setMessage(message.getProjectTitle() + " has had a tag removed");
         notification.setType(NotificationType.PROJECT_TAG_REMOVED);
         return notificationRepository.save(notification);
     }
@@ -32,7 +32,7 @@ public class NotificationsFactory {
     public Notification toNotification(ProjectPartUpdateMessage message) {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
-        notification.setMessage("A part has been " + message.getPartStatus());
+        notification.setMessage(message.getProjectTitle() + " has had a part " + message.getPartStatus());
         notification.setType(NotificationType.PROJECT_PART_UPDATED);
         return notificationRepository.save(notification);
     }
@@ -41,7 +41,7 @@ public class NotificationsFactory {
     public Notification toNotification(ProjectPartCreationMessage message) {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
-        notification.setMessage("A part has been requested");
+        notification.setMessage(message.getProjectTitle() + " has had a part requested by " + message.getPartAuthorName());
         notification.setType(NotificationType.PROJECT_PART_POSTED);
         return notificationRepository.save(notification);
     }
@@ -50,7 +50,8 @@ public class NotificationsFactory {
         Notification notification = new Notification();
         notification.setEntityId(message.getToUserId());
         notification.setType(NotificationType.INBOX_MESSAGE_RECEIVED);
-        notification.setMessage("You've got mail from " + message.getFromUsername());
+        notification.setMessage(message.getFromUsername() + ": " + message.getValue().substring( 0,
+                Math.min(message.getValue().length(), 100)));
         return notificationRepository.save(notification);
     }
 
@@ -58,7 +59,7 @@ public class NotificationsFactory {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
         notification.setType(NotificationType.PROJECT_PART_UPDATED);
-        notification.setMessage("Project updated");
+        notification.setMessage(message.getNewTitle() + " has been updated.");
         return notificationRepository.save(notification);
     }
 
@@ -66,7 +67,7 @@ public class NotificationsFactory {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
         notification.setType(NotificationType.PROJECT_EDIT_UPDATED);
-        notification.setMessage("Edit has just been " + message.getEditStatus());
+        notification.setMessage(message.getProjectTitle() + " has had an edit " + message.getEditStatus());
         return notificationRepository.save(notification);
     }
 
@@ -74,7 +75,7 @@ public class NotificationsFactory {
         Notification notification = new Notification();
         notification.setEntityId(message.getProjectId());
         notification.setType(NotificationType.PROJECT_EDIT_POSTED);
-        notification.setMessage(("An Edit has been submitted"));
+        notification.setMessage((message.getProjectTitle() + " has had an edit requested by " + message.getAuthorName()));
         return notificationRepository.save(notification);
     }
 }

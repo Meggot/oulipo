@@ -10,3 +10,5 @@ zuul:
       url: http://metadata:13003/
     audit:
       url: http://audit:13004/
+    notify:
+      url: http://notify:13005/

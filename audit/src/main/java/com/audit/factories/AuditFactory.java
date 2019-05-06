@@ -54,7 +54,7 @@ public class AuditFactory {
 
     public static Audit toAudit(ProjectUpdateMessage message) {
         Audit audit = new Audit();
-        audit.setEntityId(Integer.parseInt(message.getProjectId()));
+        audit.setEntityId((message.getProjectId()));
         audit.setEntityType(EntityType.PROJECT);
         audit.setOriginUserId(Integer.parseInt(message.getUserId()));
         audit.setEventType(MessageType.PROJECT_UPDATE);

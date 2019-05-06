@@ -64,37 +64,38 @@ public class PostboxControllerTest extends PostboxTest{
 
     @Test
     public void testNotificationReceivedAndRead() throws Exception {
-        PostBoxDto postBoxDto = getDefaultPostbox();
+        Integer newPostBox = 123;
+        PostBoxDto postBoxDto = createPostBoxOnUserId(newPostBox);
         this.mockMvc.perform(get(POSTBOX_PATH)
-                .header("User", defaultUserId))
+                .header("User", newPostBox))
                 .andExpect(jsonPath("$.idField", is(postBoxDto.getIdField())))
                 .andExpect(jsonPath("$.address", is(postBoxDto.getAddress())))
                 .andExpect(jsonPath("$.flagStatus", is(postBoxDto.getFlagStatus().toString())))
-                .andExpect(jsonPath("$.userId", is(defaultUserId)))
+                .andExpect(jsonPath("$.userId", is(newPostBox)))
                 .andExpect(jsonPath("$.unreadMail", iterableWithSize(0)))
                 .andExpect(jsonPath("$.subscriptionDtos", iterableWithSize(0)));
-        EmbeddedList subscriptionDto = createDefaultSubscription();
+        EmbeddedList subscriptionDto = createSubscription(postBoxDto.getIdField(),defaultEntityId, defaultNotificationTypes);
         this.mockMvc.perform(get(POSTBOX_PATH)
-                .header("User", defaultUserId))
+                .header("User", newPostBox))
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(postBoxDto.getIdField())))
                 .andExpect(jsonPath("$.address", is(postBoxDto.getAddress())))
                 .andExpect(jsonPath("$.flagStatus", is(postBoxDto.getFlagStatus().toString())))
-                .andExpect(jsonPath("$.userId", is(defaultUserId)))
+                .andExpect(jsonPath("$.userId", is(newPostBox)))
                 .andExpect(jsonPath("$.unreadMail", iterableWithSize(0)))
                 .andExpect(jsonPath("$.subscriptionDtos", iterableWithSize(1)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].notificationType", is(defaultNotificationType.toString())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].idField", is(subscriptionDto._embedded.subscriptionDtoList.get(0).getIdField())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].entityId", is(defaultEntityId)))
-                .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(defaultPostBoxId)));
-        createDefaultNotification();
+                .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(postBoxDto.getIdField())));
+        createNotificationOnEntityIdAndType(defaultEntityId, defaultNotificationType);
         this.mockMvc.perform(get(POSTBOX_PATH)
-                .header("User", defaultUserId))
+                .header("User", newPostBox))
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(postBoxDto.getIdField())))
                 .andExpect(jsonPath("$.address", is(postBoxDto.getAddress())))
                 .andExpect(jsonPath("$.flagStatus", is(PostFlagStatus.UNREAD.toString())))
-                .andExpect(jsonPath("$.userId", is(defaultUserId)))
+                .andExpect(jsonPath("$.userId", is(newPostBox)))
                 .andExpect(jsonPath("$.unreadMail", iterableWithSize(1)))
                 .andExpect(jsonPath("$.unreadMail[0].notification.entityId",is(defaultEntityId)))
                 .andExpect(jsonPath("$.unreadMail[0].notification.type",is(defaultNotificationType.toString())))
@@ -103,21 +104,21 @@ public class PostboxControllerTest extends PostboxTest{
                 .andExpect(jsonPath("$.subscriptionDtos", iterableWithSize(1)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].notificationType", is(defaultNotificationType.toString())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].entityId", is(defaultEntityId)))
-                .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(defaultPostBoxId)))
+                .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(postBoxDto.getIdField())))
                 .andDo(print());
         this.mockMvc.perform(get(POSTBOX_PATH)
-                .header("User", defaultUserId))
+                .header("User", newPostBox))
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(postBoxDto.getIdField())))
                 .andExpect(jsonPath("$.address", is(postBoxDto.getAddress())))
                 .andExpect(jsonPath("$.flagStatus", is(PostFlagStatus.READ.toString())))
-                .andExpect(jsonPath("$.userId", is(defaultUserId)))
+                .andExpect(jsonPath("$.userId", is(newPostBox)))
                 .andExpect(jsonPath("$.unreadMail", iterableWithSize(0)))
                 .andExpect(jsonPath("$.subscriptionDtos", iterableWithSize(1)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].notificationType", is(defaultNotificationType.toString())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].idField", is(subscriptionDto._embedded.subscriptionDtoList.get(0).getIdField())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].entityId", is(defaultEntityId)))
-                .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(defaultPostBoxId)));
+                .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(postBoxDto.getIdField())));
     }
 
 }

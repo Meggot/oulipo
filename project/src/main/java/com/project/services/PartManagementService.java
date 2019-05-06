@@ -57,7 +57,12 @@ public class PartManagementService {
     public ProjectPart requestPartOnProject(Project project, String userId) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
                 .orElseGet(() -> authorManagementService.createAuthor(Integer.parseInt(userId), "Author" + userId));
-        Optional<ProjectPart> partOwnedByUserId = project.getPartList().stream().filter(part -> part.getStatus().equals(PartStatus.RESERVED) && part.getCurrentlyHoldingAuthor().getUserId().equals(Integer.parseInt(userId))).findAny();
+        Optional<ProjectPart> partOwnedByUserId = project.getPartList().stream().filter(part ->
+                part.getStatus().equals(PartStatus.RESERVED)
+                || part.getStatus().equals(IN_PROGRESS)
+                && part.getCurrentlyHoldingAuthor().getUserId().equals(Integer.parseInt(userId)))
+                .findAny();
+
         if (partOwnedByUserId.isPresent()) {
             return partOwnedByUserId.get();
         }
@@ -104,6 +109,7 @@ public class PartManagementService {
         ProjectPartCreationMessage projectPartCreationMessage = new ProjectPartCreationMessage();
         projectPartCreationMessage.setPartAuthorName(author.getUsername());
         projectPartCreationMessage.setPartId(newPart.getId());
+        projectPartCreationMessage.setProjectTitle(project.getTitle());
         projectPartCreationMessage.setProjectId(newPart.getProject().getId());
         projectLifecycleStreamer.sendProjectPartCreationMessage(projectPartCreationMessage);
 
@@ -127,11 +133,7 @@ public class PartManagementService {
         if (partValue.getReviewStatus().equals(PartStatus.LOCKED)) {
             part.setStatus(partValue.getReviewStatus());
             copyManagementService.addValueToCopy(part.getProject().getCopy(), partValue.getValue());
-            Optional<ProjectPart> nextInLine = part.getProject().getNextToBeInLineToWriting();
-            if (nextInLine.isPresent()) {
-                nextInLine.get().setStatus(IN_PROGRESS);
-                log.debug("Setting {} part as in progress as it is next in line.", nextInLine.get());
-            }
+            setNextInLine(part.getProject());
         }
         part = partRepository.save(part);
 
@@ -140,11 +142,20 @@ public class PartManagementService {
         projectPartUpdateMessage.setPartId(part.getId());
         projectPartUpdateMessage.setPartStatus(part.getStatus().toString());
         projectPartUpdateMessage.setProjectId(part.getProject().getId());
+        projectPartUpdateMessage.setProjectTitle(part.getProject().getTitle());
         projectPartUpdateMessage.setPartValue(part.getValue());
         projectPartUpdateMessage.setPartUserId(userId);
         projectLifecycleStreamer.sendProjectPartUpdateMessage(projectPartUpdateMessage);
 
         return part;
+    }
+
+    private void setNextInLine(Project project) {
+        Optional<ProjectPart> nextInLine = project.getNextToBeInLineToWriting();
+        if (nextInLine.isPresent()) {
+            nextInLine.get().setStatus(IN_PROGRESS);
+            log.debug("Setting {} part as in progress as it is next in line.", nextInLine.get());
+        }
     }
 
     public boolean deletePart(ProjectPart part, String userId) {
@@ -158,6 +169,7 @@ public class PartManagementService {
         if (part.getCurrentlyHoldingAuthor().getUserId().equals(author.getUserId())) {
             log.debug("User {} has requested to delete his own part {} deleting..", userId, part.getId());
             partRepository.delete(part);
+            deletePart(part);
             return true;
         }
 
@@ -166,10 +178,27 @@ public class PartManagementService {
                 .orElseThrow(() -> new NoSuchElementException(("Author does not have an author role for this project")));
         if (projectPartPermissions.canUserRoleRequestDeleteOnPart(requesterRole.getRole())) {
             log.debug("User {} has requested to part {}, and they have the right permission role of {}", userId, part.getId(), requesterRole);
-            partRepository.delete(part);
+            deletePart(part);
             return true;
         }
         log.debug("User {} has requested to part {}, but they have do not have the right permission. They are: {}", userId, part.getId(), requesterRole);
         return false;
+    }
+
+
+    void deletePart(ProjectPart part) {
+        ProjectPartUpdateMessage projectPartUpdateMessage = new ProjectPartUpdateMessage();
+        projectPartUpdateMessage.setPartAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
+        projectPartUpdateMessage.setPartId(part.getId());
+        projectPartUpdateMessage.setPartStatus("DELETED");
+        projectPartUpdateMessage.setProjectId(part.getProject().getId());
+        projectPartUpdateMessage.setProjectTitle(part.getProject().getTitle());
+        projectPartUpdateMessage.setPartValue(part.getValue());
+        projectPartUpdateMessage.setPartUserId(String.valueOf(part.getCurrentlyHoldingAuthor().getUserId()));
+        projectLifecycleStreamer.sendProjectPartUpdateMessage(projectPartUpdateMessage);
+
+        Project project = part.getProject();
+        partRepository.delete(part);
+        setNextInLine(project);
     }
 }

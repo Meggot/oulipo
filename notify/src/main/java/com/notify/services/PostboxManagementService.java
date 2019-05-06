@@ -63,6 +63,10 @@ public class PostboxManagementService {
                 userId, postbox.getId(), request);
         List<Subscription> subscriptions = request.getTypes()
                 .stream()
+                .filter(type -> postbox.getSubscriptionList()
+                        .stream()
+                        .noneMatch(alreadySub -> alreadySub.getEntityId().equals(request.getEntityId())
+                                && alreadySub.getNotificationType().equals(type)))
                 .map(type -> {
                     Subscription subscription = new Subscription();
                     subscription.setEntityId(request.getEntityId());

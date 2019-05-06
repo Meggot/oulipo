@@ -10,6 +10,7 @@ import com.notify.streaming.AccountLifecycleStreamer;
 import com.notify.streaming.CopyLifecycleStreamer;
 import com.notify.streaming.ProjectLifecycleStreamer;
 import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 
@@ -62,7 +64,7 @@ public class PostboxTest {
 
     public static String defaultMessageSenderName = "MrTalkative";
 
-    public static String defaultMessageMessage = "You've got mail from " + defaultMessageSenderName;
+    public static String defaultMessageMessage = defaultMessageSenderName + ": " + "Hey there how is the weather I hear its awesome";
 
     @Autowired
     private AccountLifecycleStreamer accountLifecycleStreamer;
@@ -73,6 +75,11 @@ public class PostboxTest {
     @Autowired
     private CopyLifecycleStreamer copyLifecycleStreamer;
 
+    @Test
+
+    public void testInstance() {
+        assertThat(true).isTrue();
+    }
     @Before
     public void setup() throws Exception {
         if (!hasDefaultPostboxBeenCreated) {
@@ -105,6 +112,7 @@ public class PostboxTest {
                 MessageSentMessage messageSentMessage = new MessageSentMessage();
                 messageSentMessage.setToUserId(entityId);
                 messageSentMessage.setFromUsername(defaultMessageSenderName);
+                messageSentMessage.setValue("Hey there how is the weather I hear its awesome");
                 this.accountLifecycleStreamer.listen(messageSentMessage, defaultPartition);
         }
     }

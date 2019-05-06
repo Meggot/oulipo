@@ -13,6 +13,8 @@ public class ProjectPartUpdateMessage {
 
     private Integer projectId;
 
+    private String projectTitle;
+
     private String partAuthorName;
 
     private String partUserId;

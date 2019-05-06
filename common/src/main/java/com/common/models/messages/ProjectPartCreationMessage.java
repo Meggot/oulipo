@@ -15,6 +15,8 @@ public class ProjectPartCreationMessage implements Serializable {
 
     private Integer projectId;
 
+    private String projectTitle;
+
     private String partAuthorName;
 
     private String partUserId;

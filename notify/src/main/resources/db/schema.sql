@@ -32,7 +32,7 @@ CREATE TABLE NotificationMail(
 
 CREATE Table Postbox(
     pk_postbox_id INTEGER PRIMARY KEY IDENTITY,
-    user_id INTEGER NOT NULL,
+    user_id INTEGER NOT NULL UNIQUE,
     address VARCHAR(255) NOT NULL,
     mail_flag_status VARCHAR(255) NOT NULL,
     online BOOLEAN DEFAULT FALSE,

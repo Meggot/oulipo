@@ -39,6 +39,18 @@ public class PostboxController {
     }
 
     @ResponseBody
+    @RequestMapping(method = RequestMethod.POST, path = "/subscribe")
+    public Resources<SubscriptionDto> subscribeOnPostBox(@RequestHeader("User") String userId,
+                                                         @ModelAttribute @Valid SubscribeNotificationRequest request) {
+        Postbox postBox = postboxManagementService.handleGetMyPost(Integer.parseInt(userId));
+        List<SubscriptionDto> subscription = postboxManagementService.handleSubscribe(postBox, request, userId)
+                .stream()
+                .map(subscriptionAssembler::toResource)
+                .collect(Collectors.toList());
+        return new Resources<>(subscription);
+    }
+
+    @ResponseBody
     @RequestMapping(method = RequestMethod.POST, path = "/{postBoxId}/subscribe")
     public Resources<SubscriptionDto> subscribeOnPostBox(@RequestHeader("User") String userId,
                                                          @PathVariable("postBoxId") Postbox postbox,
