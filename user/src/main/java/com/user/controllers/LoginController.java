@@ -71,9 +71,9 @@ public class LoginController {
     }
 
     @ResponseBody
-    @PostMapping("/api/register")
-    public Resource<AccountDto> registerAccount(@Valid @RequestBody CreateAccount registerAccount) {
-        Account account = accountManagementService.createAccount(registerAccount);
+    @RequestMapping(path="/api/register", method = RequestMethod.POST)
+    public Resource<AccountDto> createAccountRequest(@Valid @ModelAttribute("CreateAccount") CreateAccount createAccount) {
+        Account account = accountManagementService.createAccount(createAccount);
         return new Resource<>(accountResourceAssembler.toResource(account));
     }
 

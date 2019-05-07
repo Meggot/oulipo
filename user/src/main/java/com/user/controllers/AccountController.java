@@ -68,13 +68,6 @@ public class AccountController {
     GroupManagementService groupManagementService;
 
     @ResponseBody
-    @RequestMapping(method = RequestMethod.POST)
-    public Resource<AccountDto> createAccountRequest(@Valid @ModelAttribute("CreateAccount") CreateAccount createAccount) {
-        Account account = accountManagementService.createAccount(createAccount);
-        return new Resource<>(accountResourceAssembler.toResource(account));
-    }
-
-    @ResponseBody
     @RequestMapping(value = "/{accountId}", method = RequestMethod.PATCH)
     public Resource<AccountDto> updateAccount(@PathVariable Integer accountId, @ModelAttribute("UpdateAccount") UpdateAccount updateAccount) {
         Account account = accountManagementService.updateAccount(accountId, updateAccount);
