@@ -19,7 +19,7 @@ import static org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType.
  * Created by bradleyw on 25/03/2018.
  */
 @Configuration
-@ComponentScan({"com.project.dao.entites"})
+@ComponentScan({"com.project.dao"})
 @EnableJpaRepositories("com.project.dao.repository")
 public class EmbeddedDatabaseConfiguration {
 

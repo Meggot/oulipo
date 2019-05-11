@@ -6,8 +6,11 @@ import com.common.models.dtos.PartStatus;
 import com.common.models.dtos.ProjectType;
 import com.common.models.dtos.SourcingType;
 import com.common.models.dtos.VisibilityType;
+import com.project.dao.handlers.ProjectEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.data.repository.RepositoryDefinition;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -15,9 +18,10 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
-@Entity(name = "Project")
 @Data
 @NoArgsConstructor
+@Entity(name = "Project")
+@EntityListeners(ProjectEventHandler.class)
 public class Project extends EntityObject {
 
     @Id
@@ -45,15 +49,19 @@ public class Project extends EntityObject {
     @ManyToOne
     private Author originalAuthor;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectPart> partList = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<AuthorProjectRole> authorProjectRoles = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL)
     private List<ProjectTag> tags = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToOne(mappedBy = "project", cascade = CascadeType.ALL)
     private Copy copy;
 

@@ -10,7 +10,8 @@ import javax.persistence.*;
 @Entity(name = "ProjectTag")
 @Data
 @NoArgsConstructor
-public class ProjectTag extends EntityObject {
+public class
+ProjectTag extends EntityObject {
 
     @Id
     @SequenceGenerator(name = "project_tag_seq", sequenceName = "project_tag_seq")

@@ -3,17 +3,22 @@ package com.project.streaming;
 import com.common.models.messages.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Component
 public class InMemoryLifecycleStreamer implements ProjectLifecycleStreamer {
 
-    @Override
-    public void sendProjectCreationMessage(ProjectCreationMessage accountCreationMessage) {
+    public List<Object> messagesReceived = new ArrayList();
 
+    @Override
+    public void sendProjectCreationMessage(ProjectCreationMessage projectCreationMessage) {
+        messagesReceived.add(projectCreationMessage);
     }
 
     @Override
-    public void sendProjectUpdateMessage(ProjectUpdateMessage accountUpdateMessage) {
-
+    public void sendProjectUpdateMessage(ProjectUpdateMessage projectUpdateMessage) {
+        messagesReceived.add(projectUpdateMessage);
     }
 
     @Override

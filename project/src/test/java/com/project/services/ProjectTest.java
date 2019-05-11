@@ -6,6 +6,8 @@ import com.common.models.utils.ReadWriteUtils;
 import com.project.dao.entites.Author;
 import com.project.dao.repository.AuthorRepository;
 import com.project.streaming.AuthorLifecycleListener;
+import com.project.streaming.InMemoryLifecycleStreamer;
+import com.project.streaming.ProjectLifecycleStreamer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,6 +32,9 @@ public class ProjectTest {
 
     @Autowired
     public AuthorLifecycleListener authorLifecycleListener;
+
+    @Autowired
+    public InMemoryLifecycleStreamer projectLifecyeStreamer;
 
     @Autowired
     public AuthorRepository authorRepository;
@@ -95,6 +100,10 @@ public class ProjectTest {
             hasDefaultAuthorBeenCreated = true;
             numOfAuthorsCreated++;
         }
+    }
+
+    public int getNumberOfEventsInProjectStreamer() {
+        return this.projectLifecyeStreamer.messagesReceived.size();
     }
 
     public AuthorProjectRoleDto createAuthorRole(String userId, String projectId, AuthorProjectRoleType type) throws Exception {

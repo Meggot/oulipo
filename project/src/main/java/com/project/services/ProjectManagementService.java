@@ -73,13 +73,6 @@ public class ProjectManagementService {
         //Save
         project = projectRepository.save(project);
 
-        //Create JMS project message
-        ProjectCreationMessage projectCreationMessage = new ProjectCreationMessage();
-        projectCreationMessage.setProjectId(String.valueOf(project.getId()));
-        projectCreationMessage.setTitle(project.getTitle());
-        projectCreationMessage.setUserId(userId);
-        projectCreationMessage.setSynopsis(project.getSynopsis());
-        lifecycleStreamer.sendProjectCreationMessage(projectCreationMessage);
         return project;
     }
 
@@ -88,21 +81,13 @@ public class ProjectManagementService {
             throw new UnauthorizedException("You do not have permission to update that Project");
         }
 
-        ProjectUpdateMessage projectUpdateMessage = new ProjectUpdateMessage();
-        projectUpdateMessage.setOldSynopsis(projectToUpdate.getSynopsis());
-        projectUpdateMessage.setOldTitle(projectToUpdate.getTitle());
         if (!Objects.equals(updateRequest.getTitle(), projectToUpdate.getTitle())){
             projectToUpdate.setTitle(updateRequest.getTitle());
         }
         if (!Objects.equals(updateRequest.getSynopsis(), projectToUpdate.getSynopsis())) {
             projectToUpdate.setSynopsis(updateRequest.getSynopsis());
         }
-        projectUpdateMessage.setNewSynopsis(updateRequest.getSynopsis());
-        projectUpdateMessage.setNewTitle(updateRequest.getTitle());
-        projectUpdateMessage.setProjectId(projectToUpdate.getId());
-        projectUpdateMessage.setUserId(userId);
 
-        lifecycleStreamer.sendProjectUpdateMessage(projectUpdateMessage);
         return projectRepository.save(projectToUpdate);
     }
 }

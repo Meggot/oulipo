@@ -4,6 +4,7 @@ import com.common.models.dtos.ProjectDto;
 import com.project.services.ProjectTest;
 import org.junit.Test;
 
+import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -73,7 +74,7 @@ public class ProjectControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.roles[0].authorName", is(defaultAuthorName)))
                 .andExpect(jsonPath("$.roles[0].projectTitle", is(testTitle)))
                 .andExpect(jsonPath("$.roles[0].role", is("CREATOR")));
-
+        assertThat(super.getNumberOfEventsInProjectStreamer()).isEqualTo(numofProjectsCreated);
     }
 
     @Test
@@ -110,5 +111,6 @@ public class ProjectControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.tags", is(updateableProject.getTags())))
                 .andExpect(jsonPath("$.version", is(1)))
                 .andExpect(jsonPath(selfLink, is(this.hostname + "projects/" + updateableProject.getProjectId())));
+        assertThat(super.getNumberOfEventsInProjectStreamer()).isEqualTo(numofProjectsCreated+1);
     }
 }
