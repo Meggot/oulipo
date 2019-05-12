@@ -56,9 +56,9 @@ public class PostboxControllerTest extends PostboxTest{
                 .header("User", defaultUserId)
                 .param("entityId", String.valueOf(entityId))
                 .param("types", ReadWriteUtils.toCsv(new ArrayList<>(entityTypes))))
-                .andExpect(jsonPath("$._embedded.subscriptionDtoList[0].notificationType", is(PROJECT_PART_POSTED.toString())))
-                .andExpect(jsonPath("$._embedded.subscriptionDtoList[0].entityId", is(entityId)))
-                .andExpect(jsonPath("$._embedded.subscriptionDtoList[0].postboxId",is (postBoxDto.getIdField())))
+                .andExpect(jsonPath("$._embedded.content[0].notificationType", is(PROJECT_PART_POSTED.toString())))
+                .andExpect(jsonPath("$._embedded.content[0].entityId", is(entityId)))
+                .andExpect(jsonPath("$._embedded.content[0].postboxId",is (postBoxDto.getIdField())))
                 .andDo(print());
     }
 

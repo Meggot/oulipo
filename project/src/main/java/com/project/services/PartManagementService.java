@@ -24,7 +24,8 @@ import org.springframework.stereotype.Component;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.common.models.dtos.PartStatus.*;
+import static com.common.models.dtos.PartStatus.IN_PROGRESS;
+import static com.common.models.dtos.PartStatus.RESERVED;
 
 @Component
 @Slf4j

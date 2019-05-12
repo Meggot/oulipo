@@ -4,6 +4,7 @@ import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectType;
 import com.common.models.requests.SearchSortType;
 import com.project.controllers.assemblers.ProjectAssembler;
+import com.project.dao.entites.Project;
 import com.project.dao.repository.ProjectRepository;
 import com.project.services.ExplorerService;
 import com.querydsl.core.BooleanBuilder;
@@ -58,8 +59,8 @@ public class ExplorerController {
         booleanBuilder.and(explorerService.findWhereHasAuthor(authorName));
         booleanBuilder.and(explorerService.findWhereType(type));
         booleanBuilder.and(explorerService.findWhereSystemTagExist(sortType));
-        Page<ProjectDto> page = repository.findAll(booleanBuilder, pageable).map(projectAssembler::toResource);
-        return pagedResourcesAssembler.toResource(page);
+        Page<Project> page = repository.findAll(booleanBuilder, pageable);
+        return pagedResourcesAssembler.toResource(page, projectAssembler);
     }
 
 }

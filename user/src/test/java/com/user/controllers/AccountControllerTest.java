@@ -68,8 +68,8 @@ public class AccountControllerTest extends AccountTest {
                 .header("User", accountDto.getIdField())
                 .param("username", accountDto.getUsername()))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.accountDtoList[0].username", is(accountDto.getUsername())))
-                .andExpect(jsonPath("$._embedded.accountDtoList[0].email", is(accountDto.getEmail())))
+                .andExpect(jsonPath("$._embedded.content[0].username", is(accountDto.getUsername())))
+                .andExpect(jsonPath("$._embedded.content[0].email", is(accountDto.getEmail())))
                 .andExpect(jsonPath("$.page.totalElements", is(1)));
     }
 }

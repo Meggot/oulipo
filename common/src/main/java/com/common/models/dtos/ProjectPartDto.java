@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +19,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@Relation("part")
 public class ProjectPartDto extends ResourceSupport implements Identifiable<Link> {
 
     private Integer idField;

@@ -1,7 +1,6 @@
 package com.project.controllers;
 
 import com.common.models.dtos.AuthorProjectRoleDto;
-import com.common.models.requests.AuthorProjectRoleRequest;
 import com.common.models.requests.UpdateAuthorProjectRole;
 import com.project.controllers.assemblers.AuthorProjectRoleAssembler;
 import com.project.dao.entites.AuthorProjectRole;

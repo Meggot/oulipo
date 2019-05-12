@@ -6,10 +6,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Relation("projectTag")
 public class ProjectTagDto extends ResourceSupport implements Identifiable<Link> {
 
     private Integer idField;

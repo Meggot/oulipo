@@ -23,7 +23,7 @@ public class AccountRelationshipControllerTest extends AccountTest {
         createRelationshipDto(added, addedBy);
         this.mockMvc.perform(get(RELATIONSHIPS_PATH).header("User", added.getIdField()))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.accountRelationshipDtoList", iterableWithSize(numofRelationshipsCreated)))
+                .andExpect(jsonPath("$._embedded.content", iterableWithSize(numofRelationshipsCreated)))
                 .andExpect(jsonPath(selfLink, is(hostname + "relationship?page=0&size=20")))
                 .andExpect(jsonPath("$.page.size", is(20)))
                 .andExpect(jsonPath("$.page.totalElements", is(numofRelationshipsCreated)))

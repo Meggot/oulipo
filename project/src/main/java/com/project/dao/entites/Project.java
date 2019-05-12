@@ -10,7 +10,6 @@ import com.project.dao.handlers.ProjectEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.springframework.data.repository.RepositoryDefinition;
 
 import javax.persistence.*;
 import java.util.ArrayList;

@@ -24,19 +24,15 @@ public class ProjectTagManagementService {
 
     private AuthorRepository authorRepository;
 
-    private ProjectRepository projectRepository;
-
     private ProjectTagRepository projectTagRepository;
 
     private ProjectLifecycleStreamer projectLifecycleStreamer;
 
     @Autowired
     ProjectTagManagementService(AuthorRepository authorRepository,
-                                ProjectRepository projectRepository,
                                 ProjectTagRepository projectTagRepository,
                                 ProjectLifecycleStreamer projectLifecycleStreamer) {
         this.authorRepository = authorRepository;
-        this.projectRepository = projectRepository;
         this.projectTagRepository = projectTagRepository;
         this.projectLifecycleStreamer = projectLifecycleStreamer;
     }
@@ -83,7 +79,7 @@ public class ProjectTagManagementService {
                 .findFirst()
                 .orElseThrow(() -> new UnauthorizedException("Author " + author.getAuthorId() + " does not have an AuthorProjectRole with this project " + projectTag.getProject().getId()));
         if (authorRole.getRole() != AuthorProjectRoleType.CREATOR && authorRole.getRole() != AuthorProjectRoleType.MODERATOR) {
-            throw new UnauthorizedException("Author " + author.getAuthorId() + " does not have permission to post a tag");
+            throw new UnauthorizedException("Author " + author.getAuthorId() + " does not have permission to delete a tag");
         }
 
         ProjectTagUpdateMessage projectTagUpdateMessage = new ProjectTagUpdateMessage();

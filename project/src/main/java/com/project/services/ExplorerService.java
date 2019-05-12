@@ -16,8 +16,6 @@ import java.util.List;
 @Component
 public class ExplorerService {
 
-    private static List<AuthorProjectRoleType> rolesInWhichYouMayEdit = Lists.newArrayList(AuthorProjectRoleType.CONTRIBUTOR, AuthorProjectRoleType.MODERATOR, AuthorProjectRoleType.CREATOR);
-
     public BooleanExpression findByPartialTitle(String title) {
         return title != null ? QProject.project.title.containsIgnoreCase(title) : null;
     }

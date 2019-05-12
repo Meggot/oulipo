@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 @Configuration
-@Profile("!Test")
+@Profile( "!Test")
 public class QueueConfig {
 
     @Value("${jms.topic.user-lifecycle.creation}")

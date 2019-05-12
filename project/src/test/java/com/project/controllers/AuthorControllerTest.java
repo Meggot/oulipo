@@ -17,7 +17,7 @@ public class AuthorControllerTest extends ProjectTest {
     public void getAuthors() throws Exception {
         this.mockMvc.perform(get(AUTHOR_PATH).header("User", defaultUserId))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.authorDtoList", iterableWithSize(numOfAuthorsCreated)))
+                .andExpect(jsonPath("$._embedded.content", iterableWithSize(numOfAuthorsCreated)))
                 .andExpect(jsonPath(selfLink, is(hostname + "authors?page=0&size=20")))
                 .andExpect(jsonPath("$.page.size", is(20)))
                 .andExpect(jsonPath("$.page.totalElements", is(numOfAuthorsCreated)));

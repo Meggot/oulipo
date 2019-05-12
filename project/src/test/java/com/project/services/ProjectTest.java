@@ -9,12 +9,20 @@ import com.project.streaming.AuthorLifecycleListener;
 import com.project.streaming.InMemoryLifecycleStreamer;
 import com.project.streaming.ProjectLifecycleStreamer;
 import org.junit.Before;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.kafka.annotation.EnableKafka;
+import org.springframework.kafka.test.context.EmbeddedKafka;
+import org.springframework.kafka.test.rule.KafkaEmbedded;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -25,10 +33,11 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 @SpringBootTest(properties = "spring.profiles.active = Test")
 @RunWith(SpringRunner.class)
 @AutoConfigureMockMvc
-public class ProjectTest {
+public abstract class ProjectTest {
 
     @Autowired
     public MockMvc mockMvc;
+
 
     @Autowired
     public AuthorLifecycleListener authorLifecycleListener;

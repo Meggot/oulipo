@@ -3,6 +3,7 @@ package com.project.controllers;
 import com.common.models.dtos.ProjectDto;
 import com.project.services.ProjectTest;
 import org.junit.Test;
+import org.springframework.http.MediaType;
 
 import static org.hamcrest.Matchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -37,10 +38,11 @@ public class ExplorerControllerTest extends ProjectTest {
                 .header("User", defaultUserId));
         numOfTagsCreated++;
         this.mockMvc.perform(get(EXPLORE_PATH).header("User", defaultUserId)
+                .accept(MediaType.APPLICATION_JSON)
                 .param("tags", "NSFW"))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.projectDtoList[0].projectId", is(projectDto.getProjectId())))
-                .andExpect(jsonPath("$._embedded.projectDtoList[0].tags[0].value", is("NSFW")))
+                .andExpect(jsonPath("$._embedded.content[0].projectId", is(projectDto.getProjectId())))
+                .andExpect(jsonPath("$._embedded.content[0].tags[0].value", is("NSFW")))
                 .andExpect(jsonPath("$.page.totalElements", is(1)));
         this.mockMvc.perform(get(EXPLORE_PATH).header("User", defaultUserId)
                 .param("tags", defaultTagValue + 1))
@@ -53,9 +55,9 @@ public class ExplorerControllerTest extends ProjectTest {
         this.mockMvc.perform(get(EXPLORE_PATH).header("User", defaultUserId)
                 .param("tags", defaultTagValue  + "," + "NewTag"))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.projectDtoList[0].projectId", is(projectDto.getProjectId())))
-                .andExpect(jsonPath("$._embedded.projectDtoList[0].tags[0].value", is("NSFW")))
-                .andExpect(jsonPath("$._embedded.projectDtoList[0].tags[1].value", is("NewTag")))
+                .andExpect(jsonPath("$._embedded.content[0].projectId", is(projectDto.getProjectId())))
+                .andExpect(jsonPath("$._embedded.content[0].tags[0].value", is("NSFW")))
+                .andExpect(jsonPath("$._embedded.content[0].tags[1].value", is("NewTag")))
                 .andExpect(jsonPath("$.page.totalElements", is(1)));
     }
 

@@ -12,7 +12,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor
 @Valid
-public class    CommentPostRequest {
+public class CommentPostRequest {
 
     @NotNull
     private Integer entityId;

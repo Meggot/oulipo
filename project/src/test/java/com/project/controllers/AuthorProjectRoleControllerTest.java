@@ -36,7 +36,7 @@ public class AuthorProjectRoleControllerTest extends ProjectTest {
         createDefaultProject();
         this.mockMvc.perform(get(ROLES_PATH).header("User", defaultUserId))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.authorProjectRoleDtoList", is(iterableWithSize(numOfAuthorProjectRolesCreated))))
+                .andExpect(jsonPath("$._embedded.content", is(iterableWithSize(numOfAuthorProjectRolesCreated))))
                 .andExpect(jsonPath(selfLink, is(hostname + "roles?page=0&size=20")))
                 .andExpect(jsonPath("$.page.size", is(20)))
                 .andExpect(jsonPath("$.page.totalElements", is(numOfAuthorProjectRolesCreated)))

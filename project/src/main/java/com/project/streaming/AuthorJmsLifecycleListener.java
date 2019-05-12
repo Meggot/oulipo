@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Component;
 
-@Profile("!Test")
+@Profile( "!Test")
 @Component
 public class AuthorJmsLifecycleListener implements AuthorLifecycleListener {
 

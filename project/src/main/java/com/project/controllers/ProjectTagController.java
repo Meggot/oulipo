@@ -1,7 +1,6 @@
 package com.project.controllers;
 
 import com.common.models.dtos.ProjectTagDto;
-import com.common.models.requests.CreateTagRequest;
 import com.project.controllers.assemblers.ProjectTagAssembler;
 import com.project.dao.entites.ProjectTag;
 import com.project.dao.repository.ProjectTagRepository;
@@ -18,8 +17,6 @@ import org.springframework.hateoas.Resource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
 
 @RestController
 @RequestMapping(path = "/tags")

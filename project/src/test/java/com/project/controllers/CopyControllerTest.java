@@ -4,6 +4,7 @@ import com.common.models.dtos.*;
 import com.common.models.utils.ReadWriteUtils;
 import com.project.services.ProjectTest;
 import org.junit.Test;
+import org.springframework.kafka.test.context.EmbeddedKafka;
 
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyString;

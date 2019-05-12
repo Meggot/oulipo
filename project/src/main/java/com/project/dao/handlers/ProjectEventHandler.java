@@ -28,9 +28,9 @@ public class ProjectEventHandler {
     void onPrePersist(Project project) {
         log.info("HANDLING PROJECT CREATION {}", project);
         ProjectCreationMessage projectCreationMessage = new ProjectCreationMessage();
-        projectCreationMessage.setProjectId(String.valueOf(project.getId()));
+        projectCreationMessage.setProjectId(project.getId());
         projectCreationMessage.setTitle(project.getTitle());
-        projectCreationMessage.setUserId(project.getOriginalAuthor().getUserId().toString());
+        projectCreationMessage.setUserId(project.getOriginalAuthor().getUserId());
         projectCreationMessage.setSynopsis(project.getSynopsis());
         lifecycleStreamer.sendProjectCreationMessage(projectCreationMessage);
     }

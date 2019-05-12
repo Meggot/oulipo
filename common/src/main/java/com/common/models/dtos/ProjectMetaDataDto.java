@@ -8,10 +8,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;
 import org.springframework.hateoas.ResourceSupport;
+import org.springframework.hateoas.core.Relation;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Relation("projectMetadata")
 public class ProjectMetaDataDto extends ResourceSupport implements Identifiable<Link> {
 
     private int idField;

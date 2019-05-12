@@ -21,7 +21,7 @@ public class ProjectTagControllerTest extends ProjectTest {
         createDefaultTagOnProjectId(String.valueOf(projectDto.getProjectId()));
         this.mockMvc.perform(get(TAGS_PATH).header("User", defaultUserId))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.projectTagDtoList", iterableWithSize(numOfTagsCreated)))
+                .andExpect(jsonPath("$._embedded.content", iterableWithSize(numOfTagsCreated)))
                 .andExpect(jsonPath("$._links.self.href", is(hostname + "tags?page=0&size=20")))
                 .andExpect(jsonPath("$.page.size", is(20)))
                 .andExpect(jsonPath("$.page.totalElements", is(numOfTagsCreated)))

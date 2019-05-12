@@ -1,12 +1,14 @@
 package com.project.streaming;
 
 import com.common.models.messages.*;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@Profile("Test")
 public class InMemoryLifecycleStreamer implements ProjectLifecycleStreamer {
 
     public List<Object> messagesReceived = new ArrayList();

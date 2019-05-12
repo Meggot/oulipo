@@ -24,6 +24,7 @@
         <lombok.version>1.18.4</lombok.version>
         <service.name>${project.artifactId}</service.name>
         <google-diff.version>895a9512bb</google-diff.version>
+        <kafka.version>2.1.0</kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -88,6 +89,33 @@
             <version>${lombok.version}</version>
             <scope>provided</scope>
         </dependency>
+        <!--- KAFKA -->
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
 
         <!-- Testing -->
         <dependency>
@@ -130,7 +158,18 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
+<!--    Reason:
+    https://github.com/spring-projects/spring-kafka/commit/5601017d7b4f7b39147fee639040259cc188d39b?diff=unified&short_path=23fab8c#diff-23fab8c966b5802266384fba86bade0e-->
+
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
         <!-- Testing END -->
+
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -142,16 +181,13 @@
             <version>1.2.4.RELEASE</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
-        </dependency>
 
         <!--        REPOSITORY  -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-rest-core</artifactId>

@@ -101,13 +101,13 @@ public class GroupControllerTest extends AccountTest {
         GroupDto groupDto = createGroupWithName(leader, "TestingGroupAlpha");
         this.mockMvc.perform(get(GROUP_PATH + "/search").header("User", leader.getIdField()).param("name", groupDto.getName()))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].name", is(groupDto.getName())))
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].description", is(groupDto.getDescription())))
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].type", is(groupDto.getType().toString())))
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].accountUsername", is(leader.getUsername())))
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].accountId", is(leader.getIdField())))
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].groupName", is(groupDto.getName())))
-                .andExpect(jsonPath("$._embedded.groupDtoList[0].members[0].role", is(GroupRole.LEADER.toString())))
+                .andExpect(jsonPath("$._embedded.content[0].name", is(groupDto.getName())))
+                .andExpect(jsonPath("$._embedded.content[0].description", is(groupDto.getDescription())))
+                .andExpect(jsonPath("$._embedded.content[0].type", is(groupDto.getType().toString())))
+                .andExpect(jsonPath("$._embedded.content[0].members[0].accountUsername", is(leader.getUsername())))
+                .andExpect(jsonPath("$._embedded.content[0].members[0].accountId", is(leader.getIdField())))
+                .andExpect(jsonPath("$._embedded.content[0].members[0].groupName", is(groupDto.getName())))
+                .andExpect(jsonPath("$._embedded.content[0].members[0].role", is(GroupRole.LEADER.toString())))
                 .andExpect(jsonPath("$.page.totalElements", is(1)));
     }
 }

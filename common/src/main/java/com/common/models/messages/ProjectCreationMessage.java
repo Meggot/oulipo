@@ -17,7 +17,7 @@ public class ProjectCreationMessage implements Serializable {
 
     private String synopsis;
 
-    private String userId;
+    private Integer userId;
 
-    private String projectId;
+    private Integer projectId;
 }

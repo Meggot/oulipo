@@ -4,8 +4,6 @@ package com.project.services;
 
 import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.exceptions.UnauthorizedException;
-import com.common.models.messages.ProjectCreationMessage;
-import com.common.models.messages.ProjectUpdateMessage;
 import com.common.models.requests.CreateProject;
 import com.common.models.requests.UpdateProject;
 import com.project.dao.entites.Author;
@@ -32,16 +30,7 @@ public class ProjectManagementService {
     AuthorRepository authorRepository;
 
     @Autowired
-    PartRepository partRepository;
-
-    @Autowired
-    AuthorProjectRoleRepository authorProjectRoleRepository;
-
-    @Autowired
     AuthorManagementService authorManagementService;
-
-    @Autowired
-    ProjectLifecycleStreamer lifecycleStreamer;
 
     public Project createProject(String userId, CreateProject createProject) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))

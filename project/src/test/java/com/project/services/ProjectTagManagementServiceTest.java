@@ -36,9 +36,6 @@ public class ProjectTagManagementServiceTest {
     private AuthorRepository authorRepository;
 
     @Mock
-    private ProjectRepository projectRepository;
-
-    @Mock
     private ProjectTagRepository projectTagRepository;
 
     @Mock
@@ -96,10 +93,9 @@ public class ProjectTagManagementServiceTest {
         ProjectTag createdTag = new ProjectTag();
         createdTag.setId(3);
         when(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(requestingUserId))).thenReturn(Optional.of(author));
-        when(projectRepository.findById(projectId)).thenReturn(Optional.of(project));
         when(authorProjectRoleRepository.findById(authorProjectRoleId)).thenReturn(Optional.of(authorProjectRole));
         when(projectTagRepository.save(any())).thenReturn(createdTag);
-        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectRepository, projectTagRepository, new InMemoryLifecycleStreamer());
+        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectTagRepository, new InMemoryLifecycleStreamer());
     }
 
     @Test
