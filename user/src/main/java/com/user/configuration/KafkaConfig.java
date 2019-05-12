@@ -2,25 +2,20 @@
 
 package com.user.configuration;
 
-import com.common.models.messages.AccountCreationMessage;
-import com.common.models.messages.AccountUpdateMessage;
-import com.common.models.messages.MessageSentMessage;
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.admin.NewTopic;
-import org.apache.kafka.clients.producer.ProducerConfig;
-import org.apache.kafka.common.serialization.StringSerializer;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.StreamsConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.kafka.core.DefaultKafkaProducerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.kafka.core.ProducerFactory;
-import org.springframework.kafka.support.serializer.JsonSerializer;
+import org.springframework.kafka.core.StreamsBuilderFactoryBean;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
 @Configuration
 @Profile("!Test")
@@ -29,74 +24,28 @@ public class KafkaConfig {
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
 
+    private String applicationId = "user-streams";
+
+    @Bean(name = "defaultKafkaStreamsConfig")
+    public StreamsConfig streamsConfig() {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, applicationId);
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Integer().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        return new StreamsConfig(props);
+    }
+
+    @Bean
+    public StreamsBuilderFactoryBean myKStreamBuilder(@Autowired StreamsConfig streamsConfig) {
+        return new StreamsBuilderFactoryBean(streamsConfig);
+    }
+
     @Bean
     public KafkaAdmin kafkaAdmin() {
         Map<String, Object> configs = new HashMap<>();
         configs.put(AdminClientConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
         return new KafkaAdmin(configs);
-    }
-
-    @Value("${jms.topic.user-lifecycle.creation}")
-    private String userLifecycleCreationTopic;
-
-    @Value("${jms.topic.user-lifecycle.update}")
-    private String userLifecycleUpdateTopic;
-
-    @Value("${jms.topic.message.sent}")
-    private String messageSentTopic;
-
-    @Bean
-    public NewTopic messageSentTopic() { return new NewTopic(messageSentTopic, 2, (short) 2); }
-    @Bean
-    public NewTopic userLifecycleCreationTopic() {
-        return new NewTopic(userLifecycleCreationTopic, 2, (short) 2);
-    }
-
-    @Bean
-    public NewTopic userLifecycleUpdateTopic() {
-        return new NewTopic(userLifecycleUpdateTopic, 2, (short) 2);
-    }
-
-    @Bean
-    public ProducerFactory<String, AccountCreationMessage> accountCreationProducerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(configProps);
-    }
-
-    @Bean
-    public ProducerFactory<String, AccountUpdateMessage> accountUpdateProducerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(configProps);
-    }
-
-    @Bean
-    public ProducerFactory<String, MessageSentMessage> messageSentMessageProducerFactory() {
-        Map<String, Object> configProps = new HashMap<>();
-        configProps.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        configProps.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
-        configProps.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
-        return new DefaultKafkaProducerFactory<>(configProps);
-    }
-
-    @Bean
-    public KafkaTemplate<String, AccountCreationMessage> accountCreationTemplate() {
-        return new KafkaTemplate<>(accountCreationProducerFactory());
-    }
-
-    @Bean
-    public KafkaTemplate<String, AccountUpdateMessage> accountUpdateTemplate() {
-        return new KafkaTemplate<>(accountUpdateProducerFactory());
-    }
-
-    @Bean
-    public KafkaTemplate<String, MessageSentMessage> messageSentTemplate() {
-        return new KafkaTemplate<>(messageSentMessageProducerFactory());
     }
 
 }

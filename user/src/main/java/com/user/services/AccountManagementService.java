@@ -30,9 +30,6 @@ public class AccountManagementService {
     AccountEntityValidator accountEntityValidator;
 
     @Autowired
-    UserLifecycleStreamer userLifecycleStreamer;
-
-    @Autowired
     PasswordRepository passwordRepository;
 
     @Autowired
@@ -46,21 +43,14 @@ public class AccountManagementService {
             log.error(">[UPDATE] Account update FAILED, request: {}. SubErrors: {}", updateAccountRequest, apiSubErrors);
             throw new EntityValidationException(apiSubErrors, "Account update failed");
         }
-        AccountUpdateMessage accountUpdateMessage = new AccountUpdateMessage();
         if (updateAccountRequest.getUsername() != null) {
-            accountUpdateMessage.setOldUsername(previousAccount.getUsername());
-            accountUpdateMessage.setNewUsername(updateAccountRequest.getUsername());
             previousAccount.setUsername(updateAccountRequest.getUsername());
         }
         if (updateAccountRequest.getEmail() != null) {
-            accountUpdateMessage.setOldEmail(previousAccount.getEmail());
-            accountUpdateMessage.setNewEmail(updateAccountRequest.getEmail());
             previousAccount.setEmail(updateAccountRequest.getEmail());
         }
         Account newAccount = accountRepository.save(previousAccount);
-        accountUpdateMessage.setAccountId(newAccount.getId());
         log.info(">[UPDATE] Account {} updated SUCCESSFULLY", newAccount.getId());
-        userLifecycleStreamer.sendAccountUpdateMessage(accountUpdateMessage);
         return newAccount;
     }
 
@@ -81,12 +71,6 @@ public class AccountManagementService {
 
         newAccount.setPassword(newPassword);
         newAccount = accountRepository.save(newAccount);
-        AccountCreationMessage accountCreationMessage = new AccountCreationMessage();
-        accountCreationMessage.setUsername(createAccountRequest.getUsername());
-        accountCreationMessage.setEmail(createAccountRequest.getEmail());
-        accountCreationMessage.setAccountId(newAccount.getId());
-        log.info(">[CREATION] Account {} created successfully", newAccount);
-        userLifecycleStreamer.sendAccountCreationMessage(accountCreationMessage);
         return newAccount;
     }
 

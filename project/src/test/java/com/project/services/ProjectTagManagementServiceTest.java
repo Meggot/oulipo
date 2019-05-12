@@ -95,7 +95,7 @@ public class ProjectTagManagementServiceTest {
         when(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(requestingUserId))).thenReturn(Optional.of(author));
         when(authorProjectRoleRepository.findById(authorProjectRoleId)).thenReturn(Optional.of(authorProjectRole));
         when(projectTagRepository.save(any())).thenReturn(createdTag);
-        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectTagRepository, new InMemoryLifecycleStreamer());
+        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectTagRepository);
     }
 
     @Test

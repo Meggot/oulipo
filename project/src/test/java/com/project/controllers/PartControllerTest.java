@@ -74,10 +74,10 @@ public class PartControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.status", is(PartStatus.IN_PROGRESS.toString())))
                 .andExpect(jsonPath("$.authorName", is(defaultAuthorName)))
                 .andExpect(jsonPath("$.projectTitle", is(projectDto.getTitle())));
-        this.mockMvc.perform(patch((PARTS_PATH + "/" + partDto.getIdField() + "/delete"))
+        this.mockMvc.perform(patch((PARTS_PATH + "/" + partDto.getIdField().toString() + "/delete"))
                 .header("User", defaultUserId))
                 .andExpect(status().isOk());
-        this.mockMvc.perform(get(PARTS_PATH + "/" + partDto.getIdField())
+        this.mockMvc.perform(get(PARTS_PATH + "/" + partDto.getIdField().toString())
                 .header("User", defaultUserId))
                 .andDo(print())
                 .andExpect(status().isNotFound());

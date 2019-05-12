@@ -2,14 +2,20 @@
 
 package com.project.dao.handlers;
 
+import com.common.models.dtos.ProjectDto;
+import com.common.models.messages.Message;
+import com.common.models.messages.MessageType;
 import com.common.models.messages.ProjectCreationMessage;
 import com.common.models.messages.ProjectUpdateMessage;
+import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.dao.entites.Project;
 import com.project.streaming.ProjectLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.PostPersist;
+import javax.persistence.PostUpdate;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 
@@ -19,30 +25,30 @@ public class ProjectEventHandler {
 
     public static ProjectLifecycleStreamer lifecycleStreamer;
 
+    public static ProjectAssembler projectAssembler;
+
     @Autowired
     public void setLifecycleStreamer(ProjectLifecycleStreamer projectLifecycleStreamer) {
         this.lifecycleStreamer = projectLifecycleStreamer;
     }
 
-    @PrePersist
-    void onPrePersist(Project project) {
-        log.info("HANDLING PROJECT CREATION {}", project);
-        ProjectCreationMessage projectCreationMessage = new ProjectCreationMessage();
-        projectCreationMessage.setProjectId(project.getId());
-        projectCreationMessage.setTitle(project.getTitle());
-        projectCreationMessage.setUserId(project.getOriginalAuthor().getUserId());
-        projectCreationMessage.setSynopsis(project.getSynopsis());
-        lifecycleStreamer.sendProjectCreationMessage(projectCreationMessage);
+    @Autowired
+    public void setProjectAssembler(ProjectAssembler projectAssembler) {
+        this.projectAssembler = projectAssembler;
     }
 
-    @PreUpdate
+    @PostPersist
+    void onPostPersist(Project project) {
+        ProjectDto projectDto = projectAssembler.toResource(project);
+        Message<ProjectDto> projectDtoMessage = new Message<>(projectDto, project.getId(), MessageType.PROJECT_CREATION);
+        lifecycleStreamer.sendProjectCreationMessage(projectDtoMessage);
+    }
+
+    @PostUpdate
     void onPreUpdate(Project project) {
-        log.info("HANDLING PROJECT UPDATE {}", project);
-        ProjectUpdateMessage projectUpdateMessage = new ProjectUpdateMessage();
-        projectUpdateMessage.setNewSynopsis(project.getSynopsis());
-        projectUpdateMessage.setNewTitle(project.getTitle());
-        projectUpdateMessage.setUserId(project.getOriginalAuthor().getUserId().toString());
-        lifecycleStreamer.sendProjectUpdateMessage(projectUpdateMessage);
+        ProjectDto projectDto = projectAssembler.toResource(project);
+        Message<ProjectDto> projectDtoMessage = new Message<>(projectDto, project.getId(), MessageType.PROJECT_UPDATE);
+        lifecycleStreamer.sendProjectUpdateMessage(projectDtoMessage);
     }
 
 }

@@ -4,8 +4,6 @@ import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.PartStatus;
 import com.common.models.exceptions.PartNotEditableException;
 import com.common.models.exceptions.UnauthorizedException;
-import com.common.models.messages.ProjectPartCreationMessage;
-import com.common.models.messages.ProjectPartUpdateMessage;
 import com.common.models.requests.PostPartValueRequest;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
@@ -45,9 +43,6 @@ public class PartManagementService {
 
     @Autowired
     CopyManagementService copyManagementService;
-
-    @Autowired
-    ProjectLifecycleStreamer projectLifecycleStreamer;
 
     @Autowired
     AuthorManagementService authorManagementService;
@@ -105,14 +100,7 @@ public class PartManagementService {
         newPart.setValue("");
         author.addCreatedPart(newPart);
         project.addPart(newPart);
-
         newPart = partRepository.save(newPart);
-        ProjectPartCreationMessage projectPartCreationMessage = new ProjectPartCreationMessage();
-        projectPartCreationMessage.setPartAuthorName(author.getUsername());
-        projectPartCreationMessage.setPartId(newPart.getId());
-        projectPartCreationMessage.setProjectTitle(project.getTitle());
-        projectPartCreationMessage.setProjectId(newPart.getProject().getId());
-        projectLifecycleStreamer.sendProjectPartCreationMessage(projectPartCreationMessage);
 
         projectRepository.save(project);
 
@@ -137,16 +125,6 @@ public class PartManagementService {
             setNextInLine(part.getProject());
         }
         part = partRepository.save(part);
-
-        ProjectPartUpdateMessage projectPartUpdateMessage = new ProjectPartUpdateMessage();
-        projectPartUpdateMessage.setPartAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
-        projectPartUpdateMessage.setPartId(part.getId());
-        projectPartUpdateMessage.setPartStatus(part.getStatus().toString());
-        projectPartUpdateMessage.setProjectId(part.getProject().getId());
-        projectPartUpdateMessage.setProjectTitle(part.getProject().getTitle());
-        projectPartUpdateMessage.setPartValue(part.getValue());
-        projectPartUpdateMessage.setPartUserId(userId);
-        projectLifecycleStreamer.sendProjectPartUpdateMessage(projectPartUpdateMessage);
 
         return part;
     }
@@ -188,16 +166,6 @@ public class PartManagementService {
 
 
     void deletePart(ProjectPart part) {
-        ProjectPartUpdateMessage projectPartUpdateMessage = new ProjectPartUpdateMessage();
-        projectPartUpdateMessage.setPartAuthorName(part.getCurrentlyHoldingAuthor().getUsername());
-        projectPartUpdateMessage.setPartId(part.getId());
-        projectPartUpdateMessage.setPartStatus("DELETED");
-        projectPartUpdateMessage.setProjectId(part.getProject().getId());
-        projectPartUpdateMessage.setProjectTitle(part.getProject().getTitle());
-        projectPartUpdateMessage.setPartValue(part.getValue());
-        projectPartUpdateMessage.setPartUserId(String.valueOf(part.getCurrentlyHoldingAuthor().getUserId()));
-        projectLifecycleStreamer.sendProjectPartUpdateMessage(projectPartUpdateMessage);
-
         Project project = part.getProject();
         partRepository.delete(part);
         setNextInLine(project);

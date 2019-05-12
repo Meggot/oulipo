@@ -3,6 +3,7 @@
 package com.project.dao.entites;
 
 import com.common.models.dtos.PartStatus;
+import com.project.dao.handlers.PartEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @Entity
 @NoArgsConstructor
+@EntityListeners(PartEventHandler.class)
 public class ProjectPart extends EntityObject {
 
     @Id

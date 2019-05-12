@@ -1,6 +1,7 @@
 package com.project.dao.entites;
 
 import com.common.models.dtos.AuthorProjectRoleType;
+import com.project.dao.handlers.RoleEventHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@EntityListeners(RoleEventHandler.class)
 public class AuthorProjectRole extends EntityObject{
 
     @Id

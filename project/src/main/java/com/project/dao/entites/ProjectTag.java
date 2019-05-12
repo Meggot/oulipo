@@ -2,6 +2,7 @@ package com.project.dao.entites;
 
 
 import com.common.models.dtos.TagType;
+import com.project.dao.handlers.TagEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,8 +11,8 @@ import javax.persistence.*;
 @Entity(name = "ProjectTag")
 @Data
 @NoArgsConstructor
-public class
-ProjectTag extends EntityObject {
+@EntityListeners(TagEventHandler.class)
+public class ProjectTag extends EntityObject {
 
     @Id
     @SequenceGenerator(name = "project_tag_seq", sequenceName = "project_tag_seq")

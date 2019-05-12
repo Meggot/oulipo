@@ -15,23 +15,12 @@ public class MessageManagementService {
     @Autowired
     private MessageRepository repository;
 
-    @Autowired
-    private UserLifecycleStreamer userLifecycleStreamer;
-
     public Message handlePostMessage(SendMessageRequest sendMessageRequest, Account recipient, Account sender) {
         Message message = new Message();
         message.setValue(sendMessageRequest.getValue());
         recipient.addMessageReceived(message);
         sender.addMessageSent(message);
         message = repository.save(message);
-        MessageSentMessage messageSentMessage = new MessageSentMessage();
-        messageSentMessage.setFromUsername(sender.getUsername());
-        messageSentMessage.setFromUserId(sender.getId());
-        messageSentMessage.setSentTime(message.getCreationDate().toString());
-        messageSentMessage.setToUsername(recipient.getUsername());
-        messageSentMessage.setToUserId(recipient.getId());
-        messageSentMessage.setValue(message.getValue());
-        userLifecycleStreamer.sendMessageSentMessage(messageSentMessage);
         return message;
     }
 }

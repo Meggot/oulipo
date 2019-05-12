@@ -3,10 +3,12 @@ package com.project.controllers;
 import com.common.models.dtos.AuthorProjectRoleDto;
 import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.ProjectDto;
+import com.common.models.messages.MessageType;
 import com.project.dao.entites.Author;
 import com.project.services.ProjectTest;
 import org.junit.Test;
 
+import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -42,6 +44,7 @@ public class AuthorProjectRoleControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.page.totalElements", is(numOfAuthorProjectRolesCreated)))
                 .andExpect(jsonPath("$.page.totalPages", is(1)))
                 .andExpect(jsonPath("$.page.number", is(0)));
+        assertThat(getNumberOfEventsInProjectStreamer(MessageType.PROJECT_ROLE_CREATION)).isEqualTo(numOfAuthorProjectRolesCreated);
     }
 
     @Test
@@ -60,6 +63,7 @@ public class AuthorProjectRoleControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.projectId", is(newProject.getProjectId())))
                 .andExpect(jsonPath("$.projectTitle", is(newProject.getTitle())))
                 .andExpect(jsonPath("$.role", is(AuthorProjectRoleType.CONTRIBUTOR.toString())));
+        assertThat(getNumberOfEventsInProjectStreamer(MessageType.PROJECT_ROLE_CREATION)).isEqualTo(numOfAuthorProjectRolesCreated);
     }
 
     @Test
@@ -86,5 +90,7 @@ public class AuthorProjectRoleControllerTest extends ProjectTest {
                 .andDo(print())
                 .andExpect(jsonPath("$.idField", is(patchingAuthorRole.getIdField())))
                 .andExpect(jsonPath("$.role", is(AuthorProjectRoleType.BARRED.toString())));
+        assertThat(getNumberOfEventsInProjectStreamer(MessageType.PROJECT_ROLE_UPDATE)).isEqualTo(1);
+
     }
 }

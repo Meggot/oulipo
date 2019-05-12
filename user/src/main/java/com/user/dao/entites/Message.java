@@ -1,5 +1,6 @@
 package com.user.dao.entites;
 
+import com.user.dao.handlers.MessageEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -8,6 +9,7 @@ import javax.persistence.*;
 @Data
 @Entity(name = "Message")
 @NoArgsConstructor
+@EntityListeners(MessageEventHandler.class)
 public class Message extends EntityObject {
 
     @Id

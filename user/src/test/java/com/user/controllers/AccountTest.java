@@ -65,8 +65,7 @@ public class AccountTest {
     public ResultActions createAccountWithUsernameAndEmail(String username, String email) throws Exception {
         numOfAccountsCreated++;
 
-        return mockMvc.perform((post(ACCOUNTS_PATH)).contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON)
+        return mockMvc.perform((post("/api/register"))
                 .param("username", username)
                 .param("email", email)
                 .param("hashedPassword", defaultPassword));

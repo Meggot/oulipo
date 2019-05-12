@@ -26,15 +26,11 @@ public class ProjectTagManagementService {
 
     private ProjectTagRepository projectTagRepository;
 
-    private ProjectLifecycleStreamer projectLifecycleStreamer;
-
     @Autowired
     ProjectTagManagementService(AuthorRepository authorRepository,
-                                ProjectTagRepository projectTagRepository,
-                                ProjectLifecycleStreamer projectLifecycleStreamer) {
+                                ProjectTagRepository projectTagRepository) {
         this.authorRepository = authorRepository;
         this.projectTagRepository = projectTagRepository;
-        this.projectLifecycleStreamer = projectLifecycleStreamer;
     }
 
     public ProjectTag handleCreateTagRequest(CreateTagRequest createTagRequest, Project project, String userId) {
@@ -56,16 +52,6 @@ public class ProjectTagManagementService {
         project.addTag(newTag);
         author.addAuthorCreatedTag(newTag);
         newTag = projectTagRepository.save(newTag);
-
-        ProjectTagCreationMessage projectTagCreationMessage = new ProjectTagCreationMessage();
-        projectTagCreationMessage.setProjectTitle(project.getTitle());
-        projectTagCreationMessage.setProjectId(project.getId());
-        projectTagCreationMessage.setTagId(newTag.getId());
-        projectTagCreationMessage.setType(newTag.getType());
-        projectTagCreationMessage.setUserIdAdded(author.getUserId());
-        projectTagCreationMessage.setValue(newTag.getValue());
-        projectLifecycleStreamer.sendProjectTagCreationMessage(projectTagCreationMessage);
-
         return newTag;
     }
 
@@ -81,15 +67,6 @@ public class ProjectTagManagementService {
         if (authorRole.getRole() != AuthorProjectRoleType.CREATOR && authorRole.getRole() != AuthorProjectRoleType.MODERATOR) {
             throw new UnauthorizedException("Author " + author.getAuthorId() + " does not have permission to delete a tag");
         }
-
-        ProjectTagUpdateMessage projectTagUpdateMessage = new ProjectTagUpdateMessage();
-        projectTagUpdateMessage.setValue("DELETED");
-        projectTagUpdateMessage.setProjectTitle(projectTag.getProject().getTitle());
-        projectTagUpdateMessage.setProjectId(projectTag.getProject().getId());
-        projectTagUpdateMessage.setTagId(projectTag.getId());
-        projectTagUpdateMessage.setType(projectTag.getType());
-        projectTagUpdateMessage.setUserIdAdded(author.getUserId());
-        projectLifecycleStreamer.sendProjectTagUpdateMessage(projectTagUpdateMessage);
 
         projectTagRepository.delete(projectTag);
         return true;

@@ -1,6 +1,7 @@
 package com.user.dao.entites;
 
 import com.common.models.dtos.AccountStatus;
+import com.user.dao.handlers.AccountEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.PersistenceConstructor;
@@ -13,6 +14,7 @@ import java.util.List;
 @Entity(name = "Account")
 @Data
 @NoArgsConstructor
+@EntityListeners(AccountEventHandler.class)
 public class Account extends EntityObject {
 
     @Id

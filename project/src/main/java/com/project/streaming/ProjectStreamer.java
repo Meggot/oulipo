@@ -1,15 +1,19 @@
 package com.project.streaming;
 
+import com.common.models.dtos.*;
 import com.common.models.messages.*;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.configuration.ProjectSource;
+import com.project.services.AuthorManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.MessageHeaders;
+import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
@@ -27,73 +31,125 @@ public class ProjectStreamer implements AuthorLifecycleListener, ProjectLifecycl
     @Autowired
     private ObjectMapper objectMapper;
 
+    @Autowired
+    private AuthorManagementService authorManagementService;
+
     public MessageHeaders messageHeaders = new MessageHeaders(Collections.singletonMap(MessageHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString()));
 
-
     @Override
-    public void handleUserCreationEvent(AccountCreationMessage accountCreationMessage) {
-
-
+    @StreamListener(value = "account-creation")
+    public void handleUserCreationEvent(Message<AccountDto> accountCreationMessage) {
+        String username = accountCreationMessage.getBody().getUsername();
+        Integer userId = accountCreationMessage.getBody().getIdField();
+        authorManagementService.createAuthor(userId, username);
     }
 
     @Override
-    public void handleUserUpdateEvent(AccountUpdateMessage accountUpdateMessage) {
-
+    @StreamListener(value = "account-update")
+    public void handleUserUpdateEvent(Message<AccountDto> accountUpdateMessage) {
+        String username = accountUpdateMessage.getBody().getUsername();
+        Integer userId = accountUpdateMessage.getBody().getIdField();
+        authorManagementService.updateAuthor(userId, username);
     }
 
     @Override
-    public void sendProjectCreationMessage(ProjectCreationMessage projectCreationMessage) {
+    public void sendProjectCreationMessage(Message<ProjectDto> message) {
         try {
             processor.projectCreationOutput()
-                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(projectCreationMessage), messageHeaders));
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public void sendProjectUpdateMessage(ProjectUpdateMessage accountUpdateMessage) {
-
+    public void sendProjectUpdateMessage(Message<ProjectDto> message) {
+        try {
+            processor.projectUpdateOutput()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendProjectPartCreationMessage(ProjectPartCreationMessage projectPartCreationMessage) {
-
+    public void sendProjectPartCreationMessage(Message<ProjectPartDto> message) {
+        try {
+            processor.copyPartCreation()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendProjectPartUpdateMessage(ProjectPartUpdateMessage projectPartUpdateMessage) {
-
+    public void sendProjectPartUpdateMessage(Message<ProjectPartDto> message) {
+        try {
+            processor.copyPartUpdate()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendProjectRoleCreationMessage(ProjectRoleCreationMessage projectRoleCreationMessage) {
-
+    public void sendProjectRoleCreationMessage(Message<AuthorProjectRoleDto> message) {
+        try {
+            processor.projectRoleCreation()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendProjectRoleUpdateMessage(ProjectRoleUpdateMessage projectRoleUpdateMessage) {
-
+    public void sendProjectRoleUpdateMessage(Message<AuthorProjectRoleDto> message) {
+        try {
+            processor.projectRoleUpdate()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendProjectTagCreationMessage(ProjectTagCreationMessage projectTagCreationMessage) {
-
+    public void sendProjectTagCreationMessage(Message<ProjectTagDto> message) {
+        try {
+            processor.projectTagCreation()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendProjectTagUpdateMessage(ProjectTagUpdateMessage projectTagUpdateMessage) {
-
+    public void sendProjectTagUpdateMessage(Message<ProjectTagDto> message) {
+        try {
+            processor.projectTagUpdate()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendCopyEditCreationMessage(CopyEditCreationMessage copyEditCreationMessage) {
-
+    public void sendCopyEditCreationMessage(Message<CopyEditDto> message) {
+        try {
+            processor.copyEditCreation()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public void sendCopyEditUpdateMessage(CopyEditUpdateMesage copyEditUpdateMessage) {
-
+    public void sendCopyEditUpdateMessage(Message<CopyEditDto> message) {
+        try {
+            processor.copyEditUpdate()
+                    .send(MessageBuilder.createMessage(objectMapper.writeValueAsString(message), messageHeaders));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
     }
 
 }

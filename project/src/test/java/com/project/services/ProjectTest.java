@@ -1,28 +1,19 @@
 package com.project.services;
 
 import com.common.models.dtos.*;
-import com.common.models.messages.AccountCreationMessage;
+import com.common.models.messages.Message;
+import com.common.models.messages.MessageType;
 import com.common.models.utils.ReadWriteUtils;
 import com.project.dao.entites.Author;
 import com.project.dao.repository.AuthorRepository;
-import com.project.streaming.AuthorLifecycleListener;
 import com.project.streaming.InMemoryLifecycleStreamer;
-import com.project.streaming.ProjectLifecycleStreamer;
 import org.junit.Before;
-import org.junit.ClassRule;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.kafka.test.context.EmbeddedKafka;
-import org.springframework.kafka.test.rule.KafkaEmbedded;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -40,10 +31,7 @@ public abstract class ProjectTest {
 
 
     @Autowired
-    public AuthorLifecycleListener authorLifecycleListener;
-
-    @Autowired
-    public InMemoryLifecycleStreamer projectLifecyeStreamer;
+    public InMemoryLifecycleStreamer inMemoryLifecycleStreamer;
 
     @Autowired
     public AuthorRepository authorRepository;
@@ -63,6 +51,7 @@ public abstract class ProjectTest {
     public String EDIT_PATH = "/edits/";
 
     public String ROLES_PATH = "/roles/";
+
     public String hostname = "http://localhost/";
 
     public static String selfLink = "$._links.self.href";
@@ -97,6 +86,8 @@ public abstract class ProjectTest {
 
     public static int numOfAuthorProjectRolesCreated = 0;
 
+    public static int numOfEditsCreated = 0;
+
     @Test
     public void testInstance() {
         assertThat(true).isTrue();
@@ -105,14 +96,19 @@ public abstract class ProjectTest {
     @Before
     public void setup() {
         if (!hasDefaultAuthorBeenCreated) {
-            authorLifecycleListener.handleUserCreationEvent(new AccountCreationMessage(Integer.parseInt(defaultUserId), defaultAuthorName, "TestEmail@email.net"));
+            AccountDto newAccount = new AccountDto();
+            newAccount.setUsername(defaultAuthorName);
+            newAccount.setIdField(Integer.parseInt(defaultUserId));
+            Message<AccountDto> accountCreation = new Message<>(newAccount, Integer.parseInt(defaultUserId), MessageType.ACCOUNT_CREATION);
+
+            inMemoryLifecycleStreamer.handleUserCreationEvent(accountCreation);
             hasDefaultAuthorBeenCreated = true;
             numOfAuthorsCreated++;
         }
     }
 
-    public int getNumberOfEventsInProjectStreamer() {
-        return this.projectLifecyeStreamer.messagesReceived.size();
+    public int getNumberOfEventsInProjectStreamer(MessageType type) {
+        return this.inMemoryLifecycleStreamer.messagesSentOfTypes.getOrDefault(type, 0);
     }
 
     public AuthorProjectRoleDto createAuthorRole(String userId, String projectId, AuthorProjectRoleType type) throws Exception {
@@ -125,7 +121,11 @@ public abstract class ProjectTest {
     }
 
     public Author createNewAuthor(Integer userId, String authorName) {
-        authorLifecycleListener.handleUserCreationEvent(new AccountCreationMessage(userId, authorName, "NewTestEmail@email.net"));
+        AccountDto newAccount = new AccountDto();
+        newAccount.setUsername(authorName);
+        newAccount.setIdField(userId);
+        Message<AccountDto> accountCreation = new Message<>(newAccount, userId, MessageType.ACCOUNT_CREATION);
+        inMemoryLifecycleStreamer.handleUserCreationEvent(accountCreation);
         numOfAuthorsCreated++;
         return authorRepository.findAuthorByUserIdEquals(userId).orElseThrow(() -> new RuntimeException("Something went wrong creating a test Author."));
     }
@@ -133,7 +133,7 @@ public abstract class ProjectTest {
     public ProjectPartDto createDefaultPartOnProjectId(String projectId) throws Exception {
         numOfPartsRequested++;
 
-        String content = this.mockMvc.perform(post(PARTS_PATH + "project/" + projectId + " /parts").header("User", defaultUserId))
+        String content = this.mockMvc.perform(post(PARTS_PATH + "project/" + Integer.parseInt(projectId) + " /parts").header("User", defaultUserId))
                 .andReturn().getResponse().getContentAsString();
         return ReadWriteUtils.asObjectFromString(ProjectPartDto.class,
                 content);

@@ -1,11 +1,13 @@
 package com.project.controllers;
 
 import com.common.models.dtos.*;
+import com.common.models.messages.MessageType;
 import com.common.models.utils.ReadWriteUtils;
 import com.project.services.ProjectTest;
 import org.junit.Test;
 import org.springframework.kafka.test.context.EmbeddedKafka;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.isEmptyString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
@@ -71,6 +73,8 @@ public class CopyControllerTest extends ProjectTest {
                         .andExpect(jsonPath("$.copyId", is(projectDto.getCopy().getIdField())))
                         .andExpect(jsonPath("$.status", is(CopyEditStatus.APPLIED.toString())))
                         .andReturn().getResponse().getContentAsString();
+        numOfEditsCreated++;
+        assertThat(getNumberOfEventsInProjectStreamer(MessageType.COPY_EDIT_CREATION)).isEqualTo(numOfEditsCreated);
         CopyEditDto copyEditDto = ReadWriteUtils.asObjectFromString(CopyEditDto.class, copyEditValue);
         this.mockMvc.perform(get(COPY_PATH + projectDto.getCopy().getIdField())
                 .header("User", defaultUserId))
@@ -83,11 +87,13 @@ public class CopyControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.edits[0].authorName", is(defaultAuthorName)))
                 .andExpect(jsonPath("$.edits[0].projectTitle", is(defaultTitle)))
                 .andExpect(jsonPath("$.edits[0].status", is(CopyEditStatus.APPLIED.toString())));
+        // NEED NOT APPROVE AS TEST USER IS OWNER
 //        this.mockMvc.perform(patch(EDIT_PATH + copyEditDto.getIdField() + "/action")
 //                .header("User", defaultUserId)
 //                .param("action", EditActionType.APPROVE.toString()))
 //                .andDo(print())
 //                .andExpect(jsonPath("$.status", is(CopyEditStatus.APPLIED.toString())));
+        assertThat(getNumberOfEventsInProjectStreamer(MessageType.COPY_EDIT_UPDATE)).isEqualTo(1);
         this.mockMvc.perform(get(COPY_PATH + projectDto.getCopy().getIdField())
                 .header("User", defaultUserId))
                 .andDo(print())

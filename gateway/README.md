@@ -11,6 +11,10 @@ Now start the Kafka server:
 `bin/kafka-server-start.sh config/server.properties`
 ...
 
+To view a consumer from the local Kafka:
+
+`./kafka-console-consumer.sh --bootstrap-server localhost:9092 --topic account-creation`
+
 Now you can run everything in spring boot using the spring profile: DEV
 
  -DOCKER-
@@ -22,3 +26,17 @@ so no worries
  3. make sure all containers are removed using:  `docker rm $(docker ps -a -q)`
  4. remove all images. docker rmi $(docker images -q)
  4. run using `docker-compose up -d`
+
+--KSQL---
+
+To connect to the KSQL terminal once the server comes online using docker-compose, use the following command:
+
+`docker-compose exec ksql-cli ksql http://ksql-server:8088`
+
+Set topic history retrieval using:
+
+`SET 'auto.offset.reset' = 'earliest';`
+
+to view a topics content use:
+
+`print 'account-creation' from BEGINNING`

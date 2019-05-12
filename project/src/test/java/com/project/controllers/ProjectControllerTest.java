@@ -1,7 +1,9 @@
 package com.project.controllers;
 
 import com.common.models.dtos.ProjectDto;
+import com.common.models.messages.MessageType;
 import com.project.services.ProjectTest;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Test;
 
 import static org.assertj.core.api.Java6Assertions.assertThat;
@@ -25,6 +27,7 @@ public class ProjectControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.page.totalElements", is(numofProjectsCreated)))
                 .andExpect(jsonPath("$.page.totalPages", is(1)))
                 .andExpect(jsonPath("$.page.number", is(0)));
+        AssertionsForClassTypes.assertThat(getNumberOfEventsInProjectStreamer(MessageType.PROJECT_CREATION)).isEqualTo(numofProjectsCreated);
     }
 
     @Test

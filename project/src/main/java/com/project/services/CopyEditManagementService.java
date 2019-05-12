@@ -50,6 +50,10 @@ public class CopyEditManagementService {
                 .findFirst().orElseThrow(() -> new RuntimeException("An author with userId " + userId
                         + " tried to action a CopyEdit for project " + projectId + " but they do not have a role"));
 
+        if (copyEdit.getStatus() == CopyEditStatus.DENIED) {
+            throw new RuntimeException("You cant apply status against denied edits.");
+        }
+
         boolean canAuthorTypePostActionAgainstCopyEdit =
                 copyEditPermissions.canAuthorTypePostActionAgainstCopyEdit(authorProjectRole.getRole(), sourcingType);
 
@@ -72,15 +76,6 @@ public class CopyEditManagementService {
             default:
                 throw new RuntimeException("Action " + action + " not supported in CopyEditManagementService");
         }
-
-        CopyEditUpdateMesage copyEditUpdateMesage = new CopyEditUpdateMesage();
-        copyEditUpdateMesage.setAuthorName(copyEdit.getAuthor().getUsername());
-        copyEditUpdateMesage.setCopyId(copyEdit.getCopy().getId());
-        copyEditUpdateMesage.setProjectId(copyEdit.getCopy().getProject().getId());
-        copyEditUpdateMesage.setDelta(copyEdit.getDelta());
-        copyEditUpdateMesage.setEditStatus(action.toString());
-        copyEditUpdateMesage.setProjectTitle(copyEdit.getCopy().getProject().getTitle());
-        projectLifecycleStreamer.sendCopyEditUpdateMessage(copyEditUpdateMesage);
 
         return copyEditRepository.save(copyEdit);
     }
@@ -110,13 +105,6 @@ public class CopyEditManagementService {
         newCopyEdit.setDelta(copyEditRequest.getDelta());
         newCopyEdit.setStatus(CopyEditStatus.SUBMITTED);
         newCopyEdit = copyEditRepository.save(newCopyEdit);
-
-        CopyEditCreationMessage copyEditCreationMessage = new CopyEditCreationMessage();
-        copyEditCreationMessage.setAuthorName(author.getUsername());
-        copyEditCreationMessage.setCopyId(newCopyEdit.getCopy().getId());
-        copyEditCreationMessage.setDelta(newCopyEdit.getDelta());
-        copyEditCreationMessage.setProjectId(newCopyEdit.getCopy().getProject().getId());
-        projectLifecycleStreamer.sendCopyEditCreationMessage(copyEditCreationMessage);
 
         if (authorProjectRole.getRole() == AuthorProjectRoleType.CREATOR) {
             actionAgainstCopyEdit(EditActionType.APPROVE, userId, newCopyEdit);

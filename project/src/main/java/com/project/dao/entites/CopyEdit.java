@@ -1,6 +1,7 @@
 package com.project.dao.entites;
 
 import com.common.models.dtos.CopyEditStatus;
+import com.project.dao.handlers.EditEventHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,6 +12,7 @@ import javax.persistence.*;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(EditEventHandler.class)
 public class CopyEdit extends EntityObject {
 
     @Id

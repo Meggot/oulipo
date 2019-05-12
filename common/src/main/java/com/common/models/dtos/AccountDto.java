@@ -20,7 +20,7 @@ import java.util.List;
 @Relation("account")
 public class AccountDto extends ResourceSupport implements Identifiable<Link> {
 
-    private int idField;
+    private Integer idField;
 
     private String username;
 

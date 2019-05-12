@@ -49,5 +49,26 @@ services:
       KAFKA_ADVERTISED_HOST_NAME: 192.168.99.100
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
       KAFKA_BROKER_ID: 1
+      KAFKA_DATA_DIRS: /kafka
+      KAFKA_LOG_RETENTION_BYTES: 5000000000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+  ksql-server:
+    image: confluentinc/cp-ksql-server:latest
+    ports:
+      - 9088:8088
+    environment:
+      KSQL_BOOTSTRAP_SERVERS: http://kafka:9092
+      KSQL_LISTENERS: http://0.0.0.0:8088
+#    volumes:
+#      - /data/zebra/mwe/3rdParty/ksql:/var/local
+    depends_on:
+      - kafka
+    restart: always
+  ksql-cli:
+    image: confluentinc/cp-ksql-cli:5.2.1
+    depends_on:
+      - ksql-server
+    entrypoint: /bin/sh
+    tty: true
+

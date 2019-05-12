@@ -6,11 +6,3 @@ server:
 spring:
   kafka:
     bootstrap-servers: localhost:9092
-
-jms:
-  topic:
-    user-lifecycle:
-      creation: topic-user-lifecycle-creation
-      update: topic-user-lifecycle-update
-    message:
-      sent: topic-message-sent

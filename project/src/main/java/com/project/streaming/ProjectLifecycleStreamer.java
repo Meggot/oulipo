@@ -2,27 +2,28 @@
 
 package com.project.streaming;
 
+import com.common.models.dtos.*;
 import com.common.models.messages.*;
 
 public interface ProjectLifecycleStreamer {
 
-    void sendProjectCreationMessage(ProjectCreationMessage accountCreationMessage);
+    void sendProjectCreationMessage(Message<ProjectDto> message);
 
-    void sendProjectUpdateMessage(ProjectUpdateMessage accountUpdateMessage);
+    void sendProjectUpdateMessage(Message<ProjectDto> message);
 
-    void sendProjectPartCreationMessage(ProjectPartCreationMessage projectPartCreationMessage);
+    void sendProjectPartCreationMessage(Message<ProjectPartDto> message);
 
-    void sendProjectPartUpdateMessage(ProjectPartUpdateMessage projectPartUpdateMessage);
+    void sendProjectPartUpdateMessage(Message<ProjectPartDto> message);
 
-    void sendProjectRoleCreationMessage(ProjectRoleCreationMessage projectRoleCreationMessage);
+    void sendProjectRoleCreationMessage(Message<AuthorProjectRoleDto> message);
 
-    void sendProjectRoleUpdateMessage(ProjectRoleUpdateMessage projectRoleUpdateMessage);
+    void sendProjectRoleUpdateMessage(Message<AuthorProjectRoleDto> message);
 
-    void sendProjectTagCreationMessage(ProjectTagCreationMessage projectTagCreationMessage);
+    void sendProjectTagCreationMessage(Message<ProjectTagDto> message);
 
-    void sendProjectTagUpdateMessage(ProjectTagUpdateMessage projectTagUpdateMessage);
+    void sendProjectTagUpdateMessage(Message<ProjectTagDto> message);
 
-    void sendCopyEditCreationMessage(CopyEditCreationMessage copyEditCreationMessage);
+    void sendCopyEditCreationMessage(Message<CopyEditDto> message);
 
-    void sendCopyEditUpdateMessage(CopyEditUpdateMesage copyEditUpdateMessage);
+    void sendCopyEditUpdateMessage(Message<CopyEditDto> message);
 }

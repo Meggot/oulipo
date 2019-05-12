@@ -2,8 +2,11 @@
 
 package com.user.streaming;
 
+import com.common.models.dtos.AccountDto;
+import com.common.models.dtos.MessageDto;
 import com.common.models.messages.AccountCreationMessage;
 import com.common.models.messages.AccountUpdateMessage;
+import com.common.models.messages.Message;
 import com.common.models.messages.MessageSentMessage;
 import org.springframework.context.annotation.Primary;
 import org.springframework.context.annotation.Profile;
@@ -15,17 +18,17 @@ import org.springframework.stereotype.Component;
 public class InMemoryLifecycleStreamer implements UserLifecycleStreamer{
 
     @Override
-    public void sendAccountCreationMessage(AccountCreationMessage accountCreationMessage) {
-        //DoNothing
+    public void sendAccountCreationMessage(Message<AccountDto> accountCreationMessage) {
+
     }
 
     @Override
-    public void sendAccountUpdateMessage(AccountUpdateMessage accountUpdateMessage) {
-        //DoNothing
+    public void sendAccountUpdateMessage(Message<AccountDto> accountUpdateMessage) {
+
     }
 
     @Override
-    public void sendMessageSentMessage(MessageSentMessage messageSentMessage) {
-        //DoNothing
+    public void sendMessageSentMessage(Message<MessageDto> messageSentMessage) {
+
     }
 }

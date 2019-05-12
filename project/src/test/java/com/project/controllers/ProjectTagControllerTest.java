@@ -3,7 +3,9 @@ package com.project.controllers;
 import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectTagDto;
 import com.common.models.dtos.TagType;
+import com.common.models.messages.MessageType;
 import com.project.services.ProjectTest;
+import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.*;
@@ -65,6 +67,7 @@ public class ProjectTagControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.type", is(TagType.USER_ADDED.toString())))
                 .andExpect(jsonPath("$.userIdAdded", is(Integer.valueOf(defaultUserId))))
                 .andExpect(jsonPath("$.value", is(tagValue)));
+        AssertionsForClassTypes.assertThat(getNumberOfEventsInProjectStreamer(MessageType.PROJECT_TAG_CREATION)).isEqualTo(numOfTagsCreated);
     }
 
     @Test
@@ -81,5 +84,6 @@ public class ProjectTagControllerTest extends ProjectTest {
                 .andExpect(status().isNotFound());
         this.mockMvc.perform(get(PROJECTS_PATH + project.getProjectId()).header("User", defaultUserId))
                 .andExpect(jsonPath("$.tags", emptyIterable()));
+        AssertionsForClassTypes.assertThat(getNumberOfEventsInProjectStreamer(MessageType.PROJECT_TAG_DELETION)).isEqualTo(1);
     }
 }
