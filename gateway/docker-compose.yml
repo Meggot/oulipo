@@ -24,12 +24,12 @@ services:
       - "13003:13003"
     environment:
       - "SPRING_PROFILES_ACTIVE=platformcompose"
-  audit:
-    image: meggot/oulipo/audit:2.0-SNAPSHOT
-    ports:
-      - "13004:13004"
-    environment:
-      - "SPRING_PROFILES_ACTIVE=platformcompose"
+#  audit:
+#    image: meggot/oulipo/audit:2.0-SNAPSHOT
+#    ports:
+#      - "13004:13004"
+#    environment:
+#      - "SPRING_PROFILES_ACTIVE=platformcompose"
   notify:
     image: meggot/oulipo/notify:2.0-SNAPSHOT
     ports:

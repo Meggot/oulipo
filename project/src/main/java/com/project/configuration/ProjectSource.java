@@ -15,6 +15,9 @@ public interface ProjectSource {
     @Input("account-creation")
     SubscribableChannel accountCreationInput();
 
+    @Input("system-add-tag")
+    SubscribableChannel systemAddTagInput();
+
     @Output("project-creation")
     MessageChannel projectCreationOutput();
 

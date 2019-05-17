@@ -1,13 +1,16 @@
 package com.notify.streaming;
 
+import com.common.models.dtos.ProjectDto;
+import com.common.models.dtos.ProjectPartDto;
+import com.common.models.dtos.ProjectTagDto;
 import com.common.models.messages.*;
 
 public interface ProjectLifecycleStreamer {
 
-    void listen(ProjectTagCreationMessage message, int partition);
-    void listen(ProjectTagUpdateMessage message, int partition);
-    void listen(ProjectPartUpdateMessage message, int partition);
-    void listen(ProjectUpdateMessage message, int partition);
-    void listen(ProjectPartCreationMessage message, int partition);
+    void handleProjectTagCreation(Message<ProjectTagDto> message);
+    void handleProjectTagUpdate(Message<ProjectTagDto> message);
+    void handleProjectPartUpdate(Message<ProjectPartDto> message);
+    void handleProjectPartCreation(Message<ProjectPartDto> message);
+    void handleProjectUpdate(Message<ProjectDto> message);
 
 }

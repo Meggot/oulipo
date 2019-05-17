@@ -41,6 +41,9 @@ public class ProjectTagManagementServiceTest {
     @Mock
     private AuthorProjectRoleRepository authorProjectRoleRepository;
 
+    @Mock
+    private ProjectRepository projectRepository;
+
     private Author author;
 
     private Project project;
@@ -95,7 +98,7 @@ public class ProjectTagManagementServiceTest {
         when(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(requestingUserId))).thenReturn(Optional.of(author));
         when(authorProjectRoleRepository.findById(authorProjectRoleId)).thenReturn(Optional.of(authorProjectRole));
         when(projectTagRepository.save(any())).thenReturn(createdTag);
-        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectTagRepository);
+        projectTagManagementService = new ProjectTagManagementService(authorRepository, projectTagRepository, projectRepository);
     }
 
     @Test
@@ -107,6 +110,18 @@ public class ProjectTagManagementServiceTest {
         assertThat(createdProjectTag.getProject()).isEqualToComparingFieldByField(project);
         assertThat(createdProjectTag.getValue()).isEqualTo(testTag);
         assertThat(createdProjectTag.getType()).isEqualTo(TagType.USER_ADDED);
+    }
+
+    @Test
+    public void handle_create_system_tag() {
+        Integer projectId = 32;
+        when(projectRepository.findById(projectId)).thenReturn(Optional.of(project));
+        projectTagManagementService.handleSystemAddTag(createTagRequest, projectId);
+        verify(projectTagRepository, times(1)).save(projectTagArgumentCaptor.capture());
+        ProjectTag createdProjectTag = projectTagArgumentCaptor.getValue();
+        assertThat(createdProjectTag.getProject()).isEqualToComparingFieldByField(project);
+        assertThat(createdProjectTag.getValue()).isEqualTo(testTag);
+        assertThat(createdProjectTag.getType()).isEqualTo(TagType.SYSTEM_ADDED);
     }
 
     @Test(expected = NoSuchElementException.class)

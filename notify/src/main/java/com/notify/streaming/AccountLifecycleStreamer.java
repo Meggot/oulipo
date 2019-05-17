@@ -1,8 +1,9 @@
 package com.notify.streaming;
 
-import com.common.models.messages.MessageSentMessage;
+import com.common.models.dtos.MessageDto;
+import com.common.models.messages.Message;
 
 public interface AccountLifecycleStreamer {
 
-    void listen(MessageSentMessage message, int partition);
+    void handleAccountMessage(Message<MessageDto> accountMessage);
 }

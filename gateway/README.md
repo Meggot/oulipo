@@ -40,3 +40,24 @@ Set topic history retrieval using:
 to view a topics content use:
 
 `print 'account-creation' from BEGINNING`
+
+-DEMO--
+
+Create user stream:
+
+CREATE STREAM account_creation (body STRUCT<idField VARCHAR, username VARCHAR, email VARCHAR>) with (KAFKA_TOPIC='account-creation', VALUE_FORMAT = 'JSON');
+CREATE STREAM account_creation_col AS SELECT body->idField as USER_ID, body->username as USERNAME, body->email as USEREMAIL FROM account_creation;
+
+create project stream:
+
+CREATE STREAM project_creation (body STRUCT<idField INT, title VARCHAR, type VARCHAR,synopsis VARCHAR>) with (KAFKA_TOPIC='project-creation', VALUE_FORMAT='JSON');
+CREATE STREAM project_creation_col_id AS SELECT ROWTIME as PROJECT_CREATION_DATE, body -> idfield as project_id, body -> title as TITLE, body -> type as TYPE, body -> synopsis as SYNOPSIS, body->originalAuthor as AUTHOR_NAME FROM project_creation
+
+LINK STREAMS;
+
+CREATE STREAM new_account_projects_2 AS SELECT * FROM account_creation_2 a JOIN project_creation_col_id b WITHIN 1 HOUR ON a.username = b.author_name;
+
+CREATE STREAM system_add_tag AS SELECT nap.b_title AS entityId, body STRUCT <value='NEW_PROJECT'> from NEW_ACCOUNT_PROJECTS as nap;
+
+
+CREATE STREAM SYSTEM_ADD_TAG WITH (TIMESTAMP='creation_time',VALUE_FORMAT='JSON') AS SELECT b_project_id as entityId, value = 'NEW_PROJECT', type = 'PROJECT_UPDATE' FROM NEW_ACCOUNT_PROJECTS_2;

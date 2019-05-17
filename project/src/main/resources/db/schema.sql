@@ -61,7 +61,7 @@ CREATE TABLE ProjectTag (
   pk_tag_id INTEGER PRIMARY KEY,
   fk_project_id INTEGER NOT NULL,
   type VARCHAR(255) NOT NULL,
-  fk_author_id INTEGER NOT NULL,
+  fk_author_id INTEGER,
   value VARCHAR(255) NOT NULL,
   creation_date VARCHAR(255) NOT NULL,
   modified_date VARCHAR(255) NOT NULL,

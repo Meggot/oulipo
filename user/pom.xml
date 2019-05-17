@@ -23,6 +23,7 @@
         <cucumber.version>4.2.0</cucumber.version>
         <lombok.version>1.18.4</lombok.version>
         <service.name>${project.artifactId}</service.name>
+        <kafka.version>2.1.0</kafka.version>
     </properties>
 
     <dependencyManagement>

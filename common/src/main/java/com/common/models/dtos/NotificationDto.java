@@ -17,4 +17,6 @@ public class NotificationDto extends ResourceSupport implements Identifiable<Lin
     public NotificationType type;
 
     public String message;
+
+    public String body;
 }

@@ -25,6 +25,7 @@
         <lombok.version>1.18.4</lombok.version>
         <service.name>${project.artifactId}</service.name>
         <lombok.version>1.18.4</lombok.version>
+        <kafka.version>2.1.0</kafka.version>
     </properties>
 
     <dependencyManagement>
@@ -63,10 +64,6 @@
             <artifactId>spring-cloud-contract-wiremock</artifactId>
             <version>1.2.4.RELEASE</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.kafka</groupId>
-            <artifactId>spring-kafka</artifactId>
         </dependency>
 
         <!-- Testing -->
@@ -135,6 +132,40 @@
             <version>5.4.1.Final</version>
         </dependency>
         <!--        REPOSITORY END -->
+        <!-- KAFKA -->
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-streams</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka_2.11</artifactId>
+            <version>${kafka.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-log4j12</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.kafka</groupId>
+            <artifactId>kafka-clients</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+        </dependency>
+        <!-- KAFKA END-->
+
     </dependencies>
 
     <build>

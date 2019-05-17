@@ -25,4 +25,10 @@ public class Notification extends EntityObject {
 
     @Column(name = "message")
     private String message;
+
+    //Serialized into a JSON dto.
+    @Column(name = "body")
+    private String body;
+
+
 }

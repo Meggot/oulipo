@@ -9,5 +9,5 @@ import java.util.List;
 @NoArgsConstructor
 @Data
 public class SubscriptionList {
-    public List<SubscriptionDto> subscriptionDtoList;
+    public List<SubscriptionDto> content;
 }

@@ -85,7 +85,7 @@ public class PostboxControllerTest extends PostboxTest{
                 .andExpect(jsonPath("$.unreadMail", iterableWithSize(0)))
                 .andExpect(jsonPath("$.subscriptionDtos", iterableWithSize(1)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].notificationType", is(defaultNotificationType.toString())))
-                .andExpect(jsonPath("$.subscriptionDtos[0].idField", is(subscriptionDto._embedded.subscriptionDtoList.get(0).getIdField())))
+                .andExpect(jsonPath("$.subscriptionDtos[0].idField", is(subscriptionDto._embedded.content.get(0).getIdField())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].entityId", is(defaultEntityId)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(postBoxDto.getIdField())));
         createNotificationOnEntityIdAndType(defaultEntityId, defaultNotificationType);
@@ -116,7 +116,7 @@ public class PostboxControllerTest extends PostboxTest{
                 .andExpect(jsonPath("$.unreadMail", iterableWithSize(0)))
                 .andExpect(jsonPath("$.subscriptionDtos", iterableWithSize(1)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].notificationType", is(defaultNotificationType.toString())))
-                .andExpect(jsonPath("$.subscriptionDtos[0].idField", is(subscriptionDto._embedded.subscriptionDtoList.get(0).getIdField())))
+                .andExpect(jsonPath("$.subscriptionDtos[0].idField", is(subscriptionDto._embedded.content.get(0).getIdField())))
                 .andExpect(jsonPath("$.subscriptionDtos[0].entityId", is(defaultEntityId)))
                 .andExpect(jsonPath("$.subscriptionDtos[0].postboxId", is(postBoxDto.getIdField())));
     }

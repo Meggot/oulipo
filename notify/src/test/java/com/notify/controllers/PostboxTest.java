@@ -1,13 +1,18 @@
 package com.notify.controllers;
 
+import com.common.models.dtos.MessageDto;
 import com.common.models.dtos.NotificationType;
 import com.common.models.dtos.PostBoxDto;
+import com.common.models.dtos.ProjectPartDto;
+import com.common.models.messages.Message;
 import com.common.models.messages.MessageSentMessage;
+import com.common.models.messages.MessageType;
 import com.common.models.messages.ProjectPartCreationMessage;
 import com.common.models.utils.ReadWriteUtils;
 import com.google.common.collect.Lists;
 import com.notify.streaming.AccountLifecycleStreamer;
 import com.notify.streaming.CopyLifecycleStreamer;
+import com.notify.streaming.InMemoryNotifyStreamer;
 import com.notify.streaming.ProjectLifecycleStreamer;
 import org.junit.Before;
 import org.junit.Test;
@@ -54,8 +59,6 @@ public class PostboxTest {
 
     public static int numOfNotificationMailsCreated = 0;
 
-    public static int defaultPartition;
-
     public static List<NotificationType> defaultNotificationTypes = Lists.newArrayList(NotificationType.INBOX_MESSAGE_RECEIVED);
 
     public static NotificationType defaultNotificationType = NotificationType.INBOX_MESSAGE_RECEIVED;
@@ -67,13 +70,7 @@ public class PostboxTest {
     public static String defaultMessageMessage = defaultMessageSenderName + ": " + "Hey there how is the weather I hear its awesome";
 
     @Autowired
-    private AccountLifecycleStreamer accountLifecycleStreamer;
-
-    @Autowired
-    private ProjectLifecycleStreamer projectLifecycleStreamer;
-
-    @Autowired
-    private CopyLifecycleStreamer copyLifecycleStreamer;
+    private InMemoryNotifyStreamer inMemoryNotifyStreamer;
 
     @Test
 
@@ -104,16 +101,19 @@ public class PostboxTest {
 
         switch(notificationType) {
             case PROJECT_PART_POSTED:
-                ProjectPartCreationMessage partCreationMessage = new ProjectPartCreationMessage();
-                partCreationMessage.setProjectId(entityId);
-                this.projectLifecycleStreamer.listen(partCreationMessage, defaultPartition);
+                Message<ProjectPartDto> projectPartPosted = new Message<>(new ProjectPartDto(),
+                        entityId,
+                        MessageType.PROJECT_PART_CREATION);
+                this.inMemoryNotifyStreamer.handleProjectPartCreation(projectPartPosted);
                 return;
             case INBOX_MESSAGE_RECEIVED:
-                MessageSentMessage messageSentMessage = new MessageSentMessage();
-                messageSentMessage.setToUserId(entityId);
-                messageSentMessage.setFromUsername(defaultMessageSenderName);
-                messageSentMessage.setValue("Hey there how is the weather I hear its awesome");
-                this.accountLifecycleStreamer.listen(messageSentMessage, defaultPartition);
+                MessageDto message = new MessageDto();
+                message.setValue(defaultMessageMessage);
+                message.setFromUsername(defaultMessageSenderName);
+                Message<MessageDto> messageReceived = new Message<>(message,
+                        entityId,
+                        MessageType.PROJECT_PART_CREATION);
+                this.inMemoryNotifyStreamer.handleAccountMessage(messageReceived);
         }
     }
 

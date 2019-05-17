@@ -3,6 +3,7 @@ CREATE Table Notification(
     entity_id INTEGER NOT NULL,
     type VARCHAR(255) NOT NULL,
     message VARCHAR(255) NOT NULL,
+    body CLOB NOT NULL,
     creation_date DATE NOT NULL,
     modified_date DATE NOT NULL,
     deleted INTEGER DEFAULT 0,

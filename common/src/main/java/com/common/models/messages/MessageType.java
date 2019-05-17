@@ -13,5 +13,6 @@ public enum MessageType {
     PROJECT_PART_UPDATE,
     COPY_EDIT_CREATION,
     COPY_EDIT_UPDATE,
-    MESSAGE_SENT;
+    MESSAGE_SENT,
+    SYSTEM_ADD_TAG;
 }

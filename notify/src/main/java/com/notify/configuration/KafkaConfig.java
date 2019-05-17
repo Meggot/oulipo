@@ -1,29 +1,45 @@
-package com.notify.configuration;// Copyright (c) 2019 Travelex Ltd
+// Copyright (c) 2019 Travelex Ltd
 
-import com.common.models.messages.*;
+package com.notify.configuration;
+
 import org.apache.kafka.clients.admin.AdminClientConfig;
-import org.apache.kafka.clients.consumer.ConsumerConfig;
-import org.apache.kafka.common.serialization.StringDeserializer;
+import org.apache.kafka.common.serialization.Serdes;
+import org.apache.kafka.streams.StreamsConfig;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.kafka.annotation.EnableKafka;
-import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
-import org.springframework.kafka.core.DefaultKafkaConsumerFactory;
 import org.springframework.kafka.core.KafkaAdmin;
-import org.springframework.kafka.support.serializer.JsonDeserializer;
+import org.springframework.kafka.core.StreamsBuilderFactoryBean;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Properties;
 
-@EnableKafka
 @Configuration
 @Profile("!Test")
 public class KafkaConfig {
 
     @Value(value = "${spring.kafka.bootstrap-servers}")
     private String bootstrapAddress;
+
+    private String applicationId = "notify-streams";
+
+    @Bean(name = "defaultKafkaStreamsConfig")
+    public StreamsConfig streamsConfig() {
+        Properties props = new Properties();
+        props.put(StreamsConfig.APPLICATION_ID_CONFIG, applicationId);
+        props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
+        props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.Integer().getClass().getName());
+        props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+        return new StreamsConfig(props);
+    }
+
+    @Bean
+    public StreamsBuilderFactoryBean myKStreamBuilder(@Autowired StreamsConfig streamsConfig) {
+        return new StreamsBuilderFactoryBean(streamsConfig);
+    }
 
     @Bean
     public KafkaAdmin kafkaAdmin() {
@@ -32,85 +48,4 @@ public class KafkaConfig {
         return new KafkaAdmin(configs);
     }
 
-    public Map<String, Object> getDefaultListenerProps() {
-        Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapAddress);
-        props.put(ConsumerConfig.GROUP_ID_CONFIG, "notify");
-        props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
-        return props;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProjectTagCreationMessage> projectTagCreationMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ProjectTagCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(ProjectTagCreationMessage.class)));
-        return factory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProjectTagUpdateMessage> projectTagUpdateMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ProjectTagUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(ProjectTagUpdateMessage.class)));
-        return factory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProjectPartCreationMessage> projectPartCreationMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ProjectPartCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(ProjectPartCreationMessage.class)));
-        return factory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, CopyEditCreationMessage> copyEditCreationMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, CopyEditCreationMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(CopyEditCreationMessage.class)));
-        return factory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, CopyEditUpdateMesage> copyEditUpdateMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, CopyEditUpdateMesage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(CopyEditUpdateMesage.class)));
-        return factory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProjectPartUpdateMessage> projectPartUpdateMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ProjectPartUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(ProjectPartUpdateMessage.class)));
-        return factory;
-    }
-
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, MessageSentMessage> messageSentMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, MessageSentMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(MessageSentMessage.class)));
-        return factory;
-    }
-    @Bean
-    public ConcurrentKafkaListenerContainerFactory<String, ProjectUpdateMessage> projectUpdateMessageConcurrentKafkaListenerContainerFactory() {
-        ConcurrentKafkaListenerContainerFactory<String, ProjectUpdateMessage> factory = new ConcurrentKafkaListenerContainerFactory<>();
-        factory.setConsumerFactory(new DefaultKafkaConsumerFactory<>(getDefaultListenerProps(),
-                new StringDeserializer(),
-                new JsonDeserializer<>(ProjectUpdateMessage.class)));
-        return factory;
-    }
 }
-
-

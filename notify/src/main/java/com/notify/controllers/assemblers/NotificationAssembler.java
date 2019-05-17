@@ -25,6 +25,7 @@ public class NotificationAssembler extends ResourceAssemblerSupport<Notification
         dto.setType(notification.getType());
         dto.setEntityId(notification.getEntityId());
         dto.setIdField(notification.getId());
+        dto.setBody(notification.getBody());
         return dto;
     }
 }

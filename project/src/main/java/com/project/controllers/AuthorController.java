@@ -30,9 +30,9 @@ public class AuthorController {
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET)
-    PagedResources<AuthorDto> getAuthors(@RequestHeader("User") String userId,
+    PagedResources<Resource<AuthorDto>> getAuthors(@RequestHeader("User") String userId,
                                          @QuerydslPredicate(root = Author.class) Predicate predicate,
-                                         Pageable pageable, Model model, PagedResourcesAssembler pagedResourcesAssembler) {
+                                         Pageable pageable, Model model, PagedResourcesAssembler<AuthorDto> pagedResourcesAssembler) {
         Page<AuthorDto> page = authorRepository.findAll(predicate, pageable).map(author -> authorAssembler.toResource(author));
         model.addAttribute("authors", page);
         return pagedResourcesAssembler.toResource(page);
@@ -42,13 +42,15 @@ public class AuthorController {
     @ResponseBody
     @RequestMapping(path = "/thisAuthor", method = RequestMethod.GET)
     Resource<AuthorDto> getThisAuthor(@RequestHeader("User") String userId) {
-        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId)).get()));
+        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
+                .orElseThrow(() -> new NoSuchElementException("Author with UserId " + userId + " not found."))));
     }
 
     @ResponseBody
     @RequestMapping(path = "/{userId}", method = RequestMethod.GET)
     Resource<AuthorDto> getAuthorById(@RequestHeader("User") String userId,
                                       @PathVariable("userId") Integer requestedAuthorUserId) {
-        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(requestedAuthorUserId).orElseThrow(NoSuchElementException::new)));
+        return new Resource<>(authorAssembler.toResource(authorRepository.findAuthorByUserIdEquals(requestedAuthorUserId)
+                .orElseThrow(() -> new NoSuchElementException("Author with UserId " + userId + " not found."))));
     }
 }

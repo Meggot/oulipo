@@ -2,10 +2,12 @@ package com.project.streaming;
 
 import com.common.models.dtos.*;
 import com.common.models.messages.*;
+import com.common.models.requests.CreateTagRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.project.configuration.ProjectSource;
 import com.project.services.AuthorManagementService;
+import com.project.services.ProjectTagManagementService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.entity.ContentType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +15,6 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.context.annotation.Profile;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +24,7 @@ import java.util.Collections;
 @Slf4j
 @EnableBinding(ProjectSource.class)
 @Profile( "!Test")
-public class ProjectStreamer implements AuthorLifecycleListener, ProjectLifecycleStreamer{
+public class ProjectStreamer implements AuthorLifecycleListener, ProjectLifecycleStreamer, SystemListener{
 
     @Autowired
     private ProjectSource processor;
@@ -33,6 +34,9 @@ public class ProjectStreamer implements AuthorLifecycleListener, ProjectLifecycl
 
     @Autowired
     private AuthorManagementService authorManagementService;
+
+    @Autowired
+    private ProjectTagManagementService projectTagManagementService;
 
     public MessageHeaders messageHeaders = new MessageHeaders(Collections.singletonMap(MessageHeaders.CONTENT_TYPE, ContentType.APPLICATION_JSON.toString()));
 
@@ -50,6 +54,14 @@ public class ProjectStreamer implements AuthorLifecycleListener, ProjectLifecycl
         String username = accountUpdateMessage.getBody().getUsername();
         Integer userId = accountUpdateMessage.getBody().getIdField();
         authorManagementService.updateAuthor(userId, username);
+    }
+
+
+    @Override
+    @StreamListener(value = "system-add-tag")
+    public void handleSystemAddTag(Message<CreateTagRequest> addTagRequest) {
+        log.info("Received system add tag request {} ", addTagRequest);
+        projectTagManagementService.handleSystemAddTag(addTagRequest.getBody(), addTagRequest.getEntityId());
     }
 
     @Override
@@ -151,5 +163,4 @@ public class ProjectStreamer implements AuthorLifecycleListener, ProjectLifecycl
             e.printStackTrace();
         }
     }
-
 }

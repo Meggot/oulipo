@@ -14,21 +14,28 @@ import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.dao.repository.ProjectTagRepository;
 import com.project.streaming.ProjectLifecycleStreamer;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import scala.Int;
 
 import java.util.NoSuchElementException;
 
 @Component
+@Slf4j
 public class ProjectTagManagementService {
 
     private AuthorRepository authorRepository;
 
     private ProjectTagRepository projectTagRepository;
 
+    private ProjectRepository projectRepository;
+
     @Autowired
     ProjectTagManagementService(AuthorRepository authorRepository,
-                                ProjectTagRepository projectTagRepository) {
+                                ProjectTagRepository projectTagRepository,
+                                ProjectRepository projectRepository) {
+        this.projectRepository = projectRepository;
         this.authorRepository = authorRepository;
         this.projectTagRepository = projectTagRepository;
     }
@@ -70,5 +77,16 @@ public class ProjectTagManagementService {
 
         projectTagRepository.delete(projectTag);
         return true;
+    }
+
+    public void handleSystemAddTag(CreateTagRequest body, Integer projectId) {
+        Project project = projectRepository.findById(projectId)
+                .orElseThrow(() -> new RuntimeException("Received a system add tag for a project that doesn't exist of id " + projectId));
+        ProjectTag newTag = new ProjectTag();
+        newTag.setType(TagType.SYSTEM_ADDED);
+        newTag.setValue(body.getValue());
+        project.addTag(newTag);
+        newTag = projectTagRepository.save(newTag);
+        log.info("Added SYSTEM_TAG of {} ", newTag);
     }
 }
