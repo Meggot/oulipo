@@ -23,12 +23,12 @@ public class RoleEventHandler {
 
     @Autowired
     public void setLifecycleStreamer(ProjectLifecycleStreamer projectLifecycleStreamer) {
-        this.lifecycleStreamer = projectLifecycleStreamer;
+        lifecycleStreamer = projectLifecycleStreamer;
     }
 
     @Autowired
     public void setAuthorProjectRoleAssembler(AuthorProjectRoleAssembler authorProjectRoleAssembler) {
-        this.assembler = authorProjectRoleAssembler;
+        assembler = authorProjectRoleAssembler;
     }
 
     @PostPersist

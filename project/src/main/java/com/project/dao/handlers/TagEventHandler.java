@@ -3,7 +3,6 @@ package com.project.dao.handlers;
 import com.common.models.dtos.ProjectTagDto;
 import com.common.models.messages.Message;
 import com.common.models.messages.MessageType;
-import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.controllers.assemblers.ProjectTagAssembler;
 import com.project.dao.entites.ProjectTag;
 import com.project.streaming.ProjectLifecycleStreamer;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.PostPersist;
 import javax.persistence.PostRemove;
-import javax.persistence.PostUpdate;
 
 @Slf4j
 @Component
@@ -25,12 +23,12 @@ public class TagEventHandler {
 
     @Autowired
     public void setLifecycleStreamer(ProjectLifecycleStreamer projectLifecycleStreamer) {
-        this.lifecycleStreamer = projectLifecycleStreamer;
+        lifecycleStreamer = projectLifecycleStreamer;
     }
 
     @Autowired
     public void setTagAssembler(ProjectTagAssembler tagAssembler) {
-        this.tagAssembler = tagAssembler;
+        TagEventHandler.tagAssembler = tagAssembler;
     }
 
     @PostPersist

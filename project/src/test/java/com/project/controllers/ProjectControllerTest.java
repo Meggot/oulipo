@@ -6,7 +6,6 @@ import com.project.services.ProjectTest;
 import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.Test;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;

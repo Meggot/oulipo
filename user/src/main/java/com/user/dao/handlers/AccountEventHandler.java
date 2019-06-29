@@ -23,12 +23,12 @@ public class AccountEventHandler {
 
     @Autowired
     public void setUserLifecycleStreamer(UserLifecycleStreamer userLifecycleStreamer) {
-        this.userLifecycleStreamer = userLifecycleStreamer;
+        AccountEventHandler.userLifecycleStreamer = userLifecycleStreamer;
     }
 
     @Autowired
     public void setAccountResourceAssembler(AccountResourceAssembler accountResourceAssembler){
-        this.assembler = accountResourceAssembler;
+        assembler = accountResourceAssembler;
     }
 
     @PostPersist

@@ -2,8 +2,6 @@ package com.user.services;// Copyright (c) 2019 Travelex Ltd
 
 import com.common.models.exceptions.ApiValidationError;
 import com.common.models.exceptions.EntityValidationException;
-import com.common.models.messages.AccountCreationMessage;
-import com.common.models.messages.AccountUpdateMessage;
 import com.common.models.requests.CreateAccount;
 import com.common.models.requests.UpdateAccount;
 import com.user.dao.entites.Account;
@@ -11,7 +9,6 @@ import com.user.dao.entites.Password;
 import com.user.dao.repository.AccountRepository;
 import com.user.dao.repository.PasswordRepository;
 import com.user.services.validators.AccountEntityValidator;
-import com.user.streaming.UserLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -24,16 +21,16 @@ import java.util.Set;
 public class AccountManagementService {
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    AccountEntityValidator accountEntityValidator;
+    private AccountEntityValidator accountEntityValidator;
 
     @Autowired
-    PasswordRepository passwordRepository;
+    private PasswordRepository passwordRepository;
 
     @Autowired
-    PasswordEncoder passwordEncoder;
+    private PasswordEncoder passwordEncoder;
 
     public Account updateAccount(Integer accountId, UpdateAccount updateAccountRequest) {
         log.info(">[UPDATE] Starting updating Account {}", accountId);

@@ -10,5 +10,5 @@ public enum AuthorProjectRoleType {
     CREATOR,
     CONTRIBUTOR,
     MODERATOR,
-    BARRED;
+    BARRED
 }

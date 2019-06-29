@@ -3,7 +3,7 @@
 package com.project.streaming;
 
 import com.common.models.dtos.*;
-import com.common.models.messages.*;
+import com.common.models.messages.Message;
 
 public interface ProjectLifecycleStreamer {
 

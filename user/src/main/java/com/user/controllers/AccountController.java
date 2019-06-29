@@ -6,7 +6,10 @@ import com.common.models.dtos.AccountDto;
 import com.common.models.dtos.AccountGroupMembershipDto;
 import com.common.models.dtos.AccountRelationshipDto;
 import com.common.models.dtos.AccountTagDto;
-import com.common.models.requests.*;
+import com.common.models.requests.AccountRelationshipRequest;
+import com.common.models.requests.AccountTagRequest;
+import com.common.models.requests.PostAccountGroupMembershipRequest;
+import com.common.models.requests.UpdateAccount;
 import com.querydsl.core.types.Predicate;
 import com.user.controllers.assemblers.AccountGroupMembershipAssembler;
 import com.user.controllers.assemblers.AccountRelationshipAssembler;
@@ -24,7 +27,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.querydsl.binding.QuerydslPredicate;
 import org.springframework.data.web.PagedResourcesAssembler;
-import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.PagedResources;
 import org.springframework.hateoas.Resource;
 import org.springframework.http.HttpEntity;
@@ -41,31 +43,31 @@ import javax.validation.Valid;
 public class AccountController {
 
     @Autowired
-    AccountManagementService accountManagementService;
+    private AccountManagementService accountManagementService;
 
     @Autowired
-    AccountRelationshipManagementService accountRelationshipManagementService;
+    private AccountRelationshipManagementService accountRelationshipManagementService;
 
     @Autowired
-    AccountRepository accountRepository;
+    private AccountRepository accountRepository;
 
     @Autowired
-    AccountResourceAssembler accountResourceAssembler;
+    private AccountResourceAssembler accountResourceAssembler;
 
     @Autowired
-    AccountRelationshipAssembler accountRelationshipAssembler;
+    private AccountRelationshipAssembler accountRelationshipAssembler;
 
     @Autowired
-    AccountGroupMembershipAssembler accountGroupMembershipAssembler;
+    private AccountGroupMembershipAssembler accountGroupMembershipAssembler;
 
     @Autowired
-    AccountTagManagementService accountTagManagementService;
+    private AccountTagManagementService accountTagManagementService;
 
     @Autowired
-    AccountTagAssembler accountTagAssembler;
+    private AccountTagAssembler accountTagAssembler;
 
     @Autowired
-    GroupManagementService groupManagementService;
+    private GroupManagementService groupManagementService;
 
     @ResponseBody
     @RequestMapping(value = "/{accountId}", method = RequestMethod.PATCH)

@@ -14,7 +14,6 @@ import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.PartRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.services.permissions.ProjectPartPermissions;
-import com.project.streaming.ProjectLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -30,25 +29,25 @@ import static com.common.models.dtos.PartStatus.RESERVED;
 public class PartManagementService {
 
     @Autowired
-    PartRepository partRepository;
+    private PartRepository partRepository;
 
     @Autowired
-    AuthorRepository authorRepository;
+    private AuthorRepository authorRepository;
 
     @Autowired
-    ProjectRepository projectRepository;
+    private ProjectRepository projectRepository;
 
     @Autowired
-    ProjectPartPermissions projectPartPermissions;
+    private ProjectPartPermissions projectPartPermissions;
 
     @Autowired
-    CopyManagementService copyManagementService;
+    private CopyManagementService copyManagementService;
 
     @Autowired
-    AuthorManagementService authorManagementService;
+    private AuthorManagementService authorManagementService;
 
     @Autowired
-    AuthorProjectRoleRepository authorProjectRoleRepository;
+    private AuthorProjectRoleRepository authorProjectRoleRepository;
 
     public ProjectPart requestPartOnProject(Project project, String userId) {
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))

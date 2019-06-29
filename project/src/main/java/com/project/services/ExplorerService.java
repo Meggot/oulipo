@@ -1,11 +1,9 @@
 package com.project.services;
 
-import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.ProjectType;
 import com.common.models.dtos.SourcingType;
 import com.common.models.dtos.TagType;
 import com.common.models.requests.SearchSortType;
-import com.google.common.collect.Lists;
 import com.project.dao.entites.QProject;
 import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.dsl.BooleanExpression;

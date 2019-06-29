@@ -1,7 +1,5 @@
 package com.common.models.dtos;
 
-import lombok.Data;
-
 public enum NotificationType {
     INBOX_MESSAGE_RECEIVED,
     PROJECT_TAG_CREATED,

@@ -2,13 +2,10 @@
 
 package com.project.dao.handlers;
 
-import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectPartDto;
 import com.common.models.messages.Message;
 import com.common.models.messages.MessageType;
 import com.project.controllers.assemblers.PartAssembler;
-import com.project.controllers.assemblers.ProjectAssembler;
-import com.project.dao.entites.Project;
 import com.project.dao.entites.ProjectPart;
 import com.project.streaming.ProjectLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
@@ -28,12 +25,12 @@ public class PartEventHandler {
 
     @Autowired
     public void setLifecycleStreamer(ProjectLifecycleStreamer projectLifecycleStreamer) {
-        this.lifecycleStreamer = projectLifecycleStreamer;
+        lifecycleStreamer = projectLifecycleStreamer;
     }
 
     @Autowired
     public void setPartAssembler(PartAssembler partAssembler) {
-        this.partAssembler = partAssembler;
+        PartEventHandler.partAssembler = partAssembler;
     }
 
     @PostPersist

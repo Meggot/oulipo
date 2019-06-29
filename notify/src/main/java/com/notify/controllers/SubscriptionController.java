@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class SubscriptionController {
 
     @Autowired
-    SubscriptionAssembler assembler;
+    private SubscriptionAssembler assembler;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, path="/{subscriptionId}")

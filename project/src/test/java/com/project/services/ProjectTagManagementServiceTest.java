@@ -12,7 +12,6 @@ import com.project.dao.repository.AuthorProjectRoleRepository;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.dao.repository.ProjectTagRepository;
-import com.project.streaming.InMemoryLifecycleStreamer;
 import org.assertj.core.util.Lists;
 import org.junit.Before;
 import org.junit.Test;

@@ -1,11 +1,9 @@
 package com.user.services;
 
-import com.common.models.messages.MessageSentMessage;
 import com.common.models.requests.SendMessageRequest;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.Message;
 import com.user.dao.repository.MessageRepository;
-import com.user.streaming.UserLifecycleStreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

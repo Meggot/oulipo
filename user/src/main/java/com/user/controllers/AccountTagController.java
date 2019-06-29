@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class AccountTagController {
 
     @Autowired
-    AccountTagAssembler accountTagAssembler;
+    private AccountTagAssembler accountTagAssembler;
 
     @RequestMapping(method = RequestMethod.GET, path = "/{tagId}")
     @ResponseBody

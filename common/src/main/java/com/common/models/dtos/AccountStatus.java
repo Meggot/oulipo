@@ -5,6 +5,6 @@ package com.common.models.dtos;
 public enum AccountStatus {
 
     ACTIVE,
-    BANNED;
+    BANNED
 
 }

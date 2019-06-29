@@ -5,5 +5,5 @@ import com.common.models.requests.CreateTagRequest;
 
 public interface SystemListener {
 
-    public void handleSystemAddTag(Message<CreateTagRequest> addTagRequest);
+    void handleSystemAddTag(Message<CreateTagRequest> addTagRequest);
 }

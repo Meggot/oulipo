@@ -18,7 +18,7 @@ import java.util.Optional;
 public class AccountRelationshipManagementService {
 
     @Autowired
-    AccountRelationshipRepository relationshipRepository;
+    private AccountRelationshipRepository relationshipRepository;
 
 
     public AccountRelationship postRelationshipRequest(AccountRelationshipRequest req, Account addedBy, Account added) {

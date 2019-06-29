@@ -4,6 +4,6 @@ package com.common.models.dtos;
 
 public enum SourcingType {
 
-    OPEN, MODERATED, PRIVATE, ARCHIVED;
+    OPEN, MODERATED, PRIVATE, ARCHIVED
 
 }

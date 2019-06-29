@@ -4,7 +4,6 @@ import com.common.models.dtos.CopyEditDto;
 import com.common.models.messages.Message;
 import com.common.models.messages.MessageType;
 import com.project.controllers.assemblers.CopyEditAssembler;
-import com.project.controllers.assemblers.PartAssembler;
 import com.project.dao.entites.CopyEdit;
 import com.project.streaming.ProjectLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
@@ -24,12 +23,12 @@ public class EditEventHandler {
 
     @Autowired
     public void setLifecycleStreamer(ProjectLifecycleStreamer projectLifecycleStreamer) {
-        this.lifecycleStreamer = projectLifecycleStreamer;
+        lifecycleStreamer = projectLifecycleStreamer;
     }
 
     @Autowired
     public void setPartAssembler(CopyEditAssembler editAssembler) {
-        this.editAssembler = editAssembler;
+        EditEventHandler.editAssembler = editAssembler;
     }
 
 

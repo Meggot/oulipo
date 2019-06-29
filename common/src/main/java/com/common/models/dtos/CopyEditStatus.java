@@ -4,5 +4,5 @@ public enum CopyEditStatus {
     SUBMITTED,
     APPLIED,
     REVERTED,
-    DENIED;
+    DENIED
 }

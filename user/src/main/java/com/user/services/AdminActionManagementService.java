@@ -10,6 +10,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class AdminActionManagementService {
+
     @Autowired
     private AccountRepository accountRepository;
 

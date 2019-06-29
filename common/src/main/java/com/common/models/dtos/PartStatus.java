@@ -5,5 +5,5 @@ public enum PartStatus {
     RESERVED,
     IN_PROGRESS,
     UNDER_REVIEW,
-    LOCKED;
+    LOCKED
 }

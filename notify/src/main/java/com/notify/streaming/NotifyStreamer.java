@@ -1,7 +1,7 @@
 package com.notify.streaming;
 
 import com.common.models.dtos.*;
-import com.common.models.messages.*;
+import com.common.models.messages.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.notify.configuration.NotifySource;
 import com.notify.services.NotificationManagementService;

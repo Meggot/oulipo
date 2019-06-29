@@ -14,5 +14,5 @@ public enum MessageType {
     COPY_EDIT_CREATION,
     COPY_EDIT_UPDATE,
     MESSAGE_SENT,
-    SYSTEM_ADD_TAG;
+    SYSTEM_ADD_TAG
 }

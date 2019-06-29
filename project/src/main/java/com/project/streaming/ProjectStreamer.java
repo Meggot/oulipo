@@ -1,7 +1,7 @@
 package com.project.streaming;
 
 import com.common.models.dtos.*;
-import com.common.models.messages.*;
+import com.common.models.messages.Message;
 import com.common.models.requests.CreateTagRequest;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

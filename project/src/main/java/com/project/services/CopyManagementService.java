@@ -14,7 +14,7 @@ public class CopyManagementService {
     @Autowired
     private CopyRepository copyRepository;
 
-    private DiffMatchPatch diffMatchPatch = new DiffMatchPatch();;
+    private DiffMatchPatch diffMatchPatch = new DiffMatchPatch();
 
     public void addValueToCopy(Copy copy, String partValue) {
         StringBuilder stringBuilder = new StringBuilder();

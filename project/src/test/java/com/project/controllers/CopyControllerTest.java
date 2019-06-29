@@ -5,7 +5,6 @@ import com.common.models.messages.MessageType;
 import com.common.models.utils.ReadWriteUtils;
 import com.project.services.ProjectTest;
 import org.junit.Test;
-import org.springframework.kafka.test.context.EmbeddedKafka;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.hamcrest.Matchers.is;

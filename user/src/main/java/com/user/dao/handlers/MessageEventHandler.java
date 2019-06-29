@@ -21,12 +21,12 @@ public class MessageEventHandler {
 
     @Autowired
     public void setUserLifecycleStreamer(UserLifecycleStreamer userLifecycleStreamer) {
-        this.userLifecycleStreamer = userLifecycleStreamer;
+        MessageEventHandler.userLifecycleStreamer = userLifecycleStreamer;
     }
 
     @Autowired
     public void setMessageAssembler(MessageAssembler messageAssembler) {
-        this.assembler = messageAssembler;
+        assembler = messageAssembler;
     }
 
     @PostPersist

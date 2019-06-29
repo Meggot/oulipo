@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 public class AccountTagManagementService {
 
     @Autowired
-    AccountTagRepository accountTagRepository;
+    private AccountTagRepository accountTagRepository;
 
     public AccountTag handleAccountTagRequest(AccountTagRequest request, Account account) {
         AccountTag accountTag = new AccountTag();

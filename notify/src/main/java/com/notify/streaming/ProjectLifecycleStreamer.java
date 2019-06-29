@@ -3,7 +3,7 @@ package com.notify.streaming;
 import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectPartDto;
 import com.common.models.dtos.ProjectTagDto;
-import com.common.models.messages.*;
+import com.common.models.messages.Message;
 
 public interface ProjectLifecycleStreamer {
 

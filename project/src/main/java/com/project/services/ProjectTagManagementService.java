@@ -3,8 +3,6 @@ package com.project.services;
 import com.common.models.dtos.AuthorProjectRoleType;
 import com.common.models.dtos.TagType;
 import com.common.models.exceptions.UnauthorizedException;
-import com.common.models.messages.ProjectTagCreationMessage;
-import com.common.models.messages.ProjectTagUpdateMessage;
 import com.common.models.requests.CreateTagRequest;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
@@ -13,11 +11,9 @@ import com.project.dao.entites.ProjectTag;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
 import com.project.dao.repository.ProjectTagRepository;
-import com.project.streaming.ProjectLifecycleStreamer;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import scala.Int;
 
 import java.util.NoSuchElementException;
 

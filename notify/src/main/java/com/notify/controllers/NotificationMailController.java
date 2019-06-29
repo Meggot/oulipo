@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 public class NotificationMailController {
 
     @Autowired
-    NotificationMailAssembler assembler;
+    private NotificationMailAssembler assembler;
 
     @ResponseBody
     @RequestMapping(method = RequestMethod.GET, path="/{notificationMailId}")

@@ -5,15 +5,10 @@ import com.common.models.dtos.NotificationType;
 import com.common.models.dtos.PostBoxDto;
 import com.common.models.dtos.ProjectPartDto;
 import com.common.models.messages.Message;
-import com.common.models.messages.MessageSentMessage;
 import com.common.models.messages.MessageType;
-import com.common.models.messages.ProjectPartCreationMessage;
 import com.common.models.utils.ReadWriteUtils;
 import com.google.common.collect.Lists;
-import com.notify.streaming.AccountLifecycleStreamer;
-import com.notify.streaming.CopyLifecycleStreamer;
 import com.notify.streaming.InMemoryNotifyStreamer;
-import com.notify.streaming.ProjectLifecycleStreamer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -80,7 +75,7 @@ public class PostboxTest {
     @Before
     public void setup() throws Exception {
         if (!hasDefaultPostboxBeenCreated) {
-            this.defaultPostBoxId = getDefaultPostbox().getIdField();
+            defaultPostBoxId = getDefaultPostbox().getIdField();
         }
     }
 

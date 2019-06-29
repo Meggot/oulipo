@@ -10,11 +10,8 @@ import com.project.dao.entites.Author;
 import com.project.dao.entites.AuthorProjectRole;
 import com.project.dao.entites.Copy;
 import com.project.dao.entites.Project;
-import com.project.dao.repository.AuthorProjectRoleRepository;
 import com.project.dao.repository.AuthorRepository;
-import com.project.dao.repository.PartRepository;
 import com.project.dao.repository.ProjectRepository;
-import com.project.streaming.ProjectLifecycleStreamer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
