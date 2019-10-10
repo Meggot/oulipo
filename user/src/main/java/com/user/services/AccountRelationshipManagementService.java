@@ -52,6 +52,11 @@ public class AccountRelationshipManagementService {
         if (request.getStatus().equals(AccountRelationshipStatus.REQUESTED)) {
             throw new IllegalStateException("You can't patch a status to requested");
         }
+        if (relationship.getStatus() == AccountRelationshipStatus.REQUESTED && request.getStatus() == AccountRelationshipStatus.REVOKED){
+            if (!initiator.equals(relationship.getAddedBy())) {
+                throw new UnauthorizedException("You cannot revoke a requested relationship unless you are the initiator");
+            }
+        }
         log.info("Successfully updated the status. {}", request);
         relationship.setStatus(request.getStatus());
         return relationshipRepository.save(relationship);

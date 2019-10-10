@@ -38,7 +38,6 @@ public class TagEventHandler {
         lifecycleStreamer.sendProjectTagCreationMessage(message);
     }
 
-
     @PostRemove
     public void postRemove(ProjectTag tag) {
         ProjectTagDto dto = tagAssembler.toResource(tag);

@@ -99,6 +99,8 @@ public class PostboxManagementService {
         postBox.setOnline(true);
         postBox.setPostFlagStatus(PostFlagStatus.READ);
         postBox.getMail()
+                .stream()
+                .filter(mail -> mail.getStatus() == NotificationStatus.UNREAD)
                 .forEach(mail -> mail.setStatus(NotificationStatus.READ));
         postboxRepository.save(postBox);
     }
