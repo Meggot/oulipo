@@ -1,6 +1,6 @@
 package com.user.services;
 
-import com.common.models.dtos.GroupRole;
+import com.common.models.enums.GroupRole;
 import com.common.models.exceptions.InternalServerException;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.PatchGroupRequest;

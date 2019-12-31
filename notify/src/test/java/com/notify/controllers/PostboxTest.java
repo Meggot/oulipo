@@ -1,7 +1,7 @@
 package com.notify.controllers;
 
 import com.common.models.dtos.MessageDto;
-import com.common.models.dtos.NotificationType;
+import com.common.models.enums.NotificationType;
 import com.common.models.dtos.PostBoxDto;
 import com.common.models.dtos.ProjectPartDto;
 import com.common.models.messages.Message;

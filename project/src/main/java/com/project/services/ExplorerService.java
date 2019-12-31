@@ -1,8 +1,8 @@
 package com.project.services;
 
-import com.common.models.dtos.ProjectType;
-import com.common.models.dtos.SourcingType;
-import com.common.models.dtos.TagType;
+import com.common.models.enums.ProjectType;
+import com.common.models.enums.SourcingType;
+import com.common.models.enums.TagType;
 import com.common.models.requests.SearchSortType;
 import com.project.dao.entites.QProject;
 import com.querydsl.core.types.Predicate;

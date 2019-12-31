@@ -1,6 +1,6 @@
 package com.user.dao.entites;
 
-import com.common.models.dtos.AccountStatus;
+import com.common.models.enums.AccountStatus;
 import com.user.dao.handlers.AccountEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;

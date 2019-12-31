@@ -2,9 +2,9 @@
 
 package com.common.models.requests;
 
-import com.common.models.dtos.ProjectType;
-import com.common.models.dtos.SourcingType;
-import com.common.models.dtos.VisibilityType;
+import com.common.models.enums.ProjectType;
+import com.common.models.enums.SourcingType;
+import com.common.models.enums.VisibilityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

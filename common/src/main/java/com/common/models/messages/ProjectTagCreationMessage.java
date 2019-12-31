@@ -1,6 +1,6 @@
 package com.common.models.messages;
 
-import com.common.models.dtos.TagType;
+import com.common.models.enums.TagType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

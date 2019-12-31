@@ -1,5 +1,7 @@
 package com.common.models.dtos;
 
+import com.common.models.enums.AccountTagCategory;
+import com.common.models.enums.TagType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

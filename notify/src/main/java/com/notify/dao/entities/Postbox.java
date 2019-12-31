@@ -1,6 +1,6 @@
 package com.notify.dao.entities;
 
-import com.common.models.dtos.PostFlagStatus;
+import com.common.models.enums.PostFlagStatus;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

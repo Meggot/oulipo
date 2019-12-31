@@ -1,6 +1,6 @@
 package com.project.controllers;
 
-import com.common.models.dtos.PartStatus;
+import com.common.models.enums.PartStatus;
 import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectPartDto;
 import com.project.services.ProjectTest;

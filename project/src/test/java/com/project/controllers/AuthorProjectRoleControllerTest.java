@@ -1,7 +1,7 @@
 package com.project.controllers;
 
 import com.common.models.dtos.AuthorProjectRoleDto;
-import com.common.models.dtos.AuthorProjectRoleType;
+import com.common.models.enums.AuthorProjectRoleType;
 import com.common.models.dtos.ProjectDto;
 import com.common.models.messages.MessageType;
 import com.project.dao.entites.Author;

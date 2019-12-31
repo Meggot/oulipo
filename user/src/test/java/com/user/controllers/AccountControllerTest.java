@@ -1,7 +1,7 @@
 package com.user.controllers;
 
 import com.common.models.dtos.AccountDto;
-import com.common.models.dtos.AccountStatus;
+import com.common.models.enums.AccountStatus;
 import org.junit.Test;
 
 import static com.common.models.variables.StandardFields.DEFAULT_PAGE_SIZE;

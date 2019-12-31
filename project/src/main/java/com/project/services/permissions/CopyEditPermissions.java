@@ -1,7 +1,7 @@
 package com.project.services.permissions;
 
-import com.common.models.dtos.AuthorProjectRoleType;
-import com.common.models.dtos.SourcingType;
+import com.common.models.enums.AuthorProjectRoleType;
+import com.common.models.enums.SourcingType;
 import com.common.models.exceptions.UnauthorizedException;
 import org.springframework.stereotype.Component;
 

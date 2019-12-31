@@ -1,6 +1,6 @@
 package com.common.models.requests;
 
-import com.common.models.dtos.AccountRelationshipStatus;
+import com.common.models.enums.AccountRelationshipStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

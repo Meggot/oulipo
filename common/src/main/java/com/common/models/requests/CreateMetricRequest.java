@@ -1,7 +1,7 @@
 package com.common.models.requests;
 
-import com.common.models.dtos.EntityType;
-import com.common.models.dtos.MetricType;
+import com.common.models.enums.EntityType;
+import com.common.models.enums.MetricType;
 import lombok.Data;
 
 import javax.validation.Valid;

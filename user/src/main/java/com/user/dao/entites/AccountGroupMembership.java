@@ -1,6 +1,6 @@
 package com.user.dao.entites;
 
-import com.common.models.dtos.GroupRole;
+import com.common.models.enums.GroupRole;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

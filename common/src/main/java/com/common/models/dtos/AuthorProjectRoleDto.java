@@ -1,5 +1,6 @@
 package com.common.models.dtos;
 
+import com.common.models.enums.AuthorProjectRoleType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

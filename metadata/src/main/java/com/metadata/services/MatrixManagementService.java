@@ -2,9 +2,9 @@
 
 package com.metadata.services;
 
-import com.common.models.dtos.EntityType;
+import com.common.models.enums.EntityType;
 import com.common.models.dtos.MatrixDto;
-import com.common.models.dtos.MetricType;
+import com.common.models.enums.MetricType;
 import com.metadata.dao.repository.MetricRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.Map;
 
-import static com.common.models.dtos.MetricType.*;
+import static com.common.models.enums.MetricType.*;
 
 @Component
 public class MatrixManagementService {

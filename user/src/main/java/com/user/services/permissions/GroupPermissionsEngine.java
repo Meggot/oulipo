@@ -1,6 +1,6 @@
 package com.user.services.permissions;
 
-import com.common.models.dtos.GroupRole;
+import com.common.models.enums.GroupRole;
 import com.common.models.exceptions.UnauthorizedException;
 import org.springframework.stereotype.Component;
 

@@ -1,6 +1,6 @@
 package com.user.services;
 
-import com.common.models.dtos.TagType;
+import com.common.models.enums.TagType;
 import com.common.models.requests.AccountTagRequest;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.AccountTag;

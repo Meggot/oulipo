@@ -1,6 +1,6 @@
 package com.user.dao.entites;
 
-import com.common.models.dtos.GroupType;
+import com.common.models.enums.GroupType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

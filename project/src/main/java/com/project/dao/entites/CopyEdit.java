@@ -1,6 +1,6 @@
 package com.project.dao.entites;
 
-import com.common.models.dtos.CopyEditStatus;
+import com.common.models.enums.CopyEditStatus;
 import com.project.dao.handlers.EditEventHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;

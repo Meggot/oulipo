@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-import static com.common.models.dtos.GroupType.OPEN;
+import static com.common.models.enums.GroupType.OPEN;
 
 @RestController
 @RequestMapping(produces = "application/json", path = "/groups")

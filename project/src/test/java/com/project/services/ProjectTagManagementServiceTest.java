@@ -1,7 +1,7 @@
 package com.project.services;
 
-import com.common.models.dtos.AuthorProjectRoleType;
-import com.common.models.dtos.TagType;
+import com.common.models.enums.AuthorProjectRoleType;
+import com.common.models.enums.TagType;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.CreateTagRequest;
 import com.project.dao.entites.Author;

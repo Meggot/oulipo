@@ -1,7 +1,7 @@
 package com.metadata.controllers;
 
 import com.common.models.dtos.CommentDto;
-import com.common.models.dtos.EntityType;
+import com.common.models.enums.EntityType;
 import com.common.models.requests.CommentPostRequest;
 import com.metadata.controllers.assemblers.CommentAssembler;
 import com.metadata.dao.entites.Comment;

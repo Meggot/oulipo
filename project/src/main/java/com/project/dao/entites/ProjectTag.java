@@ -1,7 +1,7 @@
 package com.project.dao.entites;
 
 
-import com.common.models.dtos.TagType;
+import com.common.models.enums.TagType;
 import com.project.dao.handlers.TagEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;

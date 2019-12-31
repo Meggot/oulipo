@@ -2,7 +2,7 @@
 
 package com.metadata.controllers;
 
-import com.common.models.dtos.EntityType;
+import com.common.models.enums.EntityType;
 import com.common.models.dtos.MatrixDto;
 import com.google.common.collect.Lists;
 import com.metadata.services.MatrixManagementService;

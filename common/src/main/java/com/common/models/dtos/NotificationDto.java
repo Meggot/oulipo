@@ -1,5 +1,6 @@
 package com.common.models.dtos;
 
+import com.common.models.enums.NotificationType;
 import lombok.Data;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;

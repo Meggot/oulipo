@@ -1,6 +1,6 @@
 package com.common.models.requests;
 
-import com.common.models.dtos.NotificationType;
+import com.common.models.enums.NotificationType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

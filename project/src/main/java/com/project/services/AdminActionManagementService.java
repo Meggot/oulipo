@@ -1,7 +1,7 @@
 package com.project.services;
 
-import com.common.models.dtos.TagType;
-import com.common.models.dtos.VisibilityType;
+import com.common.models.enums.TagType;
+import com.common.models.enums.VisibilityType;
 import com.common.models.requests.CreateTagRequest;
 import com.project.dao.entites.Author;
 import com.project.dao.entites.Project;

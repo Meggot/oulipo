@@ -2,8 +2,8 @@
 
 package com.metadata.dao.repository;
 
-import com.common.models.dtos.EntityType;
-import com.common.models.dtos.MetricType;
+import com.common.models.enums.EntityType;
+import com.common.models.enums.MetricType;
 import com.metadata.dao.entites.Metric;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;

@@ -1,6 +1,6 @@
 package com.common.models.requests;
 
-import com.common.models.dtos.GroupRole;
+import com.common.models.enums.GroupRole;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

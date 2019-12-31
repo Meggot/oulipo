@@ -2,6 +2,7 @@
 
 package com.common.models.dtos;
 
+import com.common.models.enums.PartStatus;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

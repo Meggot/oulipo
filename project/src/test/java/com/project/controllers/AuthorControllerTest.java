@@ -1,6 +1,6 @@
 package com.project.controllers;
 
-import com.common.models.dtos.AuthorProjectRoleType;
+import com.common.models.enums.AuthorProjectRoleType;
 import com.common.models.dtos.ProjectDto;
 import com.project.dao.entites.Author;
 import com.project.services.ProjectTest;

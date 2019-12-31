@@ -2,7 +2,7 @@
 
 package com.audit.dao.entites;
 
-import com.common.models.dtos.EntityType;
+import com.common.models.enums.EntityType;
 import com.common.models.messages.MessageType;
 import lombok.Data;
 

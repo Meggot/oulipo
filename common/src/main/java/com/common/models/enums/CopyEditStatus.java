@@ -1,4 +1,4 @@
-package com.common.models.dtos;
+package com.common.models.enums;
 
 public enum CopyEditStatus {
     SUBMITTED,

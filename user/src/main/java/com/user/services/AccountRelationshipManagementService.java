@@ -1,6 +1,6 @@
 package com.user.services;
 
-import com.common.models.dtos.AccountRelationshipStatus;
+import com.common.models.enums.AccountRelationshipStatus;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.AccountRelationshipRequest;
 import com.common.models.requests.UpdateAccountRelationshipRequest;

@@ -1,6 +1,6 @@
 package com.notify.dao.entities;
 
-import com.common.models.dtos.NotificationStatus;
+import com.common.models.enums.NotificationStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

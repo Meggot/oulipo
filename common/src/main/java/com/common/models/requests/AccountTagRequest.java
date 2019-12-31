@@ -1,6 +1,6 @@
 package com.common.models.requests;
 
-import com.common.models.dtos.AccountTagCategory;
+import com.common.models.enums.AccountTagCategory;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

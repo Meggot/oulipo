@@ -1,7 +1,7 @@
 package com.project.controllers;
 
 import com.common.models.dtos.ProjectDto;
-import com.common.models.dtos.ProjectType;
+import com.common.models.enums.ProjectType;
 import com.common.models.requests.SearchSortType;
 import com.project.controllers.assemblers.ProjectAssembler;
 import com.project.dao.entites.Project;

@@ -1,6 +1,6 @@
 package com.notify.controllers.assemblers;
 
-import com.common.models.dtos.NotificationStatus;
+import com.common.models.enums.NotificationStatus;
 import com.common.models.dtos.PostBoxDto;
 import com.notify.controllers.PostboxController;
 import com.notify.dao.entities.Postbox;

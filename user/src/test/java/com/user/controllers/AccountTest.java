@@ -3,6 +3,9 @@
 package com.user.controllers;
 
 import com.common.models.dtos.*;
+import com.common.models.enums.AccountRelationshipStatus;
+import com.common.models.enums.AccountRelationshipType;
+import com.common.models.enums.GroupType;
 import com.common.models.utils.ReadWriteUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;

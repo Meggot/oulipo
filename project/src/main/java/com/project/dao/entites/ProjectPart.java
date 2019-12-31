@@ -2,7 +2,7 @@
 
 package com.project.dao.entites;
 
-import com.common.models.dtos.PartStatus;
+import com.common.models.enums.PartStatus;
 import com.project.dao.handlers.PartEventHandler;
 import lombok.Data;
 import lombok.NoArgsConstructor;

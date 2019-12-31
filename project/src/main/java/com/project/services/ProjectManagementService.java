@@ -2,7 +2,7 @@
 
 package com.project.services;
 
-import com.common.models.dtos.AuthorProjectRoleType;
+import com.common.models.enums.AuthorProjectRoleType;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.CreateProject;
 import com.common.models.requests.UpdateProject;

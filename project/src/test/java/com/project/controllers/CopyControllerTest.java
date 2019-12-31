@@ -1,6 +1,8 @@
 package com.project.controllers;
 
 import com.common.models.dtos.*;
+import com.common.models.enums.CopyEditStatus;
+import com.common.models.enums.PartStatus;
 import com.common.models.messages.MessageType;
 import com.common.models.utils.ReadWriteUtils;
 import com.project.services.ProjectTest;

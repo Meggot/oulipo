@@ -1,10 +1,10 @@
 package com.notify.controllers;
 
 
-import com.common.models.dtos.NotificationStatus;
-import com.common.models.dtos.NotificationType;
+import com.common.models.enums.NotificationStatus;
+import com.common.models.enums.NotificationType;
 import com.common.models.dtos.PostBoxDto;
-import com.common.models.dtos.PostFlagStatus;
+import com.common.models.enums.PostFlagStatus;
 import com.common.models.utils.ReadWriteUtils;
 import com.google.common.collect.Lists;
 import org.junit.Test;
@@ -12,7 +12,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.common.models.dtos.NotificationType.PROJECT_PART_POSTED;
+import static com.common.models.enums.NotificationType.PROJECT_PART_POSTED;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.iterableWithSize;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;

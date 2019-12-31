@@ -2,7 +2,7 @@ package com.project.controllers;
 
 import com.common.models.dtos.ProjectDto;
 import com.common.models.dtos.ProjectTagDto;
-import com.common.models.dtos.TagType;
+import com.common.models.enums.TagType;
 import com.common.models.messages.MessageType;
 import com.project.services.ProjectTest;
 import org.assertj.core.api.AssertionsForClassTypes;

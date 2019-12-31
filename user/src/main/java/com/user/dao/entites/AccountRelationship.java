@@ -1,7 +1,7 @@
 package com.user.dao.entites;
 
-import com.common.models.dtos.AccountRelationshipStatus;
-import com.common.models.dtos.AccountRelationshipType;
+import com.common.models.enums.AccountRelationshipStatus;
+import com.common.models.enums.AccountRelationshipType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

@@ -2,8 +2,8 @@ package com.user.controllers;
 
 import com.common.models.dtos.AccountDto;
 import com.common.models.dtos.AccountRelationshipDto;
-import com.common.models.dtos.AccountRelationshipStatus;
-import com.common.models.dtos.AccountRelationshipType;
+import com.common.models.enums.AccountRelationshipStatus;
+import com.common.models.enums.AccountRelationshipType;
 import org.junit.Test;
 import org.springframework.http.MediaType;
 

@@ -1,6 +1,7 @@
 package com.notify.services;
 
 import com.common.models.dtos.*;
+import com.common.models.enums.NotificationType;
 import com.common.models.messages.Message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

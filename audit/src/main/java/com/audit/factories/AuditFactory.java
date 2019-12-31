@@ -3,7 +3,7 @@
 package com.audit.factories;
 
 import com.audit.dao.entites.Audit;
-import com.common.models.dtos.EntityType;
+import com.common.models.enums.EntityType;
 import com.common.models.messages.*;
 import lombok.experimental.UtilityClass;
 

@@ -1,6 +1,6 @@
 package com.common.models.requests;
 
-import com.common.models.dtos.EntityType;
+import com.common.models.enums.EntityType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

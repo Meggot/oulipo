@@ -1,6 +1,6 @@
 package com.project.services;
 
-import com.common.models.dtos.AuthorProjectRoleType;
+import com.common.models.enums.AuthorProjectRoleType;
 import com.common.models.requests.AuthorProjectRoleRequest;
 import com.common.models.requests.UpdateAuthorProjectRole;
 import com.project.dao.entites.Author;

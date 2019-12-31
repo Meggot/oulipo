@@ -2,8 +2,8 @@
 
 package com.metadata.dao.entites;
 
-import com.common.models.dtos.EntityType;
-import com.common.models.dtos.MetricType;
+import com.common.models.enums.EntityType;
+import com.common.models.enums.MetricType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

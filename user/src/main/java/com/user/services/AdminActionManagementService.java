@@ -1,6 +1,6 @@
 package com.user.services;
 
-import com.common.models.dtos.AccountStatus;
+import com.common.models.enums.AccountStatus;
 import com.user.dao.entites.Account;
 import com.user.dao.entites.Group;
 import com.user.dao.repository.AccountRepository;

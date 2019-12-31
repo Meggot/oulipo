@@ -2,8 +2,8 @@ package com.user.controllers;
 
 import com.common.models.dtos.AccountDto;
 import com.common.models.dtos.GroupDto;
-import com.common.models.dtos.GroupRole;
-import com.common.models.dtos.GroupType;
+import com.common.models.enums.GroupRole;
+import com.common.models.enums.GroupType;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.is;

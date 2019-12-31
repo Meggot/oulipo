@@ -1,6 +1,6 @@
 package com.notify.dao.repository;
 
-import com.common.models.dtos.NotificationType;
+import com.common.models.enums.NotificationType;
 import com.notify.dao.entities.Subscription;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.querydsl.QuerydslPredicateExecutor;

@@ -1,7 +1,7 @@
 package com.notify.services;
 
-import com.common.models.dtos.NotificationStatus;
-import com.common.models.dtos.PostFlagStatus;
+import com.common.models.enums.NotificationStatus;
+import com.common.models.enums.PostFlagStatus;
 import com.common.models.requests.SubscribeNotificationRequest;
 import com.notify.dao.entities.Notification;
 import com.notify.dao.entities.NotificationMail;

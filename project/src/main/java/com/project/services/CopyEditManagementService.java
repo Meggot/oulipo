@@ -1,9 +1,9 @@
 package com.project.services;
 
-import com.common.models.dtos.AuthorProjectRoleType;
-import com.common.models.dtos.CopyEditStatus;
-import com.common.models.dtos.EditActionType;
-import com.common.models.dtos.SourcingType;
+import com.common.models.enums.AuthorProjectRoleType;
+import com.common.models.enums.CopyEditStatus;
+import com.common.models.enums.EditActionType;
+import com.common.models.enums.SourcingType;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.CopyEditRequest;
 import com.project.dao.entites.Author;

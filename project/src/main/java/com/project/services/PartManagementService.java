@@ -1,7 +1,7 @@
 package com.project.services;
 
-import com.common.models.dtos.AuthorProjectRoleType;
-import com.common.models.dtos.PartStatus;
+import com.common.models.enums.AuthorProjectRoleType;
+import com.common.models.enums.PartStatus;
 import com.common.models.exceptions.PartNotEditableException;
 import com.common.models.exceptions.UnauthorizedException;
 import com.common.models.requests.PostPartValueRequest;
@@ -21,8 +21,8 @@ import org.springframework.stereotype.Component;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static com.common.models.dtos.PartStatus.IN_PROGRESS;
-import static com.common.models.dtos.PartStatus.RESERVED;
+import static com.common.models.enums.PartStatus.IN_PROGRESS;
+import static com.common.models.enums.PartStatus.RESERVED;
 
 @Component
 @Slf4j
@@ -113,7 +113,7 @@ public class PartManagementService {
         if (part.getStatus().equals(PartStatus.LOCKED)) {
             throw new PartNotEditableException("That part is LOCKED and cannot be edited");
         }
-        if (part.getSequence() != part.getProject().getNextToBePostedPartSequence()) {
+        if (part.getSequence().equals(part.getProject().getNextToBePostedPartSequence())) {
             throw new PartNotEditableException("That part cannot be submitted as it is not the next in the sequence");
         }
 

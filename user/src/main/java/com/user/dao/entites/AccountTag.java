@@ -1,7 +1,7 @@
 package com.user.dao.entites;
 
-import com.common.models.dtos.AccountTagCategory;
-import com.common.models.dtos.TagType;
+import com.common.models.enums.AccountTagCategory;
+import com.common.models.enums.TagType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

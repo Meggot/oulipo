@@ -1,6 +1,6 @@
 package com.project.dao.entites;
 
-import com.common.models.dtos.AuthorProjectRoleType;
+import com.common.models.enums.AuthorProjectRoleType;
 import com.project.dao.handlers.RoleEventHandler;
 import lombok.AllArgsConstructor;
 import lombok.Data;

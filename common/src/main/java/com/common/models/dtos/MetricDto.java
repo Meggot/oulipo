@@ -2,6 +2,8 @@
 
 package com.common.models.dtos;
 
+import com.common.models.enums.EntityType;
+import com.common.models.enums.MetricType;
 import lombok.Data;
 import org.springframework.hateoas.Identifiable;
 import org.springframework.hateoas.Link;

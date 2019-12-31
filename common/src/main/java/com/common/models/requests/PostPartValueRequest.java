@@ -2,7 +2,7 @@
 
 package com.common.models.requests;
 
-import com.common.models.dtos.PartStatus;
+import com.common.models.enums.PartStatus;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
