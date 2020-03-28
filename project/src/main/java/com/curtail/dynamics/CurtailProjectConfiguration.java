@@ -1,7 +1,10 @@
 package com.curtail.dynamics;
 
 import com.common.models.enums.CurtailType;
+import com.fasterxml.jackson.annotation.JsonTypeName;
+import com.fasterxml.jackson.databind.annotation.JsonTypeIdResolver;
 import lombok.Data;
+import lombok.RequiredArgsConstructor;
 
 import java.util.List;
 import java.util.Map;
@@ -30,6 +33,8 @@ public class CurtailProjectConfiguration {
     }
 
     @Data
+    @JsonTypeName("LIPOGRAM")
+    @RequiredArgsConstructor
     public class LipogramConfiguration implements CurtailConfiguration {
 
 
@@ -38,10 +43,11 @@ public class CurtailProjectConfiguration {
             return CurtailType.LIPOGRAM;
         }
 
-        List<Character> forbiddenCharacterList;
+        public final List<Character> forbiddenCharacterList;
     }
 
     @Data
+    @JsonTypeName("REVERSE_LIPOGRAM")
     public class ReverseLipogramConfiguration implements CurtailConfiguration {
 
         @Override

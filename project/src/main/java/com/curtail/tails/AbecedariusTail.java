@@ -7,6 +7,10 @@ import org.assertj.core.util.Lists;
 import java.util.List;
 
 @Slf4j
+/**
+ * AbecadriusTail is that every first letter of each consecutive word
+ * must be in an alphabet pattern.
+ */
 public class AbecedariusTail implements AbstractCurtail {
 
     String alphabet = "abcdefghijklmnopqrstuvwxyz";

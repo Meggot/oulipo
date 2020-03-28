@@ -5,7 +5,11 @@ import org.assertj.core.util.Lists;
 
 import java.util.List;
 
+/**
+ * REVERSE_LIPOGRAM is that every word MUST contain a character from a set list of characters.
+ */
 public class ReverseLipogramTail implements AbstractCurtail {
+
     private List<Character> charList;
 
     public ReverseLipogramTail(List<Character> allowedCharacterList) {

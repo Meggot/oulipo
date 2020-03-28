@@ -4,6 +4,10 @@ import com.common.models.enums.CurtailType;
 
 import java.util.List;
 
+/**
+ * LIPOGRAM is that every word must not contain a character from a set list of characters.
+ */
+
 public class LipogramTail implements AbstractCurtail {
 
     List<Character> charList;

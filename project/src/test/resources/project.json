@@ -1,0 +1,22 @@
+{
+  "config": [
+    {
+      "type": "LIPOGRAM",
+      "allowedCharacters": [
+        "a",
+        "b",
+        "c",
+        "h"
+      ]
+    },
+    {
+      "type": "REVERSE_LIPOGRAM",
+      "bannedCharacters": [
+        "h",
+        "j",
+        "k",
+        "l"
+      ]
+    }
+  ]
+}
