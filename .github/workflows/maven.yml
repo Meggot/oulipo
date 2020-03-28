@@ -20,8 +20,13 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
-    - name: Build with Maven
-      run: |
-        echo "Building Gateway"
-        mvn install dockerfile:build --file ./gateway/pom.xml
-        docker images
+    - name: Build Gateway service
+      run: mvn install dockerfile:build --file ./gateway/pom.xml
+    - name: Build Metadata service
+      run: mvn install dockerfile:build --file ./metadata/pom.xml
+    - name: Build Notify service
+      run: mvn install dockerfile:build --file ./notify/pom.xml
+    - name: Build Project service
+      run: mvn install dockerfile:build --file ./project/pom.xml
+    - name: Build User service
+      run: mvn install dockerfile:build --file ./user/pom.xml
