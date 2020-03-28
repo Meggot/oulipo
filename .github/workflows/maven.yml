@@ -21,14 +21,14 @@ jobs:
       with:
         java-version: 1.8
     - name: Build Common Libraries
-      run: mvn -B install --file ./common/pom.xml
+      run: ./common mvn -B install
     - name: Build Gateway service
-      run: mvn -B install dockerfile:build --file /gateway/pom.xml
+      run: ./gateway mvn -B install dockerfile:build
     - name: Build Metadata service
-      run: mvn -B install dockerfile:build --file /metadata/pom.xml
+      run: ./metadata mvn -B install dockerfile:build
     - name: Build Notify service
-      run: mvn -B install dockerfile:build --file /notify/pom.xml
+      run: ./notify mvn -B install dockerfile:build
     - name: Build Project service
-      run: mvn -B install dockerfile:build --file /project/pom.xml
+      run: /project mvn -B install dockerfile:build
     - name: Build User service
-      run: mvn -B install dockerfile:build --file /user/pom.xml
+      run: ./user mvn -B install dockerfile:build
