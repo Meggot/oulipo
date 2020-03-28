@@ -56,9 +56,9 @@ public class ExplorerControllerTest extends ProjectTest {
                 .andExpect(status().isOk());
         numOfTagsCreated++;
         this.mockMvc.perform(get(EXPLORE_PATH).header("User", defaultUserId)
-                .param("tags", defaultTagValue  + "," + "NewTag"))
+                .param("tags", "NewTag"))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.content[0].projectTitle", is(projectDto.getTitle())))
+                .andExpect(jsonPath("$._embedded.content[0].projectId", is(projectDto.getProjectId())))
                 .andExpect(jsonPath("$._embedded.content[0].tags[0].value", is("NSFW")))
                 .andExpect(jsonPath("$._embedded.content[0].tags[1].value", is("NewTag")))
                 .andExpect(jsonPath("$.page.totalElements", is(1)));
