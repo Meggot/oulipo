@@ -10,6 +10,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
 public class ExplorerControllerTest extends ProjectTest {
@@ -50,12 +51,14 @@ public class ExplorerControllerTest extends ProjectTest {
                 .andExpect(jsonPath("$.page.totalElements", is(0)));
         this.mockMvc.perform(post(PROJECTS_PATH + projectDto.getProjectId() + "/tags")
                 .param("value", "NewTag")
-                .header("User", defaultUserId));
+                .header("User", defaultUserId))
+                .andDo(print())
+                .andExpect(status().isOk());
         numOfTagsCreated++;
         this.mockMvc.perform(get(EXPLORE_PATH).header("User", defaultUserId)
                 .param("tags", defaultTagValue  + "," + "NewTag"))
                 .andDo(print())
-                .andExpect(jsonPath("$._embedded.content[0].projectId", is(projectDto.getProjectId())))
+                .andExpect(jsonPath("$._embedded.content[0].projectTitle", is(projectDto.getTitle())))
                 .andExpect(jsonPath("$._embedded.content[0].tags[0].value", is("NSFW")))
                 .andExpect(jsonPath("$._embedded.content[0].tags[1].value", is("NewTag")))
                 .andExpect(jsonPath("$.page.totalElements", is(1)));
