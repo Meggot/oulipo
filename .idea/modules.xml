@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.github/.github.iml" filepath="$PROJECT_DIR$/.github/.github.iml" />
+      <module fileurl="file://$PROJECT_DIR$/oulipo-webapp/oulipo-webapp.iml" filepath="$PROJECT_DIR$/oulipo-webapp/oulipo-webapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/terraform/terraform.iml" filepath="$PROJECT_DIR$/terraform/terraform.iml" />
     </modules>
   </component>
