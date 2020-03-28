@@ -1,0 +1,115 @@
+<div class="heading">
+  <h1>Creating a new Project</h1>
+  <p class="lead"> <em> Enter details below to help users find and collaborate on the project </em>
+  </p>
+</div>
+<div class="panel panel-success">
+  <form [formGroup]="createProjectForm" (ngSubmit)="onSubmitForm()">
+    <div class="panel-heading text-center">
+      <h4><textarea id="title" style="font-size: 36px" type="text" formControlName="title" class="form-control"
+          placeholder="Title" rows="1"></textarea>
+      </h4>
+      <textarea id="synopsis" style="font-size:18px;" type="text" formControlName="synopsis" class="form-control"
+        placeholder="Synopsis - A brief description of the project" rows="5"></textarea>
+    </div>
+    <hr>
+    <div class="panel-body">
+      <div class="col-xs-6">
+        <label for="visibility" style="padding-right:10px;">
+          <p class="lead">
+            <strong>Visibility</strong>
+            <em>
+              Who can read the project once created
+            </em>
+          </p>
+        </label>
+        <select id="visibility" size="3" name="visibility" type="text" class="form-control input-inline"
+          formControlName="visibilityType">
+            <option class="list-group-item" value="OPEN">
+              Anyone can read the project.
+            </option>
+            <option class="list-group-item" value="PRIVATE">
+              Only invited users can read the project.
+            </option>
+        </select>
+      </div>
+      <div class="col-xs-6">
+        <label for="sourcing" style="padding-right:10px;">
+          <p class="lead">
+            <strong>Sourcing</strong>
+            <em>
+              Who can add to the project once created
+            </em>
+          </p>
+        </label>
+        <select size="3" id="sourcing" name="sourcing" type="text" class="form-control input-inline"
+          formControlName="sourcingType">
+          <option class="list-group-item" value="OPEN">
+            Anyone can add, but edits must be approved
+          </option>
+          <option class="list-group-item" value="PRIVATE">
+            Only invited users can post parts
+          </option>
+          <option value="MODERATED" class="list-group-item">
+            Parts must be approved before they are added.
+          </option>
+        </select>
+        <br>
+      </div>
+      <div class="col-xs-12">
+        <label for="projectType" style="padding-right:10px;">
+          <p class="lead">
+            <strong>Type</strong>
+            <em>
+              What type of project this is, this affects formatting.
+            </em>
+          </p>
+        </label>
+        <select size="5" type="text" id="projectType" name="type" class="form-control btn-group btn-group-justified"
+          formControlName="projectType">
+          <option class="list-group-item" value="STORY">Story</option>
+          <option class="list-group-item" value="SHORT_STORY">Short Story</option>
+          <option class="list-group-item" value="POEM">Poetry</option>
+          <option class="list-group-item" value="SCREENPLAY">Screenplay</option>
+          <option class="list-group-item" value="PAPER">Paper</option>
+        </select>
+        <br>
+      </div>
+      <div class="col-xs-12">
+        <p class="lead"><strong>Tags</strong>
+          <em>
+            Add some tags to help people work out what kind of genre you're going for
+          </em>
+        </p>
+        <app-tags-input [tags]="addedTags" (newTagValue)="addNewTag($event)" (removeTagValue)="removeTag($event)">
+        </app-tags-input>
+        <!-- <app-tags-input [tags]="addedTags"></app-tags-input> -->
+        <hr>
+        <div class="text-center">
+          <span style="margin: 5px;"></span>
+          <div class="col-xs-12">
+            <button type="submit" class="btn btn-success  btn-lg btn-block" [disabled]="createProjectForm.invalid">
+              Publish <span class="glyphicon glyphicon-save-file"></span>
+            </button>
+          </div>
+        </div>
+        <br>
+      </div>
+    </div>
+  </form>
+  <div class="col-xs-12 panel-footer">
+    <div *ngIf="(createProjectFailMessage | async)!==null" class="panel panel-danger">
+      <div class="panel-heading">
+        <h1 class="heading">
+          Error Creating Project
+        </h1>
+      </div>
+      <div class="panel-body">
+        <span *ngFor="let subError of (createProjectFailMessage | async).subErrors " style="font-size:18px;">
+          <strong>{{ subError.field }} </strong>
+          <em> {{ subError.message }} </em>
+        </span>
+      </div>
+    </div>
+  </div>
+</div>

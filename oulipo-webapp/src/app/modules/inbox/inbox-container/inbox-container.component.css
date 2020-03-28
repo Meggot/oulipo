@@ -1,0 +1,11 @@
+
+.received p {
+    background-color: lightblue;
+    padding: 10px;
+}
+
+.sent p {
+    background-color: lightgreen;
+    padding: 10px;
+
+}

@@ -1,0 +1,17 @@
+<div class="well">
+  <div class="panel panel-success">
+    <div class="panel-heading">
+      <ul class="nav nav-pills nav-justified">
+        <li class="nav-item" routerLinkActive="active" routerLink="recent"> <a class="nav-link">Recent</a> </li>
+        <li class="nav-item" routerLinkActive="active" routerLink="parts"> <a class="nav-link">Parts</a> </li>
+        <li class="nav-item" routerLinkActive="active" routerLink="edits"> <a class="nav-link">Edits</a> </li>
+        <li class="nav-item" routerLinkActive="active" routerLink="collaborators"> <a class="nav-link">Collaborators</a>
+        </li>
+        <li class="nav-item" routerLinkActive="active" routerLink="settings"> <a class="nav-link">Settings</a> </li>
+      </ul>
+    </div>
+    <div class="panel-body">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+</div>

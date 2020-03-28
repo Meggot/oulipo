@@ -1,0 +1,32 @@
+<div appSearchBarDirective [text]=searchText.value>
+  <div class="input-group">
+    <input class="form-control" type="text" (keyup)="clearGroupSelected()" placeholder="Group Name.."
+      aria-label="Search" #searchText>
+    <span class="input-group-btn">
+      <button class="btn btn-success" type="button" (click)="joinGroup()">
+        <span class="glyphicon glyphicon-plus-sign"> </span>
+      </button>
+    </span>
+  </div>
+  <small style="color: red;"> {{ ( currentMessage | async ) }}</small>
+  <div class="dropdown-menu" *ngIf="!groupSelected">
+    <app-reactive-groups-search (foundGroup)="setSearchForm($event)" [searchForm]=searchText.value>
+    </app-reactive-groups-search>
+  </div>
+</div>
+<ul class="list-group overflow-auto" style="height: 100%">
+  <div class="list-group-header text-center">
+    <br>
+    <small>You have <span style="color: blue"> {{ ( thisAccount | async).groups.length }} </span> memberships.
+    </small>
+  </div>
+  <li class="divider"></li>
+  <li *ngFor="let group of ( thisAccount | async).groups" 
+  appHighlightDirective
+  style="cursor: pointer"
+  class="list-group-item" (click)="navigateToGroup(group.groupId)">
+    <div class="list-group-item-heading text-center">
+      {{ group.groupName }} <span class="label label-success pull-right">{{ group.role }}</span>
+    </div>
+  </li>
+  </ul>

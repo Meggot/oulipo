@@ -1,0 +1,66 @@
+<div appSearchBarDirective [text]=searchText.value>
+  <div class="input-group">
+    <input class="form-control" type="text" 
+    (keyup)="clearAccountSelected($event)" placeholder="Username.."
+      aria-label="Search" #searchText>
+    <span class="input-group-btn">
+      <button class="btn btn-success" type="button" (click)="requestFriend()">
+        <span class="glyphicon glyphicon-plus-sign"> </span>
+      </button>
+    </span>
+  </div>
+  <small style="color: red;"> {{ ( currentMessage ) }}</small>
+  <div class="dropdown-menu" *ngIf="!accountSelected">
+    <app-reactive-accounts-search (foundAccount)="setSearchForm($event)" [searchForm]=searchText.value>
+    </app-reactive-accounts-search>
+  </div>
+</div>
+<ul class="list-group overflow-auto" style="height: 100%">
+  <div class="list-group-header text-center">
+    <br>
+    <small>You have <span style="color: blue"> {{ ( thisAccount | async).relationships.length }} </span> friends.
+    </small>
+  </div>
+  <li class="divider"></li>
+  <li class="list-group-item" *ngFor="let relationship of (thisAccount | async).relationships">
+    <div class="list-group-item-heading">
+      <div *ngIf="relationship.addedByUsername === (thisAccount | async).username">
+        <h5 class="heading" (click)="navigateToAccount(relationship.addedUserId)" style="cursor:pointer">
+          {{ relationship.addedUsername }} <span class="label label-success pull-right">{{ relationship.status }}</span>
+        </h5>
+      </div>
+      <div *ngIf="relationship.addedUsername === (thisAccount | async).username">
+        <h5 class="heading" (click)="navigateToAccount(relationship.addedByUserId)" style="cursor:pointer">
+          {{ relationship.addedByUsername }} <span
+            class="label label-success pull-right">{{ relationship.status }}</span>
+        </h5>
+      </div>
+    </div>
+    <div class="list-group-item-body" *ngIf="relationship.status === 'REQUESTED'">
+      <div *ngIf="relationship.addedByUsername === (thisAccount | async).username">
+        <div class="btn-group">
+          <button class="btn btn-danger btn-xs" type="button"
+            (click)="actionOnRelationship(relationship.idField, 'DECLINED')">
+            Cancel Request
+            <span class=" glyphicon glyphicon-remove"></span>
+          </button>
+        </div>
+      </div>
+      <div *ngIf="relationship.addedUsername === (thisAccount | async).username">
+        <div class="btn-group">
+          <button class="btn btn-success btn-xs" type="button"
+            (click)="actionOnRelationship(relationship.idField, 'ADDED')">
+            Accept
+            <span class="glyphicon glyphicon-ok"></span></button>
+          <button class="btn btn-danger btn-xs" type="button"
+            (click)="actionOnRelationship(relationship.idField, 'DECLINED')">
+            Decline
+            <span class=" glyphicon glyphicon-remove"></span></button>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="relationship.status === 'ADDED'">
+      <small>Currently writing <span class="inactive" style="color: red;">A Private Project</span></small>
+    </div>
+  </li>
+</ul>

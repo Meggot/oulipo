@@ -1,0 +1,24 @@
+<table class="table table-condensed">
+  <thead>
+    <th>Sequence</th>
+    <th>Added At</th>
+    <th>Author</th>
+    <th>Status</th>
+    <th>Value</th>
+    <th></th>
+  </thead>
+  <tr *ngFor="let part of ( viewingProject | async).parts">
+      <td> {{ part.sequence }} </td>
+      <td> {{ part.added }}</td>
+      <td> {{ part.authorName }} </td>
+      <td> {{ part.status }} </td>
+      <!-- <td> {{ ( part.activeValue | slice:0:40) }} </td> -->
+      <td> {{ ( part.activeValue | slice:0:80) }}  </td>
+      <td>
+        <div class="btn-group btn-group-sm">
+          <button class="btn btn-success disabled"><span class="glyphicon glyphicon-ok"></span></button>
+          <button class="btn btn-danger disabled"><span class="glyphicon glyphicon-remove"></span></button>
+        </div>
+      </td>
+  </tr>
+</table>

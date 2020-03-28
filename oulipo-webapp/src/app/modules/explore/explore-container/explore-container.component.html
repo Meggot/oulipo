@@ -1,0 +1,107 @@
+<div class="col-xs-12">
+  <p class="lead">
+    <em>
+      Search to find what you're looking for...
+    </em>
+    <hr>
+    <!-- </p> -->
+    <app-explore-search-dashboard (search)="search($event)"></app-explore-search-dashboard>
+    <p class="lead">
+      <em>
+        ...and browse through exactly {{ (pageData | async).totalElements }} projects.
+      </em>
+      <hr>
+      <!-- </p> -->
+      <div class="col-xs-1">
+        <button class="btn btn-primary" (click)="onToggleView()"><span *ngIf="panelView"
+            class="glyphicon glyphicon-list"></span>
+          <span *ngIf="!panelView" class="glyphicon glyphicon-modal-window"></span></button>
+      </div>
+
+      <div class="col-xs-9">
+        <hr>
+      </div>
+      <div class="col-xs-2">
+        <!-- <div class="btn-group btn-sm">
+      <button class="btn btn-default"><span class="glyphicon glyphicon-fire"></span></button>
+      <button class="btn btn-default"><span class="glyphicon glyphicon-tower"></span></button>
+      <button class="btn btn-default"><span class="glyphicon glyphicon-flash"></span></button>
+    </div> -->
+      </div>
+      <p class="lead">
+        <div class="col-xs-12">
+          <div *ngIf="panelView" class="text-center">
+            <app-explore-item-panel *ngFor="let project of (activePage | async)" [project]="project"
+              class="col-xs-3 explore-item" style='padding:10px'></app-explore-item-panel>
+          </div>
+          <div *ngIf="!panelView">
+            <table class="table table-condensed table-hover table-responsive">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Project</th>
+                  <th>Type</th>
+                  <th>Authors</th>
+                  <th>Tags</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr appHighlightDirective *ngFor="let project of (activePage | async)"
+                  (click)="navigateToProjectDetail(project.projectId)" style='cursor: pointer;'>
+                  <td>
+                    <h5>
+                      <span *ngIf="project.sourcingType === 'PRIVATE'" class="label label-warning">Private</span>
+                      <span *ngIf="project.sourcingType === 'OPEN'" class="label label-success">Open</span>
+                      <span *ngIf="project.sourcingType === 'MODERATED'" class="label label-danger">Moderated</span>
+                    </h5>
+                  </td>
+                  <td>
+                      <blockquote>{{ project.title }}
+                        <footer> {{ project.synopsis }} </footer>
+                      </blockquote>
+                  </td>
+                  <td>
+                    <div class="label label-default">
+                      {{ project.type }}
+                    </div>
+                  </td>
+                  <td>
+                    <div class="list-group">
+                      <div class="well" style="width: 200px; padding: 0px;">
+                        <span *ngFor="let role of project.roles">
+                          <div class="label" style="margin: 5px; display: inline-block;"
+                          [ngClass]="{
+                           'label-success': role.role === 'CREATOR',
+                           'label-primary': role.role === 'CONTRIBUTOR',
+                           'label-danger': role.role ==='BARRED'
+                          }">
+                            {{ role.authorName }}
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+                  </td>
+                  <td>
+                    <div class="well" style="width: 200px; padding: 0px;">
+                      <p *ngFor="let tag of project.tags; let i = index" class="label label-default"
+                        style="margin: 5px; display: inline-block;">
+                        {{ tag.value }}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="col-xs-12">
+          <ul class="pager">
+            <li class="previous label label-default">
+              Total Projects: {{ (pageData | async).totalElements }}
+            <li *ngIf="(pageLinks|async).prev" class="previous" (click)="onNavigatePageOption('PREVIOUS')"><a><span
+                  aria-hidden="true">&larr;</span> Previous</a></li>
+            <li *ngIf="(pageLinks|async).next" class="next" (click)="onNavigatePageOption('NEXT')"><a>Next <span
+                  aria-hidden="true">&rarr;</span></a></li>
+          </ul>
+        </div>
+</div>

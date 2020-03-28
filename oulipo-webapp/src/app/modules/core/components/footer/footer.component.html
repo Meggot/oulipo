@@ -1,0 +1,34 @@
+<footer class="page-footer font-small navbar-fixed-bottom">
+  <div class="col-xs-12">
+    <div class="col-xs-3">
+      <div *ngIf="(authState | async).authenticated">
+        <div class="container-fluid" *ngIf="(postbox | async).unreadMail.length > 0">
+            <div class="container-fluid">
+                <div class="alert alert-success notification" role="alert"
+                *ngFor="let unreadMail of (postbox | async).unreadMail">
+                  <p><strong>{{ unreadMail.notification.type }} </strong>           
+                    <span class="glyphicon glyphicon-remove pull-right">
+                    </span>
+                    <br>
+                    <small>
+                        {{ unreadMail.notification.message }} 
+                    </small>
+                  </p>
+                  </div>
+              </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-xs-9"></div>
+  </div>
+  <div *ngIf="(authState | async).authenticated" class="pull-right">
+    <div class="dropup" appDropUpDirective>
+      <div class="btn btn-default dropdown-toggle">
+        <span class="glyphicon glyphicon-user"></span>
+      </div>
+      <div class="dropdown-menu col-xs-12 dropdown-menu-right">
+        <app-inbox-bar></app-inbox-bar>
+      </div>
+    </div>
+  </div>
+</footer>

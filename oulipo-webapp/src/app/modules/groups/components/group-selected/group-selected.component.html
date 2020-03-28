@@ -1,0 +1,19 @@
+<div class="page-header">
+        <h1>{{ (viewingGroup | async).name }}
+        <small>{{ (viewingGroup | async).description }} </small></h1>
+</div>     
+<div class="list-group">
+    <h3>Members</h3>
+    <hr>
+    <li class="list-group-item" 
+    *ngFor="let membership of ( viewingGroup | async ).members"
+     (click)="navigateToAccount(membership.accountId)"
+     style="cursor: pointer"
+     appHighlightDirective>
+        <div class="list-group-heading">
+            <h4 class="heading">{{ membership.accountUsername }}<small> since {{ membership.added }}
+            <span class="label label-default pull-right"> {{ membership.role }}</span></small>
+        </h4>
+        </div>
+    </li>
+</div>

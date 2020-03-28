@@ -1,0 +1,11 @@
+<div class="panel panel-default" (click)="navigateToGroupId()" appHighlightDirective>
+  <h4 class="panel-heading"> {{ group.name }} </h4>
+  <div class="panel-body"> 
+    <div class="pull-left">
+    {{ group.description }}
+  </div> 
+  <div class="pull-right">
+      <small>Members: {{ group.members.length }} </small>
+  </div>
+  </div>
+</div>

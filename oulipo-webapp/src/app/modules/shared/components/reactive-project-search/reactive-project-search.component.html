@@ -1,0 +1,8 @@
+<div class="col-xs-12 text-center">
+    <li class="dropdown-header">
+        Searching for Project '<span style='color:blue'> {{ searchForm }} </span>'
+    </li>
+  <li class="divider"></li>
+  <app-project-list-item [detailLevel]=1 [project]="project" *ngFor="let project of projectsFound">
+  </app-project-list-item>
+</div>

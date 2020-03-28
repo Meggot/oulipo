@@ -1,0 +1,14 @@
+<div class="col-xs-12 text-center">
+    <li class="dropdown-header">
+        Searching for Account '<span style='color:blue'> {{ searchForm }} </span>'
+    </li>
+    <li class="divider"></li>
+    <div class="list-group-item" 
+    *ngFor="let account of accountsFound" 
+    (click)="setAccountFound(account)" 
+    style="cursor: pointer;" 
+    appHighlightDirective>
+      {{ account.username }}
+    </div>
+  </div>
+  

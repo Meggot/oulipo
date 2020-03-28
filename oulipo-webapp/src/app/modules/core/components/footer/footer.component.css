@@ -1,0 +1,7 @@
+.alert{
+    border: 2px;
+    border-style: dashed;
+    min-width: 50px;
+    min-height: 100px;
+    
+}

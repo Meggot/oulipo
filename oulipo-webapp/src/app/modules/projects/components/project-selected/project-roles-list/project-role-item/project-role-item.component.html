@@ -1,0 +1,4 @@
+<li class="list-group-item" *ngFor="let role of roles" (click)="navigateToAccountPage(role.authorId)">
+  <p class="list-group-item-heading">{{ role.authorName }}</p>
+  <p class="list-group-item-text">{{ role.role }}</p>
+</li>

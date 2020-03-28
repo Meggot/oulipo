@@ -1,0 +1,13 @@
+.explore-item{
+    transition: box-shadow .3s;
+    width: 250px;
+    min-height: 100px;
+    border-radius:10px;
+    border: 1px solid #ccc;
+    background: #fff;
+    float: center;
+  }
+
+.explore-item:hover {
+    box-shadow: 0 0 11px #8EDEEE; 
+}

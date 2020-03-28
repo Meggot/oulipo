@@ -1,0 +1,71 @@
+.copy {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 30px;
+	padding-bottom: 30px;
+	background-color: white;
+}
+
+.locked {
+	color: grey;
+	border-right: 4px solid grey;
+}
+
+.inprogress {
+	color: green;
+	border-right: 4px solid green;
+
+}
+
+.reserved {
+	color: blue;
+	border-right: 4px solid blue;
+
+}
+
+
+.editing-area {
+	background-color: rgb(230, 230, 230);
+	outline: 1px solid grey;
+	padding: .2em .4em;
+	box-decoration-break: clone;
+	float: inline-end;
+	width: 100px;
+	min-height: 100px;
+}
+
+h1 {
+	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-size: 24px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 700;
+	line-height: 26.4px;
+}
+
+h3 {
+	font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	font-weight: 700;
+	line-height: 15.4px;
+}
+
+.copy .text {
+	/* font-family: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif; */
+	font-size: 14px;
+	font-style: normal;
+	font-variant: normal;
+	line-height: 20.4px;
+}
+
+ins{
+	color: black;
+	background: #bbffbb;
+  }
+  
+  del{
+	color: black;
+	background: #ffbbbb;
+	}

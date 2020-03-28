@@ -1,0 +1,5 @@
+<div class="list-group text-center">
+    <div class="list-group-item" *ngFor="let part of ( viewingAuthor | async).createdParts">
+        <app-part-list-item [part]="part"></app-part-list-item>
+    </div>
+</div>

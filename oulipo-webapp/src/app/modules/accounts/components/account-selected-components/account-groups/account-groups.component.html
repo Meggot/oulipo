@@ -1,0 +1,5 @@
+<div class="list-group text-center">
+    <div class="list-group-item" *ngFor="let membership of (viewingAccount | async).groups">
+        <app-account-membership-group-list-item [membership]="membership"></app-account-membership-group-list-item>
+    </div>
+  </div>

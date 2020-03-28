@@ -1,0 +1,14 @@
+/* You can add global styles to this file, and also import other style files */
+.dropdown-menu {
+  min-width: 300px;
+}
+
+body{
+  background-color: #343434;
+  padding-bottom: 70px; 
+}
+
+.nav-item{
+  cursor:pointer; 
+  padding:5px;
+}

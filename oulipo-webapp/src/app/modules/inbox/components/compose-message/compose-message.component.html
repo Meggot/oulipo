@@ -1,0 +1,11 @@
+<form [formGroup]="composeForm" (submit)="sendMessage()">
+  <div class="input-group">
+    <!-- <div contenteditable="true" style="min-height: 100px; word-wrap: break-word; overflow-y: scroll;"
+        class="form-control" formControlName="body"> -->
+    <input type="text" placeholder="Write your message here" class="form-control" formControlName="body">
+    <span class="input-group-btn">
+      <button class="btn btn-success" type="submit"
+      [disabled]="composeForm.invalid">Send</button>
+    </span>
+  </div>
+</form>

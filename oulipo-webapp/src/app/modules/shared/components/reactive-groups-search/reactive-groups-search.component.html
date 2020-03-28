@@ -1,0 +1,14 @@
+<div class="col-xs-12 text-center">
+    <li class="dropdown-header">
+        Searching for Groups '<span style='color:blue'> {{ searchForm }} </span>'
+    </li>
+    <li class="divider"></li>
+    <div class="list-group-item" 
+    *ngFor="let group of groupsFound" 
+    (click)="setGroupFound(group)" 
+    style="cursor: pointer;" 
+    appHighlightDirective>
+      {{ group.name }}
+    </div>
+  </div>
+  

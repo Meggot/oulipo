@@ -1,0 +1,73 @@
+<div class="panel panel-success">
+  <!-- <div class="panel-heading">
+    <h4>Search Projects.</h4>
+  </div> -->
+  <form [formGroup]="exploreSearchForm" (ngSubmit)="onSearchButton()" class="form-group">
+    <div class="panel-body">
+      <div class="col-lg-12">
+        <div class="form-row">
+          <div class="col-lg-6">
+            <label for="title">Title</label>
+            <input type="text" id="title" name="title" class="form-control" formControlName="title" placeholder="Project Title">
+          </div>
+          <div class="col-lg-4">
+              <label for="tags">Tags</label>
+              <input type="text" class="form-control" formControlName="tags" placeholder="Tags, seperated by a comma">
+          </div>
+          <div class="col-lg-2">
+            <label for="type">Type</label>
+            <select type="text" id="type" name="type" class="form-control" formControlName="type">
+              <option></option>
+              <option value="STORY">Story</option>
+              <option value="SHORT_STORY">Short Story</option>
+              <option value="POEM">Poetry</option>
+              <option value="SCREENPLAY">Screenplay</option>
+              <option value="PAPER">Paper</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="col-lg-6">
+              <br>
+            <label for="author">Author:</label>
+            <input id="author" type="text" class="form-control" formControlName="author" placeholder="Author Name">
+          </div>
+          <!-- <div class="col-lg-3">
+              <br>
+            <label for="sort-radio">Sort By:</label>
+            <div id="sort-radio" class="radio">
+              <label class="checkbox-inline">
+                <input class="radio" type="radio" name="sort" value="top" id="top" formControlName="sort"> Top
+              </label>
+              <label class="checkbox-inline">
+                <input type="radio" name="sort" value="hot" id="hot" formControlName="sort"> Hot
+              </label>
+              <label class="checkbox-inline">
+                <input type="radio" name="sort" value="new" id="new" formControlName="sort"> New
+              </label>
+            </div>
+          </div> -->
+          <!-- <div class="col-lg-4">
+              <br>
+            <label for="filters">Filters:</label>
+            <div class="checkboxes" id="filters">
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox1" value="editable" formControlName="editable"> Editable
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox2" value="oulipo" formControlName="oulipo"> Oulipo
+              </label>
+              <label class="checkbox-inline">
+                <input type="checkbox" id="inlineCheckbox3" value="private" formControlName="private"> Private
+              </label>
+            </div>
+          </div> -->
+          <div class="col-lg-6">
+              <br><br>
+              <button class="btn btn-success nav-justified" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

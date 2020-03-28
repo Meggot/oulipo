@@ -1,0 +1,36 @@
+<div class="col-md-12" *ngIf="(viewingProject|async)!==null">
+  <div class="dropdown">
+    <button (click)="toggleDashboard()" class="pull-right btn btn-default dropdown-toggle"
+      *ngIf="(thisAccount | async).username===(viewingProject|async).originalAuthor" type="button"
+      style="padding-right: 20px" appDropdownDirective>
+      <span class="glyphicon glyphicon-cog"></span></button>
+    <div *ngIf="showingDashboard">
+      <app-project-dashboard [project]="(viewingProject|async)"></app-project-dashboard>
+    </div>
+  </div>
+  <div class="col-md-12">
+    <div class="header text-center">
+      <h1 class="page-header">{{ (viewingProject | async).title}}
+        <br>
+        <small>
+          {{ (viewingProject | async).synopsis}}
+        </small>
+      </h1>
+    </div>
+    <app-project-copy>
+    </app-project-copy>
+  </div>
+  <div class="well text-center" style="color: red;" *ngIf="(requestPartErrorMessage | async).length > 0">
+    <h4>{{ (requestPartErrorMessage | async) }}</h4>
+  </div>
+  <hr>
+</div>
+<div class="text-center">
+  <div class="panel-footer">
+    <button type="button" class="btn btn-primary" (click)="onRequestPart()"> Request a Part</button>
+    <br>
+    <br>
+    <p *ngIf="(editErrorMessage | async).length>0">
+      {{ (editErrorMessage | async) }}
+  </div>
+</div>

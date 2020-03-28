@@ -1,0 +1,15 @@
+<div style="min-height: 500x; padding: 10px;">
+  <ul class="nav nav-pills nav-justified" style="padding: 10px">
+    <li (click)="setViewingPanel(1)" class="nav-item" [ngClass]="{'active': viewingPanel === 1 }"><a
+        class="nav-link">Friends</a></li>
+    <li (click)="setViewingPanel(0)" class="nav-item" [ngClass]="{'active': viewingPanel === 0 }"><a
+        class="nav-link">Groups</a></li>
+  </ul>
+  <div class="container-fluid" style="min-height: 200px">
+    <div *ngIf="viewingPanel === 0">
+      <app-group-list></app-group-list>
+    </div>
+    <div *ngIf="viewingPanel === 1">
+      <app-friend-list></app-friend-list>
+    </div>
+  </div>

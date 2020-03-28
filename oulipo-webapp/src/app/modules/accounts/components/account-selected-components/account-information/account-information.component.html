@@ -1,0 +1,12 @@
+<table class="table table-default">
+  <thead>
+    <th> Login Time </th>
+    <th> Login IP Address </th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let login of (viewingAccount | async).logins">
+      <td>{{ login.loginTime }} </td>
+      <td>{{ login.inetAddress }} </td>
+    </tr>
+  </tbody>
+</table>

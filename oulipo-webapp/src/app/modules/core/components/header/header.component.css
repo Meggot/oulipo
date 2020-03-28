@@ -1,0 +1,11 @@
+/*$coal: #343434;*/
+/*$smoke: #F5F5F5;*/
+
+.navbar-dark {
+  background-color: #343434;
+  outline-color: whitesmoke;
+}
+
+li {
+  color: black;
+}

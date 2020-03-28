@@ -1,0 +1,20 @@
+<div class="panel">
+  <div class="panel-body">
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()" class="form-group">
+      <div class="form-row">
+        <label for="username">Username</label>
+        <input class="form-control" placeholder="Username" id="username" name="username" type="text"
+          formControlName="username">
+        <br>
+      </div>
+      <label for="password">Password</label>
+      <div class="input-group ">
+        <input class="form-control" placeholder="Password" id="password" type="text" formControlName="password"
+          appPassword>
+      </div>
+      <br>
+      <hr>
+      <button class="btn btn-success nav-justified" type="submit" [disabled]="loginForm.invalid">Login</button>
+    </form>
+  </div>
+</div>

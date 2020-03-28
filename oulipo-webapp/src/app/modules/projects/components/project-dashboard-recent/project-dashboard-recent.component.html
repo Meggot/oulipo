@@ -1,0 +1,17 @@
+
+<table class="table table-default">
+  <thead>
+    <th>Date </th>
+    <th>Action </th>
+    <th>User </th>
+    <th>Details</th>
+  </thead>
+  <tbody>
+    <tr *ngFor="let audit of (page | async)">
+      <td> {{ audit.timeStamp }} </td>
+      <td> {{ audit.eventType }} </td>
+      <td> {{ audit.originUserId }} </td>
+      <td> {{ audit.value }}</td>
+    </tr>
+  </tbody>
+</table>

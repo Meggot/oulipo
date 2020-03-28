@@ -1,0 +1,12 @@
+<div class="list-group" style="margin: 20px">
+  <div class="text-center">
+    <li><button class="btn btn-success" routerLink="/projects/new"><span class="glyphicon glyphicon-plus"></span>
+    Create New Project</button></li>
+  </div>
+  <li class="divider"></li>
+  <li class="dropdown-header">Your Authored Projects</li>
+  <li>
+    <app-project-list-item [detailLevel]=0 [project]="project" *ngFor="let project of projects | slice:0:5">
+    </app-project-list-item>
+  </li>
+</div>

@@ -1,0 +1,20 @@
+<div class="panel panel-default">
+    <div class="panel-heading">
+      <label for="tag">Tags:</label>
+      <div class="input-group input-group-sm">
+        <input id="tag" type="text" class="form-control" placeholder="Enter a new Tag" #tag>
+        <span class="input-group-btn">
+          <button class="btn btn-success" (click)="addNewTag(tag.value)" type="button">
+            <span class="glyphicon glyphicon-plus-sign"> </span>
+          </button>
+        </span>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="well">
+        <p *ngFor="let tag of tagDisplay; let i = index" class="label label-default" style="margin: 5px; display: inline-block;">
+          {{ tag }} <span class="glyphicon glyphicon-remove" (click)="removeTag(index)"></span>
+        </p>
+      </div>
+    </div>
+  </div>

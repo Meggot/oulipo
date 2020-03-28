@@ -1,0 +1,46 @@
+<div class="col-xs-12">
+        <table class="table table-striped table-bordered">
+          <thead>
+          <tr>
+            <th scope="col">Entity Id</th>
+            <th scope="col">Entity Type</th>
+            <th scope="col">Value</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let audit of (auditPage | async)">
+            <td> {{audit.entityId }}</td>
+            <td> {{audit.eventType }}</td>
+            <td> {{audit.value }}</td>
+          </tr>
+          </tbody>
+        </table>
+        <div class="help-block">
+          <td><span> Page: {{ (auditPageData | async).number }}</span>
+            |
+            <span> Page Size: {{ (auditPageData | async).size }}</span>
+            |
+            <span> Total Elements: {{ (auditPageData | async).totalElements }}</span>
+            |
+            <span> Total Pages: {{ (auditPageData | async).totalPages }}</span>
+          </td>
+        </div>
+        <div class="btn-group col-sm-8 btn-toolbar" role="group" aria-label="...">
+          <div class="btn-group col-sm-2" role="group">
+            <button [disabled]="!(auditPageLinks | async ).first" type="button" class="btn btn-primary" (click)="onFirstPageClick()"> <<
+            </button>
+          </div>
+          <div class="btn-group col-sm-2" role="group">
+            <button [disabled]="!(auditPageLinks | async ).prev" type="button" class="btn btn-primary" (click)="onPreviousPageClick()"> <
+            </button>
+          </div>
+          <div class="btn-group col-sm-2" role="group">
+            <button [disabled]="!(auditPageLinks | async ).next" type="button" class="btn btn-primary" (click)="onNextPageClick()"> ></button>
+          </div>
+          <div class="btn-group col-sm-2" role="group">
+            <button [disabled]="!(auditPageLinks | async ).last" type="button" class="btn btn-primary" (click)="onLastPageClick()"> >>
+            </button>
+          </div>
+        </div>
+      </div>
+      

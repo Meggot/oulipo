@@ -1,0 +1,5 @@
+<div (click)="navigateToProjectDetail()" class="list-group-item" style="cursor: pointer" appHighlightDirective>
+  <h4 class="list-group-item-heading">{{project.title}} </h4>
+  <p class="list-group-item-text" style="font-style: italic;"> {{project.synopsis}} </p>
+  <p class="list-group-item-info" *ngIf="detailLevel > 0"> Author: {{ project.originalAuthor}}</p>
+</div>

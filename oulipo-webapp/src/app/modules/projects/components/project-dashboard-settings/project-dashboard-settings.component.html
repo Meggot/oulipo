@@ -1,0 +1,19 @@
+<div class="col-xs-3">
+  <label for="visibility" class="input-inline">Visibility:</label>
+  <select id="visibility" name="visibility" type="text" class="form-control input-inline">
+    <option [selected]="(viewingProject|async).visibilityType==='PRIVATE'">PRIVATE</option>
+    <option [selected]="(viewingProject|async).visibilityType==='OPEN'">OPEN</option>
+  </select>
+</div>
+<div class="col-xs-3">
+  <label for="sourcing" class="input-inline">Sourcing:</label>
+  <select id="sourcing" name="sourcing" type="text" class="form-control input-inline">
+      <option [selected]="(viewingProject|async).sourcingType==='PRIVATE'">PRIVATE</option>
+      <option [selected]="(viewingProject|async).sourcingType==='OPEN'">OPEN</option>
+  </select>
+</div>
+<div class="col-xs-6">
+  <app-tags-input [tags]="(viewingProject | async).tags" 
+  (newTagValue)="addTag($event)" 
+  (removeTagValue)="removeTag($event)"></app-tags-input>
+</div>

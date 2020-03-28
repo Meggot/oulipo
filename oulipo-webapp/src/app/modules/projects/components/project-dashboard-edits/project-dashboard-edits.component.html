@@ -1,0 +1,33 @@
+<table class="table table-condensed">
+  <thead>
+    <th>Author</th>
+    <th>Status</th>
+    <th>Delta</th>
+    <th></th>
+  </thead>
+  <tr *ngFor="let edit of ( viewingCopy | async).edits">
+    <td> {{ edit.authorName }} </td>
+    <td> {{ edit.status }}</td>
+    <td> {{ ( edit.delta | slice:0:40)}}... </td>
+    <td>
+      <div class="btn-group btn-group-sm" *ngIf="edit.status === 'SUBMITTED'">
+        <button class="btn btn-primary"
+        (click)="previewEdit(edit)">
+          <span class="glyphicon glyphicon-eye-open"></span>
+        </button>
+        <button class="btn btn-success" 
+        (click)="onActionEdit(edit, 'APPROVE')">
+          <span class="glyphicon glyphicon-ok"></span>
+        </button>
+        <button class="btn btn-danger" 
+        (click)="onActionEdit(edit, 'DECLINE')">
+          <span class="glyphicon glyphicon-remove">
+          </span>
+        </button>
+      </div>
+    </td>
+  </tr>
+</table>
+<div class="well" *ngIf="previewingEdit">
+  <div diff [left]="(viewingCopy | async).value" [right]="postText" #diff></div> 
+</div>

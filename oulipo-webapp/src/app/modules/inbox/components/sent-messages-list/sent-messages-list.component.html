@@ -1,0 +1,4 @@
+<div class="panel panel-default">
+  <div class="panel-heading"><h4>Sent Messages</h4></div>
+<app-message-item *ngFor="let message of (sentMessages | async)" [message]="message"></app-message-item>
+</div>

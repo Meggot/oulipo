@@ -1,0 +1,43 @@
+<div class="panel alert-primary">
+  <div class="form-group panel-body">
+    <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
+      <div class="form-group has-feedback">
+        <label for="username">Username </label>
+        <input class="form-control" placeholder="Username" id="username" type="text" formControlName="username">
+        <br>
+        <label for="email">Email </label>
+        <input class="form-control" placeholder="Email" id="email" type="text" formControlName="email">
+        <br>
+        <label for="password">Password</label>
+          <div class="input-group ">
+            <input class="form-control" placeholder="Password" id="password" type="text" formControlName="password"
+              appPassword>
+          </div>
+      </div>
+      <hr>
+      <button class="nav-justified btn btn-success" [disabled]="registerForm.invalid"> Submit</button>
+    </form>
+  </div>
+  <div *ngIf="formSubmitted">
+    <!--<h4> Submitted! </h4>-->
+    <!--<p>Username: {{ registerRequest.username }}-->
+    <!--<p>Email: {{ registerRequest.email }}-->
+    <!--<p>Password: {{ registerRequest.hashedPassword }}-->
+    <div class="panel-footer">
+      <div *ngIf="registerFailed" class="panel-danger">
+        <div class="panel-heading">
+          <h4>Register Failed! :(</h4>
+        </div>
+        <div class="panel-body">
+          <div *ngFor="let subError of response.subErrors ">
+            <p> {{ subError.message }}
+          </div>
+        </div>
+      </div>
+      <div *ngIf="!registerFailed && registerResponse.closed" class="panel-success">
+        <div class="panel-heading">
+          <h3>Register Success! :)</h3>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,6 @@
+<div class="list-group-item text-left" appHighlightDirective (click)="navigateToProjectId()" style="cursor: pointer">
+  <h4 class="list-group-item-heading"> {{ part.projectTitle }} 
+    <span class="label label-success pull-right" *ngIf="part.status === 'LOCKED'"> {{ part.status }}</span>
+   </h4>
+  <p class="list-group-item-text">{{ part.activeValue }}</p>
+</div>

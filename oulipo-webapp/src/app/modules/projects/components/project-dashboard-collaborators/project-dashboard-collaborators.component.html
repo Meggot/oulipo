@@ -1,0 +1,50 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class="col-md-5">
+      <div appSearchBarDirective [text]=searchText.value>
+        <div class="input-group">
+          <input class="form-control" type="text" (keyup)="clearAccountSelected($event)" placeholder="Username.."
+            aria-label="Search" #searchText>
+          <span class="input-group-btn">
+            <button class="btn btn-success" type="button" (click)="onInviteCollaborator()">
+              <span class="glyphicon glyphicon-plus-sign"> </span>
+            </button>
+          </span>
+        </div>
+        <div class="dropdown-menu" *ngIf="!accountSelected">
+          <app-reactive-accounts-search (foundAccount)="setSearchForm($event)" [searchForm]=searchText.value>
+          </app-reactive-accounts-search>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-7">
+      {{ (postRoleMessage | async) }}
+    </div>
+    <hr>
+  </div>
+  <div class="panel-body">
+    <table class="table table-default">
+      <thead>
+        <th>Username</th>
+        <th>Role</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <tr *ngFor="let role of ( viewingProject | async).roles"
+          [ngClass]="{'alert-success': ( thisAccount | async).username === role.authorName }">
+            <td>{{ role.authorName }}</td>
+            <td>
+              <div class="btn-group btn-group-xs">
+                <select id="role" (change)="onUpdateRole(role, $event.target.value)" name="role" type="text" class="form-control input-inline" #roleUpdate>
+                  <option [disabled]="true" [selected]="role.role==='CREATOR'">CREATOR</option>
+                  <option [disabled]="role.role==='CREATOR'" [selected]="role.role==='MODERATOR'">MODERATOR</option>
+                  <option [disabled]="role.role==='CREATOR'" [selected]="role.role==='CONTRIBUTOR'">CONTRIBUTOR</option>
+                  <option [disabled]="role.role==='CREATOR'" [selected]="role.role==='BARRED'">BARRED</option>
+                </select>
+              </div>
+            </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
