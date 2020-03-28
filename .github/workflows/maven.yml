@@ -20,6 +20,8 @@ jobs:
       uses: actions/setup-java@v1
       with:
         java-version: 1.8
+    - name: Build Common Libraries
+      run: mvn install --file ./common/pom.xml
     - name: Build Gateway service
       run: mvn install dockerfile:build --file ./gateway/pom.xml
     - name: Build Metadata service
