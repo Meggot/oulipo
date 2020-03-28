@@ -1,10 +1,10 @@
 locals {
-  cpu = 256
+  cpu    = 256
   memory = 512
 }
 
 resource "aws_ecs_cluster" "oulipo_ecs_cluster" {
-    name = "oulipo_ecs_cluster"
+  name = "oulipo_ecs_cluster"
 }
 
 resource "aws_cloudwatch_log_group" "oulipo_log_group" {
@@ -13,7 +13,7 @@ resource "aws_cloudwatch_log_group" "oulipo_log_group" {
 }
 
 resource "aws_iam_role" "ecsTaskExecutionRole" {
-  name = "oulipo_task_execution_role"
+  name               = "oulipo_task_execution_role"
   assume_role_policy = <<EOF
 {
     "Version": "2012-10-17",
@@ -44,16 +44,16 @@ resource "aws_security_group" "oulipo_ecs_service_sg" {
   ingress {
     security_groups = [aws_security_group.oulipo_alb_sg.id]
     # TLS (change to whatever ports you need)
-    from_port   = 0
-    to_port     = 13000
-    protocol    = "tcp"
+    from_port = 0
+    to_port   = 13000
+    protocol  = "tcp"
   }
 
   egress {
-    from_port       = 0
-    to_port         = 0
-    protocol        = "-1"
-    cidr_blocks     = ["0.0.0.0/0"]
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 

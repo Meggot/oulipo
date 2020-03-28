@@ -2,7 +2,7 @@ data "aws_caller_identity" "current" {}
 
 resource "aws_s3_bucket" "oulipo_logs" {
   bucket = "oulipo-logs"
-  acl = "private"
+  acl    = "private"
 
   versioning {
     enabled = true
