@@ -1,7 +1,3 @@
-variable "target_dir" {
-  description = "Lambda Build Location"
-}
-
 variable "app_name" {
   description = "App Name"
   default     = "oulipo"
