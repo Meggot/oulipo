@@ -20,7 +20,7 @@ variable "aws_region" {
 
 variable "ecr_repository_name" {
   description = "ECR Repository to store service images"
-  default = "oulipo-backend-STAGING"
+  default     = "oulipo-backend-STAGING"
 }
 
 variable "aws_availability_zones" {
