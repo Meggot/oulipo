@@ -18,11 +18,6 @@ variable "aws_region" {
   default     = "eu-west-1"
 }
 
-variable "ecr_repository_name" {
-  description = "ECR Repository to store service images"
-  default     = "oulipo-backend-STAGING"
-}
-
 variable "aws_availability_zones" {
   description = "AWS availability zones"
   type        = list
