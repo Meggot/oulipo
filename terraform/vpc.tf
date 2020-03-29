@@ -35,7 +35,7 @@ resource "aws_lb" "oulip_alb" {
   name               = "oulipo-alb"
   internal           = false
   load_balancer_type = "application"
-  subnets            = module.vpc.private_subnets
+  subnets            = module.vpc.public_subnets
 
   enable_deletion_protection = false
   security_groups = [
@@ -63,7 +63,6 @@ resource "aws_lb_target_group" "oulipo_alb_tg" {
   }
   health_check {
     path     = "/actuator/health"
-    port     = "13000"
     interval = 100
   }
 }
@@ -86,9 +85,10 @@ resource "aws_security_group" "oulipo_alb_sg" {
 
   ingress {
     # TLS (change to whatever ports you need)
-    from_port = 0
-    to_port   = 13000
-    protocol  = "tcp"
+    from_port   = 0
+    to_port     = 13000
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
