@@ -33,7 +33,7 @@ resource "aws_eip" "nat" {
 
 resource "aws_lb" "oulip_alb" {
   name               = "oulipo-alb"
-  internal           = true
+  internal           = false
   load_balancer_type = "application"
   subnets            = module.vpc.private_subnets
 
@@ -44,7 +44,7 @@ resource "aws_lb" "oulip_alb" {
 
   tags = {
     terraform   = "true"
-    environment = "dev"
+    environment = "staging"
   }
 }
 
@@ -68,7 +68,7 @@ resource "aws_lb_target_group" "oulipo_alb_tg" {
   }
 }
 
-resource "aws_lb_listener" "oulipo_alb_istener" {
+resource "aws_lb_listener" "oulipo_alb_listener" {
   load_balancer_arn = aws_lb.oulip_alb.arn
   port              = "80"
   protocol          = "HTTP"
