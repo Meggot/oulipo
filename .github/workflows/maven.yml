@@ -48,11 +48,21 @@ jobs:
         ECR_REPOSITORY: ${{ secrets.TF_VARS_ecr_repository_name }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
-        docker ps
+        docker images
+
+        docker tag meggot/oulipo/gateway:2.0-SNAPSHOT $ECR_REGISTRY/meggot/oulipo/gateway:LATEST
         docker push $ECR_REGISTRY/meggot/oulipo/gateway:LATEST
+
+        docker tag meggot/oulipo/metadata:2.0-SNAPSHOT $ECR_REGISTRY/meggot/oulipo/metadata:LATEST
         docker push $ECR_REGISTRY/meggot/oulipo/metadata:LATEST
+
+        docker tag meggot/oulipo/notify:2.0-SNAPSHOT $ECR_REGISTRY/meggot/oulipo/notify:LATEST
         docker push $ECR_REGISTRY/meggot/oulipo/notify:LATEST
+
+        docker tag meggot/oulipo/project:2.0-SNAPSHOT $ECR_REGISTRY/meggot/oulipo/project:LATEST
         docker push $ECR_REGISTRY/meggot/oulipo/project:LATEST
+
+        docker tag meggot/oulipo/user:2.0-SNAPSHOT $ECR_REGISTRY/meggot/oulipo/user:LATEST
         docker push $ECR_REGISTRY/meggot/oulipo/user:LATEST
     - name: Logout of Amazon ECR
       if: always()
