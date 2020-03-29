@@ -57,14 +57,14 @@ resource "aws_security_group" "oulipo_ecs_service_sg" {
   }
 }
 
- resource "aws_ecs_task_definition" "gateway_task_def" {
-   family = "gateway_task_def"
-   requires_compatibilities = ["FARGATE"]
-   network_mode = "awsvpc"
-   cpu = local.cpu
-   memory = local.memory
-   execution_role_arn = aws_iam_role.ecsTaskExecutionRole.arn
-   container_definitions = <<EOF
+resource "aws_ecs_task_definition" "gateway_task_def" {
+  family                   = "gateway_task_def"
+  requires_compatibilities = ["FARGATE"]
+  network_mode             = "awsvpc"
+  cpu                      = local.cpu
+  memory                   = local.memory
+  execution_role_arn       = aws_iam_role.ecsTaskExecutionRole.arn
+  container_definitions    = <<EOF
  [
    {
      "name": "gateway",
@@ -94,24 +94,24 @@ resource "aws_security_group" "oulipo_ecs_service_sg" {
    }
  ]
  EOF
- }
+}
 
- resource "aws_ecs_service" "gateway_ecs_service" {
-   name            = "gateway"
-   launch_type     = "FARGATE"
-   cluster         = aws_ecs_cluster.oulipo_ecs_cluster.id
-   task_definition = aws_ecs_task_definition.gateway_task_def.arn
-   desired_count   = 1
-   health_check_grace_period_seconds = 30
+resource "aws_ecs_service" "gateway_ecs_service" {
+  name                              = "gateway"
+  launch_type                       = "FARGATE"
+  cluster                           = aws_ecs_cluster.oulipo_ecs_cluster.id
+  task_definition                   = aws_ecs_task_definition.gateway_task_def.arn
+  desired_count                     = 1
+  health_check_grace_period_seconds = 30
 
-   network_configuration {
-     subnets = module.vpc.private_subnets
-     security_groups = [module.vpc.default_security_group_id, aws_security_group.oulipo_ecs_service_sg.id]
-   }
+  network_configuration {
+    subnets         = module.vpc.private_subnets
+    security_groups = [module.vpc.default_security_group_id, aws_security_group.oulipo_ecs_service_sg.id]
+  }
 
-   load_balancer {
-     target_group_arn = aws_lb_target_group.oulipo_alb_tg.arn
-     container_name = "gateway"
-     container_port = 13000
-   }
- }
+  load_balancer {
+    target_group_arn = aws_lb_target_group.oulipo_alb_tg.arn
+    container_name   = "gateway"
+    container_port   = 13000
+  }
+}
