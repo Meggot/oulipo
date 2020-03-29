@@ -63,8 +63,8 @@ resource "aws_lb_target_group" "oulipo_alb_tg" {
   }
   health_check {
     path     = "/actuator/health"
-    port     = "1300"
-    interval = 300
+    port     = "13000"
+    interval = 100
   }
 }
 
