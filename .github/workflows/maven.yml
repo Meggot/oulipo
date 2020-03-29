@@ -44,7 +44,7 @@ jobs:
       uses: aws-actions/amazon-ecr-login@v1
     - name: Push images to ECR
       env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REGISTRY: 791488284522.dkr.ecr.eu-west-1.amazonaws.com
         ECR_REPOSITORY: ${{ secrets.TF_VARS_ecr_repository_name }}
         IMAGE_TAG: ${{ github.sha }}
       run: |
