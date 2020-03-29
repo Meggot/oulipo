@@ -57,69 +57,61 @@ resource "aws_security_group" "oulipo_ecs_service_sg" {
   }
 }
 
-# resource "aws_ecs_task_definition" "releasy_task_def" {
-#   family = "releasy_task_def"
-#   requires_compatibilities = ["FARGATE"]
-#   network_mode = "awsvpc"
-#   cpu = local.cpu
-#   memory = local.memory
-#   execution_role_arn = aws_iam_role.ecsTaskExecutionRole.arn
-#   container_definitions = <<EOF
-# [
-#   {
-#     "name": "releasy",
-#     "image": "${data.aws_caller_identity.current.account_id}.dkr.ecr.eu-west-1.amazonaws.com/releasy:v${var.app_version}",
-#     "cpu": ${local.cpu},
-#     "memory": ${local.memory},
-#     "environment": [
-#       {
-#         "name": "CONFLUENCE_API_TOKEN",
-#         "value": "${var.confluence_api_token}"
-#       },
-#       {
-#         "name": "JENKINS_USERNAME",
-#         "value": "${var.jenkins_username}"
-#       },
-#       {
-#         "name": "JENKINS_PASSWORD",
-#         "value": "${var.jenkins_password}"
-#       }
-#     ],
-#     "portMappings": [
-#       {
-#         "containerPort": 6078,
-#         "hostPort": 6078
-#       }
-#     ],
-#     "logConfiguration": {
-#       "logDriver": "awslogs",
-#       "options": {
-#         "awslogs-region": "eu-west-1",
-#         "awslogs-group": "${aws_cloudwatch_log_group.releasy_log_group.name}",
-#         "awslogs-stream-prefix": "ecs"
-#       }
-#     }
-#   }
-# ]
-# EOF
-# }
+ resource "aws_ecs_task_definition" "gateway_task_def" {
+   family = "gateway_task_def"
+   requires_compatibilities = ["FARGATE"]
+   network_mode = "awsvpc"
+   cpu = local.cpu
+   memory = local.memory
+   execution_role_arn = aws_iam_role.ecsTaskExecutionRole.arn
+   container_definitions = <<EOF
+ [
+   {
+     "name": "gateway",
+     "image": "${data.aws_caller_identity.current.account_id}.dkr.ecr.eu-west-1.amazonaws.com/meggot/oulipo/gateway:LATEST",
+     "cpu": ${local.cpu},
+     "memory": ${local.memory},
+     "environment": [
+       {
+         "name": "SPRING_PROFILES_ACTIVE",
+         "value": "staging"
+       }
+     ],
+     "portMappings": [
+       {
+         "containerPort": 13000,
+         "hostPort": 13000
+       }
+     ],
+     "logConfiguration": {
+       "logDriver": "awslogs",
+       "options": {
+         "awslogs-region": "eu-west-1",
+         "awslogs-group": "${aws_cloudwatch_log_group.oulipo_log_group.name}",
+         "awslogs-stream-prefix": "ecs"
+       }
+     }
+   }
+ ]
+ EOF
+ }
 
-# resource "aws_ecs_service" "releasy_ecs_service" {
-#   name            = "releasy-service"
-#   launch_type     = "FARGATE"
-#   cluster         = aws_ecs_cluster.releasy_ecs_cluster.id
-#   task_definition = aws_ecs_task_definition.releasy_task_def.arn
-#   desired_count   = 2
-#   health_check_grace_period_seconds = 30
+ resource "aws_ecs_service" "gateway_ecs_service" {
+   name            = "gateway"
+   launch_type     = "FARGATE"
+   cluster         = aws_ecs_cluster.oulipo_ecs_cluster.id
+   task_definition = aws_ecs_task_definition.gateway_task_def.arn
+   desired_count   = 1
+   health_check_grace_period_seconds = 30
 
-#   network_configuration {
-#     subnets = module.vpc.private_subnets
-#     security_groups = [module.vpc.default_security_group_id, aws_security_group.releasy_ecs_service_sg.id]
-#   }
+   network_configuration {
+     subnets = module.vpc.private_subnets
+     security_groups = [module.vpc.default_security_group_id, aws_security_group.oulipo_ecs_service_sg.id]
+   }
 
-#   load_balancer {
-#     target_group_arn = aws_lb_target_group.releasy_alb_tg.arn
-#     container_name = "releasy"
-#     container_port = 6078
-#   }
-# }
+   load_balancer {
+     target_group_arn = aws_lb_target_group.oulipo_alb_tg.arn
+     container_name = "gateway"
+     container_port = 13000
+   }
+ }
