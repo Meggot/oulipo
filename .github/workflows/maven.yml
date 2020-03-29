@@ -33,3 +33,22 @@ jobs:
       run: ( cd ./project && mvn -B install dockerfile:build )
     - name: Build User service
       run: ( cd ./user && mvn -B install dockerfile:build )
+    - name: Login to Amazon ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+    - name: Push images to ECR
+      env:
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+        ECR_REPOSITORY: ${{ secrets.TF_VARS_ecr_repository_name }}
+        IMAGE_TAG: ${{ github.sha }}
+      run: |
+        docker ps
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY/meggot/oulipo/gateway:LATEST
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY/meggot/oulipo/metadata:LATEST
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY/meggot/oulipo/notify:LATEST
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY/meggot/oulipo/project:LATEST
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY/meggot/oulipo/user:LATEST
+    - name: Logout of Amazon ECR
+      if: always()
+      run: docker logout ${{ steps.login-ecr.outputs.registry }}
