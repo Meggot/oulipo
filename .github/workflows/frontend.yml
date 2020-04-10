@@ -11,5 +11,5 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Build Angular7 Front End
-       run: ( cd ./oulipo-webapp && ng build)
+      - name: Build Angular7 Project
+        run: ( cd ./oulipo-webapp & ng build)
