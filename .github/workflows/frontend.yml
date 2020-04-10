@@ -10,6 +10,6 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:§
-      -name: Build angular front end
+    steps:
+      - name: Build angular front end
        run: ( cd./oulipo-webapp && ng build)
