@@ -7,3 +7,5 @@ Technologies used in this application:
 Springboot, HATEOS, Kafka Streams, Dockerized services, GitHub Actions, Terraform, Angular7 with NGrx.
 
 The service is designed with CI in mind, so any push to the master branch will deploy onto my personal AWS environment, and the website is currently deployed on a so called 'staging' environment.
+
+Current Live Version 0.42-ALPHA
