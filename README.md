@@ -1,3 +1,5 @@
+_Oulipo!_
+
 This is an application that lets people write text with each other in realtime across the internet. Finish that book with peer sourcing and read 'serial' novels created by other people. Remeber that game you played as a kid where you'd write one paragraph/line/word and then someone else would add to it? This is that across the internet! So get playing..
 
 'Oulipo' was a french guild of writers that employed techniques such as this into their writing, they are responsible for most of the mid-19th century french literarture. Such writers such as Georges Perec and Italo Calvino, poets Oskar Pastior, Jean Lescure and poet/mathematician Jacques Roubaud. 
