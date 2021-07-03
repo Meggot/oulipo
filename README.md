@@ -10,4 +10,13 @@ Springboot, HATEOS, Kafka Streams, Dockerized services, GitHub Actions, Terrafor
 
 The service is designed with CI in mind, so any push to the master branch will deploy onto my personal AWS environment, and the website is currently deployed on a so called 'staging' environment.
 
+Stores meta data about any 'entity' such as upvotes, shares, favourites ETC
+#Project
+
+Stores all project information, and copy information intended for users to interact with
+
+#User
+
+Stores all account information, and authenticates logins
+=======
 Current Live Version 0.42-ALPHA
