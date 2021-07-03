@@ -17,6 +17,14 @@ jobs:
           cd oulipo-webapp
           npm install
           npm run build:prod
+      - name: Configure AWS Credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: eu-west-1
+      - name: Deploy dist to s3
+        run: aws s3 sync oulipo-webapp/dist s3://s3://oulipo.staging --delete
   build-backend:
     needs: build-frontend
     runs-on: ubuntu-latest
