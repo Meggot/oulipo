@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, Effect } from '@ngRx/effects';
+import { Actions, ofType, Effect } from '@ngrrx/effects';
 import * as ProjectActions from './project.actions';
 import { switchMap, mergeMap, map, flatMap, merge } from 'rxjs/operators';
 

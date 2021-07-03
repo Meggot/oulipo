@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from '@ngRx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { NotificationApi } from './notification.api';
 import * as NotificationActions from '../store/notification.actions'
 import * as InboxActions from '../../inbox/store/inbox.actions'

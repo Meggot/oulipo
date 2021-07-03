@@ -11,7 +11,7 @@ import { ExploreModule } from './modules/explore/explore.module';
 import { AccountModule } from './modules/accounts/account.module';
 import { StoreModule, Store } from '@ngrx/store';
 import { reducers } from './store/app.reducers';
-import { EffectsModule } from '@ngRx/effects';
+import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './modules/auth/store/auth.effects';
 import { AccountEffects } from './modules/accounts/store/account.effects';
 import { ProjectEffects } from './modules/projects/store/project.effects';
@@ -24,7 +24,6 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AdminEffects } from './modules/admin/store/admin.effects';
 import { NotificationModule } from './modules/notification/notification.module'
 import { NotificationEffects } from './modules/notification/store/notification.effects';
-import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
