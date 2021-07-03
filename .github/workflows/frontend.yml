@@ -1,5 +1,9 @@
-on: push
-name: Build Angular
+name: Build
+on:
+  push:
+    branches:
+      - master
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,12 +21,14 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
+
       - name: Node ${{ matrix.node-version }}
         uses: actions/setup-node@v1
         with:
           node-version: ${{ matrix.node-version }}
-      - name: npm install and npm run build
+
+      - name: npm ci and npm run build
         run: |
           cd oulipo-webapp
-          npm i
-          ng build
+          npm ci
+          npm run build:ci
