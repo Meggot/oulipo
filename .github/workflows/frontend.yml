@@ -30,5 +30,4 @@ jobs:
       - name: npm ci and npm run build
         run: |
           cd oulipo-webapp
-          npm ci
-          npm run build:ci
+          npm run build
