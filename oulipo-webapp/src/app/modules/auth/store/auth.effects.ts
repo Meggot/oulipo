@@ -1,4 +1,4 @@
-import { Effect, Actions, ofType } from '@ngRx/effects'
+import { Effect, Actions, ofType } from '@ngrx/effects'
 import { Injectable } from '@angular/core';
 
 import * as AuthActions from '../../auth/store/auth.actions'

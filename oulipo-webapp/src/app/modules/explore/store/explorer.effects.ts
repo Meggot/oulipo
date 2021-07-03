@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from '@ngRx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { ExplorerApi } from './explorer.api';
 
 import * as ExplorerActions from './explorer.actions';
