@@ -24,7 +24,6 @@ import { AdminModule } from './modules/admin/admin.module';
 import { AdminEffects } from './modules/admin/store/admin.effects';
 import { NotificationModule } from './modules/notification/notification.module'
 import { NotificationEffects } from './modules/notification/store/notification.effects';
-import { EffectsModule } from '@ngrx/effects';
 
 @NgModule({
   declarations: [
