@@ -35,15 +35,6 @@ ribbon:
   restclient:
     enabled: false
 
-eureka:
-  client:
-    register-with-eureka: false
-    fetch-registry: true
-    service-url:
-      defaultZone: http://localhost:13000/eureka/
-  instance:
-    prefer-ip-address: true
-
 security:
   authentication:
     jwt:

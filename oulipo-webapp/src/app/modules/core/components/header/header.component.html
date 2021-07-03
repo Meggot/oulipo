@@ -42,12 +42,10 @@
       <li class="dropdown" appDropdown>
         <a style="cursor: pointer;" class="dropdown-toggle"
           role="button">{{ (thisAccount | async).username}} <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-          <div class="text-right">
+        <ul class="dropdown-menu col-xs-12">
             <li><a class="list-group-item" routerLink="/accounts/{{(thisAccount | async).idField}}" style="cursor: pointer;">View Account</a></li>
             <li><a class="list-group-item" (click)="logout()" style="cursor: pointer;">Logout</a></li>
             <li><a class="list-group-item" routerLink="/admin" style="cursor: pointer;">Admin</a></li>
-          </div>
         </ul>
       </li>
     </ul>

@@ -5,7 +5,7 @@ export class SessionService {
   public isLoggedIn = false;
   // public hostname = 'http://34.240.194.250:13000/api';
   // public hostname = 'http://52.208.213.253:13000/api';
-  public hostname = 'www.oulipo-alb-1520317881.eu-west-1.elb.amazonaws.com/api'
+  public hostname = 'http://oulipo-alb-1187121152.eu-west-1.elb.amazonaws.com/api'
   public authToken: string;
   public username: string;
   public role: number = 0;

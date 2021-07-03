@@ -1,10 +1,17 @@
 /*$coal: #343434;*/
 /*$smoke: #F5F5F5;*/
+.navbar {
+  padding-right: 2%}
 
-.navbar-dark {
-  background-color: #343434;
-  outline-color: whitesmoke;
+
+.dropdown-menu {
+  padding: 10px;
 }
+
+.dropdown-menu.li {
+  padding: 10px;
+}
+
 
 li {
   color: black;
