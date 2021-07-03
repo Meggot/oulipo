@@ -24,7 +24,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: eu-west-1
       - name: Deploy dist to s3
-        run: aws s3 sync oulipo-webapp/dist/oulipo-pad s3://oulipo.staging --delete
+        run: aws s3 sync oulipo-webapp/dist/oulipo-pad/ s3://oulipo.staging --delete
   build-backend:
     needs: build-frontend
     runs-on: ubuntu-latest
