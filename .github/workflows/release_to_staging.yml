@@ -8,7 +8,17 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-frontend:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: npm ci and npm run build
+        run: |
+          cd oulipo-webapp
+          npm install
+          npm run build:prod
+  build-backend:
+    needs: build-frontend
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -64,7 +74,7 @@ jobs:
       if: always()
       run: docker logout ${{ steps.login-ecr.outputs.registry }}
   terraform:
-    needs: build
+    needs: build-backend
     name: 'Terraform'
     runs-on: ubuntu-latest
     steps:

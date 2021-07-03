@@ -42,7 +42,8 @@ import { NotificationEffects } from './modules/notification/store/notification.e
         AppEffects,
         GroupsEffects,
         AdminEffects,
-        NotificationEffects
+        NotificationEffects,
+        
       ]),
     // --- Project-Modules ---
     CoreModule,

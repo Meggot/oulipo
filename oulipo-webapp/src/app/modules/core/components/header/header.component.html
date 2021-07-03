@@ -19,8 +19,9 @@
     <ul class="nav navbar-nav navbar-right">
       <li routerLinkActive="active" style="margin-right: 10px;"><a routerLink="/inbox">Inbox
         <span class="glyphicon glyphicon-envelope"></span>
-          <!-- <span class="badge" *ngIf="(thisAccount | async).receivedMessages.length > 0">{{ (thisAccount | async).receivedMessages.length }}</span -->
-            </a>
+          <!-- <span class="badge" *ngIf="(thisAccount | async).receivedMessages.length > 0">
+            <a href=""></a></span>>{{ (thisAccount | async).receivedMessages.length }}</span
+            </a> -->
       </li>
       <li style="margin-top: 10px; margin-right: 10px; padding-right:10px;"
         class="dropdown" appSearchBarDirective [text]=searchText.value>
