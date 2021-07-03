@@ -15,6 +15,7 @@ jobs:
       - name: npm ci and npm run build
         run: |
           cd oulipo-webapp
+          npm install
           npm run build:prod
   build-backend:
     needs: build-frontend
