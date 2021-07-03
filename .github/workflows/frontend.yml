@@ -25,4 +25,4 @@ jobs:
         run: |
           cd oulipo-webapp
           npm i
-          npm run build:prod
+          ng build
