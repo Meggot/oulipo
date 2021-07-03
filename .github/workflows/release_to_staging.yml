@@ -12,28 +12,14 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [12.x]
+        node-version: 8.9.4
 
     steps:
       - uses: actions/checkout@v1
-
-      - name: Cache node modules
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-      - name: Node ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-
       - name: npm ci and npm run build
         run: |
           cd oulipo-webapp
-          npm ci
-          npm run build:ci
+          npm run build:prod
   build-backend:
     runs-on: ubuntu-latest
     steps:
