@@ -8,6 +8,11 @@ on:
     branches: [ frontend-build ]
 
 jobs:
+  ls:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Build Angular7 Project
+      run: ls
   build:
     runs-on: ubuntu-latest
     steps:
