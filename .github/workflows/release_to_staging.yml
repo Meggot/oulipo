@@ -90,7 +90,7 @@ jobs:
       if: always()
       run: docker logout ${{ steps.login-ecr.outputs.registry }}
   terraform:
-    needs: build
+    needs: build-backend
     name: 'Terraform'
     runs-on: ubuntu-latest
     steps:
