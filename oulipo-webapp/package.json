@@ -9,7 +9,7 @@
     "build:prod": "ng build --prod",
     "test:watch": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e",
+    "e2e": "ng ee",
     "build:ci": "npm run clean && npm run build:prod"
   },
   "private": true,
@@ -22,7 +22,7 @@
     "@angular/platform-browser": "~7.2.0",
     "@angular/platform-browser-dynamic": "~7.2.0",
     "@angular/router": "~7.2.0",
-    "@ngrx/effects": "^7.4.0",
+    "@ngrx/effects": "^12.2.0",
     "@ngrx/store": "^7.4.0",
     "angular-diff-match-patch": "^0.7.28",
     "bootstrap": "^3.4.1",
