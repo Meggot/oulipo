@@ -10,10 +10,6 @@ on:
 jobs:
   build-frontend:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [12.x]
-
     steps:
       - uses: actions/checkout@v1
       - name: npm ci and npm run build
@@ -21,6 +17,7 @@ jobs:
           cd oulipo-webapp
           npm run build:prod
   build-backend:
+    needs: build-frontend
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
