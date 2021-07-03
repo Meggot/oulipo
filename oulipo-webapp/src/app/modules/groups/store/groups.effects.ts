@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, Effect, ofType } from '@ngRx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { GroupsApi } from './groups.api';
 import * as AccountActions from '../../accounts/store/account.actions';
 import * as GroupActions from './groups.actions';

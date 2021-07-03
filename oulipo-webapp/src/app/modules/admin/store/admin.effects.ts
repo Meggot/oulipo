@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Actions, Effect, ofType } from '@ngRx/effects';
+import { Actions, Effect, ofType } from '@ngrx/effects';
 import { AdminApi } from './admin.api';
 
 import * as AdminActions from './admin.actions'

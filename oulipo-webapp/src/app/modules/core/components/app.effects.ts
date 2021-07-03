@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Actions, ofType, Effect } from '@ngRx/effects';
+import { Actions, ofType, Effect } from '@ngrx/effects';
 import * as AppActions from './app.actions'
 import { flatMap, map } from 'rxjs/operators';
 import * as GroupActions from '../../groups/store/groups.actions'
