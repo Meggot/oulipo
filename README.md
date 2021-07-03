@@ -1,6 +1,6 @@
 # Oulipo
 
-Create stories and collaborate with strangers.
+Create stories and collaborate with strangers or friends.
 
 Microservices:
 
