@@ -12,24 +12,28 @@ import com.project.dao.entites.Copy;
 import com.project.dao.entites.Project;
 import com.project.dao.repository.AuthorRepository;
 import com.project.dao.repository.ProjectRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
+@Slf4j
 public class ProjectManagementService {
 
     @Autowired
     ProjectRepository projectRepository;
-
+§
     @Autowired
     AuthorRepository authorRepository;
-
+§
     @Autowired
     AuthorManagementService authorManagementService;
 
     public Project createProject(String userId, CreateProject createProject) {
+        log.debug("Received create project request for user_id {} for project name {}", userId,
+                createProject.getTitle());
         Author author = authorRepository.findAuthorByUserIdEquals(Integer.parseInt(userId))
                 .orElseGet(() -> authorManagementService.createAuthor(Integer.parseInt(userId),"Author" + userId));
 
