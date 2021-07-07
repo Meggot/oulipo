@@ -1,6 +1,6 @@
 _Oulipo!_
 
-Try it yourself! www.oulipo.co.uk
+Try it yourself! [WebsiteLink](www.oulipo.co.uk)
 
 
 This is an application that lets people write text with each other in realtime across the internet. Finish that book with peer sourcing and read 'serial' novels created by other people. Remeber that game you played as a kid where you'd write one paragraph/line/word and then someone else would add to it? This is that across the internet! So get playing..
