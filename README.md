@@ -1,5 +1,5 @@
 _Oulipo!_
-
+  
 Try it yourself! [Website Link](http://www.oulipo.co.uk)
 
 
@@ -22,4 +22,4 @@ Stores all project information, and copy information intended for users to inter
 
 Stores all account information, and authenticates logins
 =======
-Current Live Version 0.42-ALPHA
+Current Live Version: 0.42-ALPHA
