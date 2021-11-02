@@ -2,11 +2,10 @@ name: Destroy from Staging
 
 on:
   push:
-    branches: [ master ]
+    branches: [ destroy ]
 
 jobs:
   terraform:
-    needs: build-backend
     name: 'Terraform'
     runs-on: ubuntu-latest
     steps:
