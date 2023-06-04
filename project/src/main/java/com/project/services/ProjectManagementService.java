@@ -24,10 +24,10 @@ public class ProjectManagementService {
 
     @Autowired
     ProjectRepository projectRepository;
-§
+
     @Autowired
     AuthorRepository authorRepository;
-§
+
     @Autowired
     AuthorManagementService authorManagementService;
 
